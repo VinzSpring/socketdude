@@ -5,15 +5,17 @@
         </div>
         <search></search>
         <hr style="width: 98%"/>
+        <project-container></project-container>
 
     </div>
 </template>
 
 <script>
     import Search from "./search";
+    import ProjectContainer from "./projectContainer";
     export default {
         name: "ApplicationContainerLeft",
-        components: {Search}
+        components: {ProjectContainer, Search}
     }
 </script>
 
@@ -23,7 +25,7 @@
         flex-direction: column;
         align-items: center;
 
-        outline: 1px solid black;
+        outline: 2px solid black;
         height: 100%;
         width: 30%;
     }

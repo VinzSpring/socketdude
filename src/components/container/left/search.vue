@@ -13,10 +13,10 @@
         border: none;
         border-radius: 15px;
 
-        margin: 10px 10px 0;
-        padding: 0 10px;
+        margin-top: 10px;
+        padding: 0 5% 0 5%;
 
-        width: 90%;
+        width: 80%;
         height: 30px;
     }
 </style>

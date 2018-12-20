@@ -1,20 +1,27 @@
 <template>
-    <div id="containerRight">
+    <div class="containerRight">
         <div class="containerHead">
             Projects
         </div>
-
+        <div class="subContainer">
+            <tab-view></tab-view>
+            <message-view></message-view>
+        </div>
     </div>
 </template>
 
 <script>
+    import TabView from "./tab_view/TabView";
+    import MessageView from "./msg_view/MessageView";
+
     export default {
-        name: "ApplicationContainerRight"
+        name: "ApplicationContainerRight",
+        components: {MessageView, TabView}
     }
 </script>
 
 <style scoped>
-    #containerRight {
+    .containerRight {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -22,6 +29,17 @@
         outline: 1px solid black;
         height: 100%;
         width: 70%;
+
+        background-color: #3F3C3C;
+    }
+
+    .subContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        height: 100%;
+        width: 100%;
     }
 
     .containerHead {
