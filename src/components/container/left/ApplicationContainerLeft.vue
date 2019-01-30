@@ -4,7 +4,7 @@
             Projects
         </div>
         <search></search>
-        <hr style="width: 98%"/>
+        <hr style="width: 100%"/>
         <project-container></project-container>
 
     </div>
@@ -13,6 +13,7 @@
 <script>
     import Search from "./search";
     import ProjectContainer from "./projectContainer";
+
     export default {
         name: "ApplicationContainerLeft",
         components: {ProjectContainer, Search}
@@ -25,7 +26,8 @@
         flex-direction: column;
         align-items: center;
 
-        outline: 2px solid black;
+        border-right: 1px solid grey;
+
         height: 100%;
         width: 30%;
     }

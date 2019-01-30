@@ -25,8 +25,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-
-        outline: 1px solid black;
         height: 100%;
         width: 70%;
 

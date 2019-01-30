@@ -45,10 +45,67 @@
                     </p>
                 </div>
             </div>
+            <div class="messageBubble">
+                <div class="infoContainer">
+                    <div class="timeSent">12:50:33:123</div>
+                    <div class="infoBubble">automated</div>
+                </div>
+                <div class="message">
+                    <p>
+                        saiudhfucsadhehjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+                    </p>
+                </div>
+            </div>
+            <div class="messageBubble">
+                <div class="infoContainer">
+                    <div class="timeSent">12:50:33:123</div>
+                    <div class="infoBubble">automated</div>
+                </div>
+                <div class="message">
+                    <p>
+                        saiudhfucsadhehjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+                    </p>
+                </div>
+            </div>
+            <div class="messageBubble">
+                <div class="infoContainer">
+                    <div class="timeSent">12:50:33:123</div>
+                    <div class="infoBubble">automated</div>
+                </div>
+                <div class="message">
+                    <p>
+                        saiudhfucsadhehjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+                    </p>
+                </div>
+            </div>
+            <div class="messageBubble">
+                <div class="infoContainer">
+                    <div class="timeSent">12:50:33:123</div>
+                    <div class="infoBubble">automated</div>
+                </div>
+                <div class="message">
+                    <p>
+                        saiudhfucsadhehjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+                    </p>
+                </div>
+            </div>
+            <div class="messageBubble">
+                <div class="infoContainer">
+                    <div class="timeSent">12:50:33:123</div>
+                    <div class="infoBubble">automated</div>
+                </div>
+                <div class="message">
+                    <p>
+                        saiudhfucsadhehjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+                    </p>
+                </div>
+            </div>
         </div>
 
+
         <div class="messageField">
-            <input class="messageInput"/>
+            <input placeholder="Enter Message"/>
+            <button>Send</button>
         </div>
     </div>
 </template>
@@ -63,13 +120,18 @@
     .container {
         width: 50%;
         height: 100%;
+        max-height: 100%;
 
-        border: solid black 1px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        border-left: 1px solid grey;
     }
 
     .chatField {
-        height: 90%;
         width: 100%;
+        overflow: auto;
     }
 
     .messageBubble {
@@ -119,11 +181,33 @@
         display: flex;
         flex-direction: row;
 
-        height: 10%;
+        border-top: 1px solid grey;
+
+        height: 100px;
+        min-height: 100px;
+        width: 100%;
+
+        bottom: 0;
     }
 
-    .messageInput {
-        width: 100%;
+    .messageField button {
+        height: 100%;
+        width: 100px;
+
+        border: none;
+
+        background-color: forestgreen;
     }
+
+    .messageField input {
+        width: 100%;
+        background-color: transparent;
+        border: none;
+
+        padding: 20px;
+
+        font-size: large;
+    }
+
 
 </style>

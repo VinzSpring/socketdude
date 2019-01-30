@@ -1,16 +1,16 @@
 <template>
-  <ApplicationContainer></ApplicationContainer>
+    <ApplicationContainer></ApplicationContainer>
 </template>
 
 <script>
-import ApplicationContainer from "./components/container/ApplicationContainer";
+    import ApplicationContainer from "./components/container/ApplicationContainer";
 
-export default {
-  name: 'app',
-  components: {
-      ApplicationContainer,
-  }
-}
+    export default {
+        name: 'app',
+        components: {
+            ApplicationContainer,
+        }
+    }
 </script>
 
 <style>
