@@ -51,12 +51,14 @@
     }
 
     .tabButtonsContainer {
+
         display: flex;
         flex-direction: row;
         width: 80%;
     }
 
     .tabButtonsContainer button {
+        
         width: 100%;
         height: 30px;
         border: none;
