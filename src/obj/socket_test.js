@@ -1,13 +1,17 @@
+import {LinSeqGen} from "./util";
 
-export class ProjectConfig {
+export class Project {
 
-    constructor(name) {
+    constructor(name, guid) {
+        this.guid = guid;
         this.name = name;
         this.socketConfigs = {};
+
+        this.socketGuidGenerator = new LinSeqGen();
     }
 
-    addSocketConfig = (key, socketConfig) => {
-        this.socketConfigs[key] = socketConfig;
+    addSocketConfig = (socketConfig) => {
+        this.socketConfigs[this.socketGuidGenerator.getNext()] = socketConfig;
     };
 
     removeSocketConfig = (key) => {

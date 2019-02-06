@@ -204,6 +204,8 @@
         background-color: transparent;
         border: none;
 
+        color: white;
+
         padding: 20px;
 
         font-size: large;
