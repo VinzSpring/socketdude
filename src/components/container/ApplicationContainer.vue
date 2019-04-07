@@ -9,10 +9,25 @@
 <script>
     import ApplicationContainerLeft from "./left/ApplicationContainerLeft";
     import ApplicationContainerRight from "./right/ApplicationContainerRight";
+    import EVENTS from "../../obj/EVENTS";
 
     export default {
         name: "ApplicationContainer",
-        components: {ApplicationContainerRight, ApplicationContainerLeft}
+        components: {ApplicationContainerRight, ApplicationContainerLeft},
+
+        data: function () {
+            return {
+                chosenSocket: null,
+            }
+        },
+        mounted: function() {
+            this.$on(EVENTS.ON_SOCKET_CHOSEN, this.on_socket_chosen);
+        },
+        methods: {
+            on_socket_chosen: function (socket) {
+                this.chosenSocket = socket;
+            }
+        }
     }
 </script>
 

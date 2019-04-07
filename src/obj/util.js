@@ -8,13 +8,16 @@ class SequenceGenerator {
     };
 }
 
-export class LinSeqGen extends SequenceGenerator {
+class LinSeqGen extends SequenceGenerator {
 
     getNext = (inc=1) => {
         this.state += inc;
         return this.state;
     };
 }
+
+const seqGen = new LinSeqGen();
+export {seqGen, LinSeqGen}
 
 
 

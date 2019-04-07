@@ -5,18 +5,30 @@
         </div>
         <search></search>
         <hr style="width: 100%"/>
-        <project-container></project-container>
-
+        <project-container :sockets="sockets"></project-container>
     </div>
 </template>
 
 <script>
     import Search from "./search";
     import ProjectContainer from "./projectContainer";
+    import EVENTS from "../../../obj/EVENTS";
+    import {CachedWebsocket} from "../../../obj/sckt";
 
     export default {
         name: "ApplicationContainerLeft",
-        components: {ProjectContainer, Search}
+        components: {ProjectContainer, Search},
+        mounted: function () {
+            this.$on(EVENTS.ON_SOCKET_CLICK, (socket) => {this.chosenSocket = socket});
+        },
+        data: function() {
+            return {
+                sockets: [],
+            }
+        },
+        methods: {
+
+        }
     }
 </script>
 
