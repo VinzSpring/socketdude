@@ -1,4 +1,4 @@
-# socketdude
+# vueProj
 
 ## Project setup
 ```
