@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "serve:electron": "electron ./src/electron-entry.js",
+    "serve": "vue-cli-service serve & sleep 5 && electron ./src/electron-entry.js",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
