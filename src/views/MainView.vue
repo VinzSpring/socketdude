@@ -1,16 +1,10 @@
 <template>
   <v-container fluid pa-0 ma-0 grid-list fill-height>
     <v-layout column align>
-      <v-flex>
-        <v-card height="10vh" flat color="green">
-          <v-flex align-center>
-          </v-flex>
-        </v-card>
-      </v-flex>
-
+      <Settings/>
       <v-layout row fill-height>
         <v-flex xs3>
-          <v-card flat height="100%" color="red">dashdaszd</v-card>
+          <SocketList/>
         </v-flex>
         <v-flex xs5>
           <v-card flat height="100%" color="blue">dashdaszd</v-card>
@@ -24,9 +18,16 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue';
+import Settings from '../components/Settings';
+import SocketList from '../components/ProjectList';
+
 export default Vue.extend({
-  name: "MainView"
+  name: 'MainView',
+  components: {
+    Settings,
+    SocketList,
+  },
 });
 </script>
 
