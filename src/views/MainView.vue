@@ -1,9 +1,9 @@
 <template>
   <v-container fluid pa-0 ma-0 grid-list>
     <v-layout column align>
-      <v-flex>
-        <v-card height="10vh" flat color="green">
-          <v-flex align-center></v-flex>
+      <v-flex align-center>
+        <v-card height="10vh" flat>
+          <Settings/>
         </v-card>
       </v-flex>
 
