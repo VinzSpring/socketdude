@@ -16,6 +16,7 @@
 import Vue from "vue";
 import ChatTile from "@/components/ChatTile.vue";
 import { ChatMessage } from "@/structs/chat-message";
+
 export default Vue.extend({
   name: "ChatView",
   components: {
