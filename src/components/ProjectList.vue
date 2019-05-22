@@ -1,5 +1,5 @@
 <template>
-  <v-card height="100%">
+  <v-card>
     <v-toolbar pt-5>
       <v-text-field placeholder="Search" append-icon="search" v-model="search"></v-text-field>
       <v-btn icon @click="addProject">
@@ -14,13 +14,15 @@
           </v-list-tile-avatar>
           <v-list-tile-content @contextmenu="openMenu($event, 0, projectIndex)">
             <v-text-field
+              v-if="project.rename"
               placeholder="Project Name"
               :disabled="!project.rename"
               autofocus
               v-model="project.name"
-              @blur="project.rename = false"
-              @keyup.enter="project.rename = false"
+              @blur="project.name ? project.rename = false : null"
+              @keyup.enter="project.name ? project.rename = false : null"
             ></v-text-field>
+            <v-list-tile-title v-if="!project.rename">{{project.name}}</v-list-tile-title>
           </v-list-tile-content>
           <v-list-tile-action>
             <v-btn icon @click="addSocket(projectIndex)">
@@ -35,14 +37,15 @@
               @contextmenu="openMenu($event, 1, projectIndex, socketIndex)"
             >
               <v-text-field
+                v-if="socket.rename"
                 placeholder="Socket Name"
                 v-model="socket.name"
                 :disabled="!socket.rename"
                 autofocus
-                @blur="socket.rename = false"
-                @keyup.enter="socket.rename = false"
+                @blur="socket.name ? socket.rename = false : null"
+                @keyup.enter="socket.name ? socket.rename = false : null"
               ></v-text-field>
-              <v-list-tile-title>{{socket.name}}</v-list-tile-title>
+              <v-list-tile-title v-if="!socket.rename">{{socket.name}}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </template>
@@ -80,7 +83,12 @@ export default Vue.extend({
     };
   },
   methods: {
-    openMenu(e: MouseEvent, type: Number, projectIndex: Number, socketIndex: Number) {
+    openMenu(
+      e: MouseEvent,
+      type: Number,
+      projectIndex: Number,
+      socketIndex: Number
+    ) {
       e.preventDefault();
       this.menu.isShow = false;
       this.menu.x = e.clientX;
