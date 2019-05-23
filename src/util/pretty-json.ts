@@ -30,3 +30,5 @@ function syntaxHighlight(json: string): string {
         return '<span class="' + cls + '">' + match + '</span>';
     });
 }
+
+export { syntaxHighlight }
