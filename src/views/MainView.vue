@@ -9,7 +9,7 @@
 
       <v-layout row fill-height>
         <v-flex xs3>
-          <v-card flat height="90vh" color="red">
+          <v-card flat height="90vh">
             <SocketList/>
           </v-card>
         </v-flex>
@@ -30,10 +30,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import ChatView from "./ChatView.vue";
-import Settings from "@/components/Settings";
-import SocketList from "@/components/ProjectList";
-import ResponseView from "./ResponseView.vue";
+import ChatView from "@/components/ChatComponent.vue";
+import Settings from "@/components/Settings.vue";
+import SocketList from "@/components/ProjectList.vue";
+import ResponseView from "@/components/ResponseComponent.vue";
 
 import { MESSAGES, ACTIVATORS } from "@/util/test-data";
 

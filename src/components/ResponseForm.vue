@@ -12,7 +12,7 @@
           <v-tab>Javascipt</v-tab>
           <v-tabs-items>
             <v-tab-item>
-              <v-textarea height="50vh" color="green" box></v-textarea>
+              <v-textarea height="50vh" box></v-textarea>
             </v-tab-item>
 
             <v-tab-item>
