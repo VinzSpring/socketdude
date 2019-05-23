@@ -9,7 +9,7 @@
 
       <v-layout row fill-height>
         <v-flex xs3>
-          <v-card flat height="90vh" color="red">          <SocketList/></v-card>
+          <v-card flat height="90vh" color="red">          <ProjectList/></v-card>
         </v-flex>
         <v-flex xs5>
           <v-card flat height="90vh" color="blue">dashdaszd</v-card>
@@ -28,7 +28,7 @@
 import Vue from "vue";
 import ChatView from "./ChatView.vue";
 import Settings from '@/components/Settings';
-import SocketList from '@/components/ProjectList';
+import ProjectList from '@/components/ProjectList';
 
 import { ChatMessage, MessageTag } from "@/structs/chat-message";
 import { colors } from "vuetify/lib";
@@ -38,7 +38,7 @@ export default Vue.extend({
   components: {
     ChatView,
         Settings,
-    SocketList,
+    ProjectList,
   },
   data() {
     return {
