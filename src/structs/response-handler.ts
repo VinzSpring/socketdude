@@ -1,3 +1,4 @@
+import IdGenerator from './id-generator';
 
 enum RESPONSE_MODE {
     TEXT_PLAIN,
@@ -7,6 +8,11 @@ enum RESPONSE_MODE {
 
 
 class Activator {
+    private _id: number = IdGenerator.getNextId();
+    get id() {
+        return this._id;
+    }
+
     regex: RegExp;
     handler: ResponseHandler;
     title: string;

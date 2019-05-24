@@ -1,12 +1,13 @@
 import { colors } from 'vuetify/lib';
 
-enum MESSAGE_STATE {
+enum MESSAGE_TYPE {
     INCOMING,
     OUTGOING,
     BUSY,
 }
 
 
+//currently pretty useless, but could later (with more features) be automatically added to found patterns, content types, etc. 
 class MessageTag {
     text: string;
     color: string;
@@ -20,16 +21,17 @@ class ChatMessage {
     private text: string;
     private dateSent: Date;
     private tags: MessageTag[];
-    public state: MESSAGE_STATE = MESSAGE_STATE.BUSY;
-    constructor(text: string, dateSent: Date, tags: MessageTag[]) {
+    public msgType: MESSAGE_TYPE;
+    constructor(msgType: MESSAGE_TYPE, text: string, dateSent: Date, tags: MessageTag[]) {
+        this.msgType = msgType;
         this.text = text;
         this.dateSent = dateSent;
         this.tags = tags;
     }
 
-    public setMessageState(state: MESSAGE_STATE) {
-        this.state = state;
+    public setMessageType(msgType: MESSAGE_TYPE) {
+        this.msgType = msgType;
     }
 }
 
-export { MessageTag, ChatMessage }
+export { MessageTag, ChatMessage, MESSAGE_TYPE }
