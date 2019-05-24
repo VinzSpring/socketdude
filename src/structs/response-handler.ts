@@ -26,17 +26,17 @@ class Activator {
 }
 
 class ResponseHandler {
-    activeMethod: Function = () => { };
-    textResponse: string = "";
-    jsonResponse: string = "";
-    javaScript: string = "";
-    mode: RESPONSE_MODE = RESPONSE_MODE.TEXT_PLAIN;
+    private activeMethod: Function = () => { };
+    private textResponse: string = "";
+    private jsonResponse: string = "";
+    private javaScript: string = "";
+    private mode: RESPONSE_MODE = RESPONSE_MODE.TEXT_PLAIN;
 
     constructor() {
         this.setMode(this.mode);
     }
 
-    setMode(mode: RESPONSE_MODE) {
+    public setMode(mode: RESPONSE_MODE) {
         switch (mode) {
             case RESPONSE_MODE.TEXT_PLAIN:
                 this.activeMethod = this.handleTextResponse;
@@ -53,26 +53,38 @@ class ResponseHandler {
         }
     }
 
-    getMode() {
+    public getMode() {
         return this.mode;
     }
 
-    handleTextResponse = (msg: string) => {
+    private handleTextResponse = (msg: string) => {
         return this.textResponse;
     };
 
-    handleJsonResponse = (msg: string) => {
+    private handleJsonResponse = (msg: string) => {
         return this.jsonResponse;
     };
 
-    handleJsResponse = (msg: string) => {
+    private handleJsResponse = (msg: string) => {
         return eval(this.javaScript);
     };
 
-    handle = (msg: string) => {
+    public handle = (msg: string) => {
         //handle message using internal state, return response
         return this.activeMethod(msg);
     };
+
+    public setTextResponse(response: string) {
+        this.textResponse = response;
+    }
+
+    public setJsonResponse(response: string) {
+        this.jsonResponse = response;
+    }
+
+    public setJs(response: string) {
+        this.javaScript = response;
+    }
 }
 
 

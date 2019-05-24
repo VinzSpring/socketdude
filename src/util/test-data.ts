@@ -68,6 +68,36 @@ const ACTIVATORS = [
         new RegExp(".*"),
         new ResponseHandler()
     ),
+    new Activator(
+        "test6",
+        new RegExp(".*"),
+        new ResponseHandler()
+    ),
+    new Activator(
+        "test6",
+        new RegExp(".*"),
+        new ResponseHandler()
+    ),
+    new Activator(
+        "test6",
+        new RegExp(".*"),
+        new ResponseHandler()
+    ),
+    new Activator(
+        "test6",
+        new RegExp(".*"),
+        new ResponseHandler()
+    ),
+    new Activator(
+        "test6",
+        new RegExp(".*"),
+        new ResponseHandler()
+    ),
+    new Activator(
+        "test6",
+        new RegExp(".*"),
+        new ResponseHandler()
+    ),
 ];
 
 export { MESSAGES, ACTIVATORS }

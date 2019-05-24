@@ -6,7 +6,7 @@
       </v-flex>
       <v-spacer/>
       <v-flex xs10>
-        <v-tabs>
+        <v-tabs centered>
           <v-tab>JSON</v-tab>
           <v-tab>Text/Plain</v-tab>
           <v-tab>Javascipt</v-tab>
