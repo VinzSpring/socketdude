@@ -10,7 +10,7 @@
     </v-flex>
     <v-flex xs12 class="scroll-y">
       <v-list>
-        <template v-for="(project, projectIndex) in filteredProjectList">
+        <template v-for="(project, projectIndex) in projects">
           <v-list-tile :key="`project-${projectIndex}`">
             <v-list-tile-avatar>
               <v-icon>folder</v-icon>
@@ -115,8 +115,7 @@ export default Vue.extend({
         y: 0
       } as IMenu,
       search: "",
-      selectedItem: {} as ISelectedItem,
-      projects: [] as Project[]
+      selectedItem: {} as ISelectedItem
     };
   },
   methods: {
@@ -141,59 +140,40 @@ export default Vue.extend({
       });
     },
     addProject() {
-      this.projects.push(new Project("", true, []));
+      this.$store.commit("addProject", new Project("", true, []));
     },
-    addSocket(projectIndex: any) {
-      this.projects[projectIndex].sockets.push(new Socket("", true));
-    },
-    renameProject(index: number) {
-      if (this.projects[index].name === "")
-        this.projects[index].name = `project-${index}`;
-      this.projects[index].rename = false;
-    },
-    renameSocket(projectIndex: number, socketIndex: number) {
-      if (this.projects[projectIndex].sockets[socketIndex].name === "")
-        this.projects[projectIndex].sockets[
-          socketIndex
-        ].name = `socket-${socketIndex}`;
-      this.projects[projectIndex].sockets[socketIndex].rename = false;
-    },
-    renameItem() {
-      if (this.selectedItem.type == 0) {
-        this.projects[this.selectedItem.projectIndex].rename = true;
-      } else if (this.selectedItem.type == 1) {
-        this.projects[this.selectedItem.projectIndex].sockets[
-          this.selectedItem.socketIndex
-        ].rename = true;
-      }
-      this.$nextTick(() => {
-        this.selectedItem.element.focus();
+    addSocket(projectIndex: number) {
+      this.$store.commit("addSocket", {
+        projectIndex,
+        socket: new Socket("", true)
       });
     },
+    renameProject(index: number) {
+      this.$store.commit("renameProject", index);
+    },
+    renameSocket(projectIndex: number, socketIndex: number) {
+      this.$store.commit("renameSocket", { projectIndex, socketIndex });
+    },
+    renameItem() {
+      // TODO: check if this should be async to focus
+      this.$store.commit("renameItem", {
+        type: this.selectedItem.type,
+        projectIndex: this.selectedItem.projectIndex,
+        socketIndex: this.selectedItem.socketIndex
+      });
+      this.selectedItem.element.focus();
+    },
     deleteItem() {
-      if (this.selectedItem.type == 0) {
-        this.projects = [
-          ...this.projects.slice(0, this.selectedItem.projectIndex),
-          ...this.projects.slice(this.selectedItem.projectIndex + 1)
-        ];
-      } else if (this.selectedItem.type == 1) {
-        this.projects = this.projects.map((project: Object, index: Number) => {
-          if (index !== this.selectedItem.projectIndex) return project;
-
-          return {
-            ...project,
-            sockets: [
-              ...project.sockets.slice(0, this.selectedItem.socketIndex),
-              ...project.sockets.slice(this.selectedItem.socketIndex + 1)
-            ]
-          };
-        });
-      }
+      this.$store.commit("deleteItem", {
+        type: this.selectedItem.type,
+        projectIndex: this.selectedItem.projectIndex,
+        socketIndex: this.selectedItem.socketIndex
+      });
     }
   },
   computed: {
-    filteredProjectList(): Array<Object> {
-      return this.projects.filter(project => {
+    projects() {
+      return this.$store.state.projects.filter(project => {
         return (
           project.name.toLowerCase().includes(this.search.toLowerCase()) ||
           project.sockets.find(socket =>
