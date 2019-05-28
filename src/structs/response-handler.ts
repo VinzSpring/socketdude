@@ -1,4 +1,4 @@
-import IdGenerator from './id-generator';
+import IdGenerator, { Identifyable } from './id-generator';
 
 enum RESPONSE_MODE {
     TEXT_PLAIN,
@@ -7,10 +7,10 @@ enum RESPONSE_MODE {
 }
 
 
-class Activator {
-    private _id: number = IdGenerator.getNextId();
-    get id() {
-        return this._id;
+class Activator implements Identifyable {
+    private id: number = IdGenerator.getNextId();
+    getId(): number {
+        return this.id;
     }
 
     regex: RegExp;

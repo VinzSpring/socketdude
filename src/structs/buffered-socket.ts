@@ -1,11 +1,11 @@
 import { ChatMessage, MessageTag, MESSAGE_TYPE } from "./chat-message";
 import { Activator } from './response-handler';
 import SocketSettings from './socket-settings';
-import IdGenerator from './id-generator';
+import IdGenerator, { Identifyable } from './id-generator';
 
-export default class BufferedSocket {
+export default class BufferedSocket implements Identifyable {
     private _id: number = IdGenerator.getNextId();
-    get id() {
+    getId(): number {
         return this._id;
     }
 
@@ -40,7 +40,7 @@ export default class BufferedSocket {
         let found = false;
         let i = 0;
         for (; i < this.activators.length; i++) {
-            found = this.activators[i].id == activator.id;
+            found = this.activators[i].getId() == activator.getId();
             if (found)
                 break;
         }

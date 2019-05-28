@@ -4,3 +4,9 @@ export default class IdGenerator {
         return this.id++;
     }
 }
+
+interface Identifyable {    
+    getId() : number;    
+}
+
+export { Identifyable, IdGenerator }

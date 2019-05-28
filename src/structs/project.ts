@@ -1,10 +1,16 @@
 import BufferedSocket from "./buffered-socket";
+import IdGenerator, { Identifyable } from './id-generator';
 
-export default class Project {
+export default class Project implements Identifyable {
     private sockets: BufferedSocket[];
+    private id = IdGenerator.getNextId();
     
     constructor() {
         this.sockets = [];
+    }
+
+    getId(): number {
+        return this.id;
     }
 
     public addSocket(socket: BufferedSocket) {
@@ -15,7 +21,7 @@ export default class Project {
         let found = false;
         let i = 0;
         for (; i < this.sockets.length; i++) {
-            found = this.sockets[i].id == socket.id;
+            found = this.sockets[i].getId() == socket.getId();
             if (found)
                 break;
         }
