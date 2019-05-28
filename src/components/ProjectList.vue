@@ -34,7 +34,7 @@
             </v-list-tile-action>
           </v-list-tile>
           <template v-for="(socket, socketIndex) in project.sockets">
-            <v-list-tile class="secondary" :key="`socket${projectIndex}-${socketIndex}`">
+            <v-list-tile class="secondary" :key="`socket${projectIndex}-${socketIndex}`" @click="setSocketId(socket.bufferedSocket)">
               <v-list-tile-content
                 class="socket-item"
                 @contextmenu="openMenu($event, 1, projectIndex, socketIndex)"
@@ -71,6 +71,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import BufferedSocket from '@/structs/buffered-socket';
 
 interface IMenu {
   isShow: Boolean;
@@ -99,6 +100,7 @@ class Project {
 class Socket {
   name: string;
   rename: Boolean;
+  bufferedSocket: BufferedSocket = new BufferedSocket();
   constructor(name: string, rename: Boolean) {
     this.name = name;
     this.rename = rename;
@@ -147,6 +149,9 @@ export default Vue.extend({
         projectIndex,
         socket: new Socket("", true)
       });
+    },
+    setSocketId(socket: any) {
+      this.$store.commit('setSocketId', socket._id)
     },
     renameProject(index: number) {
       this.$store.commit("renameProject", index);

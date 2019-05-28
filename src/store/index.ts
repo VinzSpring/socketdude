@@ -9,4 +9,12 @@ export default new Vuex.Store({
   modules: {
     projects,
   },
+  state: {
+    selectedSocketId: null
+  },
+  mutations: {
+    setSocketId(state: any, id: number) {
+      state.selectedSocketId = id;
+    }
+  }
 });
