@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import BufferedSocket from '@/structs/buffered-socket'
+
 import projects from './modules/projects'
 
 Vue.use(Vuex);
@@ -10,11 +12,11 @@ export default new Vuex.Store({
     projects,
   },
   state: {
-    selectedSocketId: null
+    selectedSocket: null
   },
   mutations: {
-    setSocketId(state: any, id: number) {
-      state.selectedSocketId = id;
+    setSocketId(state: any, socket: BufferedSocket) {
+      state.selectedSocket = socket;
     }
   }
 });

@@ -13,6 +13,11 @@ export default class Project implements Identifyable {
         return this.id;
     }
 
+    //TODO update in UML
+    public getSocket(socketId: number): BufferedSocket {
+        return this.sockets.filter( socket => socket.getId() == socketId )[0];
+    }
+
     public addSocket(socket: BufferedSocket) {
         this.sockets.push(socket);
     }

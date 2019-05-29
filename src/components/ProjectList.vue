@@ -151,7 +151,7 @@ export default Vue.extend({
       });
     },
     setSocketId(socket: any) {
-      this.$store.commit('setSocketId', socket._id)
+      this.$store.commit('setSocketId', socket)
     },
     renameProject(index: number) {
       this.$store.commit("renameProject", index);

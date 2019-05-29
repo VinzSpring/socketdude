@@ -1,36 +1,44 @@
-import { ChatMessage, MessageTag } from "@/structs/chat-message";
+import { ChatMessage, MessageTag, MESSAGE_TYPE } from "@/structs/chat-message";
 import { Activator, ResponseHandler } from '@/structs/response-handler';
 
 const MESSAGES = [
     new ChatMessage(
+        MESSAGE_TYPE.INCOMING,
         "xasxsaxwdswdswda ddadwdawddawda sx<x<<<<<sssssssssssssqweefefe",
         new Date(),
         [new MessageTag("automated", "green")]
     ),
-    new ChatMessage('{"result":true, "count":42}', new Date(), [
+    new ChatMessage(
+        MESSAGE_TYPE.INCOMING,
+        '{"result":true, "count":42}', new Date(), [
         new MessageTag("automated", "green")
     ]),
     new ChatMessage(
+        MESSAGE_TYPE.INCOMING,
         "xasxsaxwdswdswda ddadwdawddawda sx<x<<<<<sssssssssssssqweefefe",
         new Date(),
         [new MessageTag("automated", "green")]
     ),
     new ChatMessage(
+        MESSAGE_TYPE.OUTGOING,
         "xasxsaxwdswdswda ddadwdawddawda sx<x<<<<<sssssssssssssqweefefe",
         new Date(),
         [new MessageTag("automated", "green")]
     ),
     new ChatMessage(
+        MESSAGE_TYPE.OUTGOING,
         '{"widget": { "debug": "on", "window": { "title": "Sample Konfabulator Widget", "name": "main_window", "width": 500, "height": 500 }, "image": { "src": "Images/Sun.png", "name": "sun1", "hOffset": 250, "vOffset": 250, "alignment": "center" }, "text": { "data": "Click Here", "size": 36, "style": "bold", "name": "text1", "hOffset": 250, "vOffset": 100, "alignment": "center", "onMouseUp": "sun1.opacity = (sun1.opacity / 100) * 90;" } }}',
         new Date(),
         [new MessageTag("automated", "green")]
     ),
     new ChatMessage(
+        MESSAGE_TYPE.INCOMING,
         "xasxsaxwdswdswda ddadwdawddawda sx<x<<<<<sssssssssssssqweefefe",
         new Date(),
         [new MessageTag("automated", "green")]
     ),
     new ChatMessage(
+        MESSAGE_TYPE.INCOMING,
         '{"menu": { "id": 11111,"enabled": true, "value": "File", "popup": { "menuitem": [ {"value": "New", "onclick": "CreateNewDoc()"}, {"value": "Open", "onclick": "OpenDoc()"}, {"value": "Close", "onclick": "CloseDoc()"} ] } }}',
         new Date(),
         [new MessageTag("automated", "green")]

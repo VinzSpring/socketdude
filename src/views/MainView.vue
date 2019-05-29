@@ -15,7 +15,7 @@
         </v-flex>
         <v-flex xs5>
           <v-card flat height="90vh">
-            <ResponseView :activators="activators"/>
+            <ResponseComponent :activators="activators"/>
           </v-card>
         </v-flex>
         <v-flex xs4>
@@ -33,7 +33,7 @@ import Vue from "vue";
 import ChatView from "@/components/ChatComponent.vue";
 import Settings from "@/components/Settings.vue";
 import ProjectList from "@/components/ProjectList.vue";
-import ResponseView from "@/components/ResponseComponent.vue";
+import ResponseComponent from "@/components/ResponseComponent.vue";
 
 import { MESSAGES, ACTIVATORS } from "@/util/test-data";
 
@@ -43,7 +43,7 @@ export default Vue.extend({
     ChatView,
     Settings,
     ProjectList,
-    ResponseView
+    ResponseComponent
   },
   data() {
     return {

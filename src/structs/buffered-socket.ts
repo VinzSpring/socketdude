@@ -13,6 +13,7 @@ export default class BufferedSocket implements Identifyable {
     private messages: ChatMessage[] = [];
     private activators: Activator[] = [];
     private settings: SocketSettings = null;
+    public activeActivatorIndex = null; //TODO refactor, this is ugly
 
     private onMsgRecv(msg: MessageEvent) {
         //catch message without data, replace with empty string
@@ -32,6 +33,10 @@ export default class BufferedSocket implements Identifyable {
     }
     public setSettings(settings: SocketSettings) {
         this.settings = settings;
+    }
+    //TODO add to UML
+    public getActivators(): Activator[] {
+        return this.activators;
     }
     public addActivator(activator: Activator) {
         this.activators.push(activator);
