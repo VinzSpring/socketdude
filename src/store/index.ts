@@ -12,11 +12,13 @@ export default new Vuex.Store({
     projects,
   },
   state: {
-    selectedSocket: null
+    selectedSocket: null,
+    forceRerender: null,
   },
   mutations: {
     setSocketId(state: any, socket: BufferedSocket) {
       state.selectedSocket = socket;
+      state.forceRerender = `force-${state.forceRerender + 1}`;
     }
   }
 });

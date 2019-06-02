@@ -1,5 +1,5 @@
 <template>
-  <v-tabs v-if="socket" v-model="socket.activeActivatorIndex">
+  <v-tabs v-if="socket" :key="state.forceRerender">
     <v-tab
       v-for="activator in socket.getActivators()"
       :key="activator.getId()"
@@ -70,7 +70,7 @@ export default Vue.extend({
       if (socket) {
         return socket;
       } else return null;
-    }
+    },
   }
 });
 </script>
