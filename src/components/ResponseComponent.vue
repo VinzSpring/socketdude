@@ -1,5 +1,5 @@
 <template>
-  <v-tabs v-if="socket" :key="state.forceRerender">
+  <v-tabs v-if="socket" :key="socket.getId()">
     <v-tab
       v-for="activator in socket.getActivators()"
       :key="activator.getId()"
