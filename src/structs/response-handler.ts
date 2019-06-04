@@ -13,9 +13,9 @@ class Activator implements Identifyable {
         return this.id;
     }
 
-    regex: RegExp;
-    handler: ResponseHandler;
-    title: string;
+    public regex: RegExp;
+    public handler: ResponseHandler;
+    public title: string;
 
     constructor(title: string, regex: RegExp, handler: ResponseHandler) {
         this.regex = regex;
@@ -43,15 +43,19 @@ class ResponseHandler {
     }
 
     public setMode(mode: RESPONSE_MODE) {
-        switch (mode) {
+
+        switch (mode) {            
             case RESPONSE_MODE.TEXT_PLAIN:
                 this.activeMethod = this.handleTextResponse;
+                this.mode = mode;
                 break;
             case RESPONSE_MODE.JSON:
                 this.activeMethod = this.handleJsonResponse;
+                this.mode = mode;
                 break;
             case RESPONSE_MODE.JS:
                 this.activeMethod = this.handleJsonResponse;
+                this.mode = mode;
                 break;
             default:
                 throw "Mode not supported!";
@@ -90,6 +94,19 @@ class ResponseHandler {
 
     public setJs(response: string) {
         this.javaScript = response;
+    }
+
+    //TODO add getters to UML
+    public getTextResponse() {
+        return this.textResponse;
+    }
+
+    public getJsonResponse() {
+        return this.jsonResponse;
+    }
+
+    public getJs() {
+        return this.javaScript;
     }
 }
 

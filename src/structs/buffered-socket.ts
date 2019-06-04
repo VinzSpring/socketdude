@@ -42,6 +42,8 @@ export default class BufferedSocket implements Identifyable {
         this.activators.push(activator);
     }
     public removeActivator(activator: Activator) {
+        console.log("ssssssss");
+
         let found = false;
         let i = 0;
         for (; i < this.activators.length; i++) {
@@ -54,10 +56,16 @@ export default class BufferedSocket implements Identifyable {
         else
             throw "activator not found!";
     }
-    public connect() {
+    //TODO update in UML
+    public connect(): Promise<Event> {
         if (!this.settings)
             throw "missing settings"
-        this.websocket = new WebSocket(this.settings.url, this.settings.protocols);
-        this.websocket.onmessage = this.onMsgRecv;
+
+        return new Promise((resolve, reject) => {
+            this.websocket = new WebSocket(this.settings.url, this.settings.protocols);
+            this.websocket.onmessage = this.onMsgRecv;
+            this.websocket.onopen = resolve;
+            this.websocket.onclose = reject;
+        });
     }
 }
