@@ -7,6 +7,8 @@ import projects from './modules/projects'
 
 Vue.use(Vuex);
 
+//TODO add to UML
+
 export default new Vuex.Store({
   modules: {
     projects,
@@ -16,9 +18,8 @@ export default new Vuex.Store({
     forceRerender: null,
   },
   mutations: {
-    setSocket(state: any, socket: BufferedSocket) {
+    setActiveSocket(state: any, socket: BufferedSocket) {
       state.selectedSocket = socket;
-      state.forceRerender = `force-${state.forceRerender + 1}`;
     }
   }
 });

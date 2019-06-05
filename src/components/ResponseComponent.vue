@@ -1,22 +1,29 @@
 <template>
-  <v-tabs v-if="socket" :key="state.forceRerender">
+  <v-tabs v-if="socket" :key="`${socket.getId()}${socket.getActivators().length}`">
     <v-tab
       v-for="activator in socket.getActivators()"
       :key="activator.getId()"
       ripple
+      @contextmenu="(e) => openMenu(e, activator)"
     >{{activator.title}}</v-tab>
     <v-btn fab small ripple light @click="addActivator">
       <v-icon>add</v-icon>
     </v-btn>
     <v-tabs-items>
-      <v-tab-item
-        grow
-        v-for="activator in socket.getActivators()"
-        :key="activator.getId()"
-      >
-        <ResponseForm/>
+      <v-tab-item grow v-for="activator in socket.getActivators()" :key="activator.getId()">
+        <ResponseForm :activator="activator"/>
       </v-tab-item>
     </v-tabs-items>
+    <v-menu v-model="menu.isShow" :position-x="menu.x" :position-y="menu.y" absolute offset-y>
+      <v-list>
+        <v-list-tile @click="deleteItem">
+          <v-list-tile-title>Delete</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile @click="renameItem">
+          <v-list-tile-title>Rename</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-menu>
   </v-tabs>
 </template>
 
@@ -32,13 +39,16 @@ export default Vue.extend({
   components: {
     ResponseForm
   },
-  props: {
-    //activators: Array
-  },
+  props: {},
   mounted() {},
   data() {
     return {
-      //active: null,
+      menu: {
+        isShow: false,
+        x: 0,
+        y: 0
+      } as IMenu,
+      selectedActivator: null
     };
   },
   methods: {
@@ -46,8 +56,26 @@ export default Vue.extend({
       //add Activator to active socket
       if (!this.socket) return;
       this.socket.addActivator(
-        new Activator("new", new RegExp(""), new ResponseHandler())
+        new Activator(this.socket.getActivators().length, new RegExp(""), new ResponseHandler())
       );
+    },
+    openMenu(e: MouseEvent, activator: Activator) {
+      e.preventDefault();
+      this.menu.isShow = false;
+      this.menu.x = e.clientX;
+      this.menu.y = e.clientY;
+      this.selectedActivator = activator;
+      this.$nextTick(() => {
+        this.menu.isShow = true;
+      });
+    },
+    deleteItem() {
+      if (this.selectedActivator) {
+        this.socket.removeActivator(this.selectedActivator);
+      }
+    },
+    renameItem() {
+      //TODO rename
     }
   },
   watch: {
@@ -55,10 +83,8 @@ export default Vue.extend({
       this.activeTabindex[this.socket.getId()] = index;
     },
     socket(s) {
-      if(this.socket.getId() == s.getId())
-        return;
-      else
-        this.active = this.activeTabindex[s.getId()];
+      if (this.socket.getId() == s.getId()) return;
+      else this.active = this.activeTabindex[s.getId()];
     }
   },
   computed: {
@@ -70,7 +96,7 @@ export default Vue.extend({
       if (socket) {
         return socket;
       } else return null;
-    },
+    }
   }
 });
 </script>

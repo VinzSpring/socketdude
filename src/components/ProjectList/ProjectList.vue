@@ -119,7 +119,7 @@ export default Vue.extend({
       });
     },
     setSocket(socket: BufferedSocket) {
-      this.$store.commit("setSocket", socket);
+      this.$store.commit("setActiveSocket", socket);
       this.activeSocketId = socket.getId();
     },
     rename(item, name) {
