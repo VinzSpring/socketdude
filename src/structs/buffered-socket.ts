@@ -9,10 +9,12 @@ export default class BufferedSocket implements Identifyable {
         return this._id;
     }
 
+    //TODO: update uml
+    public name: string = '';
     private websocket: WebSocket = null;
     private messages: ChatMessage[] = [];
     private activators: Activator[] = [];
-    private settings: SocketSettings = null;
+    private settings: SocketSettings = new SocketSettings('', []);
     public activeActivatorIndex = null; //TODO refactor, this is ugly
 
     private onMsgRecv(msg: MessageEvent) {
@@ -34,6 +36,11 @@ export default class BufferedSocket implements Identifyable {
     public setSettings(settings: SocketSettings) {
         this.settings = settings;
     }
+
+    public getSettings(): SocketSettings {
+        return this.settings;
+    }
+
     //TODO add to UML
     public getActivators(): Activator[] {
         return this.activators;
@@ -55,6 +62,7 @@ export default class BufferedSocket implements Identifyable {
             throw "activator not found!";
     }
     public connect() {
+        //TODO: callback for connection status(success, failed)
         if (!this.settings)
             throw "missing settings"
         this.websocket = new WebSocket(this.settings.url, this.settings.protocols);

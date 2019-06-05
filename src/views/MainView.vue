@@ -9,7 +9,7 @@
 
       <v-layout row fill-height>
         <v-flex xs3>
-          <v-card flat height="90vh" color="red">
+          <v-card flat height="90vh">
             <ProjectList/>
           </v-card>
         </v-flex>
@@ -32,26 +32,25 @@
 import Vue from "vue";
 import ChatView from "@/components/ChatComponent.vue";
 import Settings from "@/components/Settings.vue";
-import ProjectList from "@/components/ProjectList.vue";
+import ProjectList from "@/components/ProjectList";
 import ResponseComponent from "@/components/ResponseComponent.vue";
 
 import { MESSAGES, ACTIVATORS } from "@/util/test-data";
 
 export default Vue.extend({
-  name: "MainView",
+  name: 'MainView',
   components: {
     ChatView,
     Settings,
     ProjectList,
-    ResponseComponent
+    ResponseComponent,
   },
   data() {
     return {
-      messages: MESSAGES, //testing
-      activators: ACTIVATORS //testing
+      messages: MESSAGES, // testing
+      activators: ACTIVATORS, // testing
     };
   },
-  mounted() {}
 });
 </script>
 

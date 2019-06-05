@@ -1,12 +1,12 @@
 <template>
   <v-layout align-center justify-center fill-height>
     <v-flex xs3 mr-3>
-      <v-text-field label="Url"></v-text-field>
+      <v-text-field placeholder="Url" v-model="url"></v-text-field>
     </v-flex>
     <v-flex xs3 mr-3>
-      <v-select label="Protocol" :items="protocols" multiple></v-select>
+      <v-select placeholder="Protocol" :items="[]" multiple></v-select>
     </v-flex>
-    <v-btn icon flat>
+    <v-btn icon flat @click="connect()">
       <v-icon>cached</v-icon>
     </v-btn>
   </v-layout>
@@ -14,12 +14,34 @@
 
 <script lang="ts">
 import Vue from "vue";
+import SocketSettings from '../structs/socket-settings';
 export default Vue.extend({
   name: "Settings",
   data() {
     return {
-      protocols: []
+      url: '',
+      protocols: [],
+      clrMsgLimit: '',
     };
+  },
+  watch: {
+    socketSettings(settings) {
+      this.url = settings.url;
+      this.protocols = settings.protocols;
+      this.clrMsgLimit = settings.clrMsgLimit;
+    }
+  },
+  methods: {
+    connect() {
+      //TODO: validate url
+      this.$store.state.selectedSocket.setSettings(new SocketSettings(this.url, this.protocls, this.clrMsgLimit));
+      this.$store.state.selectedSocket.connect();
+    }
+  },
+  computed: {
+    socketSettings() {
+      return this.$store.state.selectedSocket ? this.$store.state.selectedSocket.getSettings() : null;
+    }
   }
 });
 </script>

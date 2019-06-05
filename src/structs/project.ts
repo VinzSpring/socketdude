@@ -4,9 +4,12 @@ import IdGenerator, { Identifyable } from './id-generator';
 export default class Project implements Identifyable {
     private sockets: BufferedSocket[];
     private id = IdGenerator.getNextId();
+    //TODO: update in UML
+    public name: string;
     
     constructor() {
         this.sockets = [];
+        this.name = '';
     }
 
     getId(): number {

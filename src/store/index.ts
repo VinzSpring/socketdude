@@ -16,7 +16,7 @@ export default new Vuex.Store({
     forceRerender: null,
   },
   mutations: {
-    setSocketId(state: any, socket: BufferedSocket) {
+    setSocket(state: any, socket: BufferedSocket) {
       state.selectedSocket = socket;
       state.forceRerender = `force-${state.forceRerender + 1}`;
     }
