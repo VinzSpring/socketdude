@@ -1,5 +1,5 @@
 <template>
-  <v-tabs v-if="socket" :key="`${socket.getId()}${socket.getActivators().length}`">
+  <v-tabs v-if="socket" :key="tabsId">
     <v-tab
       v-for="activator in socket.getActivators()"
       :key="activator.getId()"
@@ -40,9 +40,9 @@ export default Vue.extend({
     ResponseForm
   },
   props: {},
-  mounted() {},
   data() {
     return {
+      tabsId: null,
       menu: {
         isShow: false,
         x: 0,
@@ -50,6 +50,9 @@ export default Vue.extend({
       } as IMenu,
       selectedActivator: null
     };
+  },
+  mounted() {
+    this.tabsId = `${this.socket.getId()}${this.socket.getActivators().length}`
   },
   methods: {
     addActivator() {
