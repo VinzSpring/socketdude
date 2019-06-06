@@ -59,8 +59,9 @@ export default Vue.extend({
   },
   watch: {
     messages(val: ChatMessage[]) {
-
+      //scroll to bottom
       let container = this.$refs.chatList;
+      if (!container) return;
       this.$nextTick(() => {
         container.scrollTop = container.scrollHeight;
       });
