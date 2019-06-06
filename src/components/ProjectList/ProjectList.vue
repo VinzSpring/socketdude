@@ -52,18 +52,12 @@ import Searchbar from "./Searchbar.vue";
 import ProjectTile from "./ProjectTile.vue";
 import SocketTile from "./SocketTile.vue";
 import BufferedSocket from "@/structs/buffered-socket";
-
-interface IMenu {
-  isShow: Boolean;
-  x: Number;
-  y: Number;
-}
+import Menu from '@/structs/menu';
 
 interface ISelectedItem {
-  element: HTMLElement;
-  type: Number;
+  id: number;
   projectIndex: number;
-  socketIndex: number;
+  socket: BufferedSocket;
 }
 
 export default Vue.extend({
@@ -77,13 +71,9 @@ export default Vue.extend({
     return {
       activeId: null,
       activeSocketId: null,
-      menu: {
-        isShow: false,
-        x: 0,
-        y: 0
-      } as IMenu,
+      menu: new Menu(),
       search: "",
-      selectedItem: {}
+      selectedItem: {} as ISelectedItem
     };
   },
   methods: {

@@ -1,12 +1,12 @@
 <template>
   <v-layout align-center justify-center fill-height>
     <v-flex xs3 mr-3>
-      <v-text-field placeholder="Url" v-model="url"></v-text-field>
+      <v-text-field placeholder="Url" :disabled="!socketSettings" v-model="url" :rules=[rules.url]></v-text-field>
     </v-flex>
     <v-flex xs3 mr-3>
-      <v-select placeholder="Protocol" :items="[]" multiple></v-select>
+      <v-select placeholder="Protocol" :items="[]" multiple :disabled="!socketSettings"></v-select>
     </v-flex>
-    <v-btn icon flat @click="connect()">
+    <v-btn icon flat @click="connect()" :disabled="!socketSettings">
       <v-icon>cached</v-icon>
     </v-btn>
   </v-layout>
@@ -22,6 +22,12 @@ export default Vue.extend({
       url: '',
       protocols: [],
       clrMsgLimit: '',
+      rules: {
+        url: value => {
+          const pattern = /ws[s]?:\/\/[A-z0-9]+\.[A-z]+/
+          return pattern.test(value) || 'invalid url.'
+        }
+      }
     };
   },
   watch: {
