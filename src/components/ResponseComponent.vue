@@ -35,31 +35,32 @@ import ResponseForm from "@/components/ResponseForm.vue";
 import BufferedSocket from "@/structs/buffered-socket";
 
 export default Vue.extend({
-  name: "ResponseView",
+  name: "ResponseComponent",
   components: {
     ResponseForm
   },
   props: {},
   data() {
     return {
-      tabsId: null,
       menu: {
         isShow: false,
         x: 0,
-        y: 0
+        y: 0,
       } as IMenu,
       selectedActivator: null
     };
   },
-  mounted() {
-    this.tabsId = `${this.socket.getId()}${this.socket.getActivators().length}`
-  },
+  mounted() {},
   methods: {
     addActivator() {
       //add Activator to active socket
       if (!this.socket) return;
       this.socket.addActivator(
-        new Activator(this.socket.getActivators().length, new RegExp(""), new ResponseHandler())
+        new Activator(
+          this.socket.getActivators().length,
+          new RegExp(""),
+          new ResponseHandler()
+        )
       );
     },
     openMenu(e: MouseEvent, activator: Activator) {
@@ -99,6 +100,9 @@ export default Vue.extend({
       if (socket) {
         return socket;
       } else return null;
+    },
+    tabsId() {
+      return `${this.socket.getId()}${this.socket.getActivators().length}`;
     }
   }
 });

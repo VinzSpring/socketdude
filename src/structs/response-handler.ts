@@ -25,6 +25,7 @@ class Activator implements Identifyable {
 
     handle(msg: string): string {
         if (this.regex.test(msg)) {
+            console.log("match");
             return this.handler.handle(msg);
         }
         return ""
@@ -54,7 +55,7 @@ class ResponseHandler {
                 this.mode = mode;
                 break;
             case RESPONSE_MODE.JS:
-                this.activeMethod = this.handleJsonResponse;
+                this.activeMethod = this.handleJsResponse;
                 this.mode = mode;
                 break;
             default:

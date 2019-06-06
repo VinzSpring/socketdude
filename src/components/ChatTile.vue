@@ -14,7 +14,7 @@
       </v-layout>
 
       <v-flex xs12>
-        <v-card elevation=5>
+        <v-card elevation=5 :color="messageColor">
           <v-card-text>
             <pre v-html="formattedMessage"></pre>
           </v-card-text>
@@ -27,8 +27,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { ChatMessage } from "@/structs/chat-message.ts";
+import { ChatMessage, MESSAGE_TYPE } from "@/structs/chat-message.ts";
 import prettyJson from "@/util/pretty-json";
+import SEMANTIC_COLORS from "@/util/semantic-colors";
 
 export default Vue.extend({
   name: "ChatTile",
@@ -51,6 +52,15 @@ export default Vue.extend({
         ":" +
         date.getMilliseconds()
       );
+    },
+    messageColor() {
+      switch(this.message.msgType) {
+        case MESSAGE_TYPE.INCOMING: return SEMANTIC_COLORS.INCOMING;
+        case MESSAGE_TYPE.OUTGOING: return SEMANTIC_COLORS.OUTGOING;
+        case MESSAGE_TYPE.ERROR: return SEMANTIC_COLORS.ERROR;
+        case MESSAGE_TYPE.SUCCESS: return SEMANTIC_COLORS.SUCCESS;
+        default: break;
+      }
     }
   }
 });

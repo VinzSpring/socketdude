@@ -3,7 +3,8 @@ import { colors } from 'vuetify/lib';
 enum MESSAGE_TYPE {
     INCOMING,
     OUTGOING,
-    BUSY,
+    ERROR,
+    SUCCESS,
 }
 
 
@@ -34,4 +35,14 @@ class ChatMessage {
     }
 }
 
-export { MessageTag, ChatMessage, MESSAGE_TYPE }
+const STANDARD_TAGS = {
+    INCOMING: new MessageTag("incoming", "red lighten-1"),
+    OUTGOING: new MessageTag("outgoing", "light-green"),
+    ERROR: new MessageTag("ERROR", "red"),
+    DISCONNECT: new MessageTag("CLOSE", "red"),
+    CONNECTED: new MessageTag("CONNECTED", "green"),
+    BINARY: new MessageTag("binary", "light-blue"),
+    JSON: new MessageTag("json", "orange lighten-2"),
+}
+
+export { MessageTag, ChatMessage, MESSAGE_TYPE, STANDARD_TAGS }
