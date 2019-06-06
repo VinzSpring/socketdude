@@ -58,7 +58,7 @@ export default Vue.extend({
       this.socket.addActivator(
         new Activator(
           this.socket.getActivators().length,
-          new RegExp(""),
+          new RegExp(".+"),
           new ResponseHandler()
         )
       );

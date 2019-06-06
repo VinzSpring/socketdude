@@ -58,9 +58,7 @@ export default Vue.extend({
     }
   },
   watch: {
-    messages(val: ChatMessage[], prevVal: ChatMessage[]) {
-      //if(val.length == prevVal.length)
-      //  return;
+    messages(val: ChatMessage[]) {
 
       let container = this.$refs.chatList;
       this.$nextTick(() => {
