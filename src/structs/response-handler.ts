@@ -25,7 +25,6 @@ class Activator implements Identifyable {
 
     handle(msg: string): string {
         if (this.regex.test(msg)) {
-            console.log("match");
             return this.handler.handle(msg);
         }
         return ""
@@ -45,7 +44,7 @@ class ResponseHandler {
 
     public setMode(mode: RESPONSE_MODE) {
 
-        switch (mode) {            
+        switch (mode) {
             case RESPONSE_MODE.TEXT_PLAIN:
                 this.activeMethod = this.handleTextResponse;
                 this.mode = mode;
@@ -68,21 +67,22 @@ class ResponseHandler {
         return this.mode;
     }
 
-    private handleTextResponse = (msg: string) => {
+    private handleTextResponse = (msg: string): string => {
         return this.textResponse;
     };
 
-    private handleJsonResponse = (msg: string) => {
+    private handleJsonResponse = (msg: string): string => {
         return this.jsonResponse;
     };
 
-    private handleJsResponse = (msg: string) => {
-        return eval(this.javaScript);
+    private handleJsResponse = (msg: string): string => {
+        let script: string = "(function(msg){" + this.javaScript + "})()"
+        return eval(script);
     };
 
-    public handle = (msg: string) => {
+    public handle = (msg: string): string => {
         //handle message using internal state, return response
-        return this.activeMethod(msg);
+        return this.activeMethod(msg) + ""; //cast to string since only string messages are excpected in return
     };
 
     public setTextResponse(response: string) {
@@ -98,18 +98,18 @@ class ResponseHandler {
     }
 
     //TODO add getters to UML
-    public getTextResponse() {
+    public getTextResponse(): string {
         return this.textResponse;
     }
 
-    public getJsonResponse() {
+    public getJsonResponse(): string {
         return this.jsonResponse;
     }
 
-    public getJs() {
+    public getJs(): string {
         return this.javaScript;
     }
 }
 
 
-export {ResponseHandler, Activator, RESPONSE_MODE}
+export { ResponseHandler, Activator, RESPONSE_MODE }

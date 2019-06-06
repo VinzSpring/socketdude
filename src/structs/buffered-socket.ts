@@ -39,9 +39,8 @@ export default class BufferedSocket implements Identifyable {
 
         for(let activator of this.activators) {
             let res = activator.handle(s);
-            console.log(res);
-
-            if(res) {
+            //force sring cast to prevent 0 from evaluating false
+            if(res + "") {
                 console.log(res);
                 
                 this.sendMessage(res);
