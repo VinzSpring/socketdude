@@ -2,7 +2,7 @@
   <v-container fluid pa-0 ma-0 grid-list>
     <v-layout column align>
       <v-flex align-center>
-        <v-card height="10vh" flat>
+        <v-card height="10vh" flat color="#111111">
           <Settings/>
         </v-card>
       </v-flex>

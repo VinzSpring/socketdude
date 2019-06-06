@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height pa-0 grid-list-xs>
+  <v-container v-if="socket" fill-height pa-0 grid-list-xs>
     <v-layout column>
       <v-flex xs11 class="scrollable" ref="chatList">
         <ChatTile v-for="(message, i) in messages" :key="i" :message="message"/>

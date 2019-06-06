@@ -111,7 +111,7 @@ export default Vue.extend({
     },
     regex: {
       get(): RegExp {
-        return this.activator.regex.source;
+        return this.activator.regex ? this.activator.regex.source : "";
       },
       set(v: string) {
         try {
