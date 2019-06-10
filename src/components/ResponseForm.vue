@@ -16,7 +16,7 @@
           <v-tab>Text/Plain</v-tab>
           <v-tab>Javascipt</v-tab>
           <v-tabs-items>
-            <!--ORDER OF TABS IS CRITICAL SINCE THE ACTIVE TAB INDEX GETS CONVERTED TO AN ENUM VALUE-->
+            <!--ORDER OF TABS IS CRITICAL SINCE THE ACTIVE TAB'S INDEX GETS CAST TO AN ENUM VALUE-->
             <v-tab-item>
               <v-textarea height="50vh" box v-model="txt"></v-textarea>
             </v-tab-item>
@@ -50,7 +50,7 @@ export default Vue.extend({
     return {
       data: {},
       rules: {
-        required: (regex: string) => !!regex || "Required.",
+        required: (regex: string) => !regex || "Required.",
         isRegEx: (regex: string) => {
           try {
             new RegExp(regex);
