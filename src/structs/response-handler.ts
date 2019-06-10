@@ -24,13 +24,17 @@ class Activator implements Identifyable {
     }
 
     handle(msg: string): string {
-        if (this.regex && this.regex.test(msg)) {
+        if(!this.regex)
+            return;
+        let match = msg.match(this.regex);
+        if (match && match[0] === msg) {
             return this.handler.handle(msg);
         }
         return ""
     }
 }
 
+/*strategy pattern or inheritance shoukd be prefered here, maybe refactor if additional functionality needed */
 class ResponseHandler {
     private activeMethod: Function = () => { };
     private textResponse: string = "";
@@ -76,7 +80,7 @@ class ResponseHandler {
     };
 
     private handleJsResponse = (msg: string): string => {
-        let script: string = "(function(msg){" + this.javaScript + "})()"
+        let script: string = "(function(msg){" + this.javaScript + "})(msg)"
         return eval(script);
     };
 

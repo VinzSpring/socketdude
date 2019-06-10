@@ -1,4 +1,3 @@
-import { colors } from 'vuetify/lib';
 
 enum MESSAGE_TYPE {
     INCOMING,

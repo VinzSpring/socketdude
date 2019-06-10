@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app :dark="darkTheme">
     <MainView/>
   </v-app>
 </template>
@@ -14,6 +14,11 @@ export default {
   data () {
     return {
       //
+    }
+  },
+  computed: {
+    darkTheme() {
+      return this.$store.state.darkTheme;
     }
   }
 }

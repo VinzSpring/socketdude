@@ -5,7 +5,18 @@
       :key="activator.getId()"
       ripple
       @contextmenu="(e) => openMenu(e, activator)"
-    >{{activator.title}}</v-tab>
+    >
+    <v-text-field
+    v-if="rename && selectedActivator && selectedActivator.getId() == activator.getId()"
+    v-model="activator.title"
+    flat
+    autofocus
+    @blur="() => {rename = false; selectedActivator = null}"
+    ></v-text-field>
+    <div v-else>
+      {{activator.title}}
+    </div>
+    </v-tab>
     <v-btn fab small ripple light @click="addActivator">
       <v-icon>add</v-icon>
     </v-btn>
@@ -37,7 +48,7 @@ import BufferedSocket from "@/structs/buffered-socket";
 export default Vue.extend({
   name: "ResponseComponent",
   components: {
-    ResponseForm
+    ResponseForm,
   },
   props: {},
   data() {
@@ -47,7 +58,8 @@ export default Vue.extend({
         x: 0,
         y: 0,
       } as IMenu,
-      selectedActivator: null
+      selectedActivator: null,
+      rename: false,
     };
   },
   mounted() {},
@@ -76,10 +88,13 @@ export default Vue.extend({
     deleteItem() {
       if (this.selectedActivator) {
         this.socket.removeActivator(this.selectedActivator);
+        this.menu.isShow = false;
       }
     },
     renameItem() {
-      //TODO rename
+      if(this.selectedActivator) {
+        this.rename = true;
+      }
     }
   },
   watch: {
@@ -103,7 +118,7 @@ export default Vue.extend({
     },
     tabsId() {
       return `${this.socket.getId()}${this.socket.getActivators().length}`;
-    }
+    },
   }
 });
 </script>

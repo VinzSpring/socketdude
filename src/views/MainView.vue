@@ -2,14 +2,14 @@
   <v-container fluid pa-0 ma-0 grid-list>
     <v-layout column align>
       <v-flex align-center>
-        <v-card height="10vh" flat color="#111111">
+        <v-card height="10vh" flat>
           <Settings/>
         </v-card>
       </v-flex>
 
       <v-layout row fill-height>
         <v-flex xs3>
-          <v-card flat height="90vh">
+          <v-card flat class="projectListContainer" height="90vh">
             <ProjectList/>
           </v-card>
         </v-flex>
@@ -55,4 +55,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.projectListContainer {
+  border-right: 1px dotted; 
+}
 </style>

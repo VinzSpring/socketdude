@@ -145,6 +145,10 @@ export default class BufferedSocket implements Identifyable {
                 return;
             }
 
+            if(this.websocket && this.websocket.readyState === WebSocket.OPEN) {
+                this.websocket.close();
+            }
+
             this.websocket = new WebSocket(this.settings.url, this.settings.protocols);
             this.websocket.onmessage = (msg: MessageEvent) => this.onMsgRecv(msg);
             this.websocket.onerror = (e: MessageEvent) => {

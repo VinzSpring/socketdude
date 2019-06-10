@@ -27,6 +27,7 @@
 
             <v-tab-item>
               <v-textarea height="50vh" box v-model="js"></v-textarea>
+              Access the received message thru variable "msg", do stuff and return your response!
             </v-tab-item>
           </v-tabs-items>
         </v-tabs>
@@ -50,7 +51,7 @@ export default Vue.extend({
     return {
       data: {},
       rules: {
-        required: (regex: string) => !regex || "Required.",
+        required: (regex: string) => !!regex || "Required.",
         isRegEx: (regex: string) => {
           try {
             new RegExp(regex);
