@@ -7,6 +7,7 @@
           :rules="[rules.required, rules.isRegEx]"
           outline
           label="activation RegEx"
+          hint="single group regex. If match the active text box's content/result will be returned."
         ></v-text-field>
       </v-flex>
       <v-spacer/>
