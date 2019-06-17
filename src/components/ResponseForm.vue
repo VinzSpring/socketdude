@@ -7,6 +7,7 @@
           :rules="[rules.required, rules.isRegEx]"
           outline
           label="activation RegEx"
+          hint="single group regex. If match the active text box's content/result will be returned."
         ></v-text-field>
       </v-flex>
       <v-spacer/>
@@ -16,7 +17,7 @@
           <v-tab>Text/Plain</v-tab>
           <v-tab>Javascipt</v-tab>
           <v-tabs-items>
-            <!--ORDER OF TABS IS CRITICAL SINCE THE ACTIVE TAB INDEX GETS CONVERTED TO AN ENUM VALUE-->
+            <!--ORDER OF TABS IS CRITICAL SINCE THE ACTIVE TAB'S INDEX GETS CAST TO AN ENUM VALUE-->
             <v-tab-item>
               <v-textarea height="50vh" box v-model="txt"></v-textarea>
             </v-tab-item>
@@ -27,6 +28,7 @@
 
             <v-tab-item>
               <v-textarea height="50vh" box v-model="js"></v-textarea>
+              Access the received message thru variable "msg", do stuff and return your response!
             </v-tab-item>
           </v-tabs-items>
         </v-tabs>
@@ -111,7 +113,7 @@ export default Vue.extend({
     },
     regex: {
       get(): RegExp {
-        return this.activator.regex.source;
+        return this.activator.regex ? this.activator.regex.source : "";
       },
       set(v: string) {
         try {

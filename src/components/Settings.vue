@@ -11,14 +11,19 @@
     <v-flex xs3 mr-3>
       <v-select placeholder="Protocol" :items="[]" multiple :disabled="!socketSettings"></v-select>
     </v-flex>
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on }">
-        <v-btn icon flat @click="connect()" v-on="on" :disabled="!socketSettings">
-          <v-icon>compare_arrows</v-icon>
-        </v-btn>
-      </template>
-      <span>re/connect</span>
-    </v-tooltip>
+    <v-flex xs1>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn icon flat @click="connect()" v-on="on" :disabled="!socketSettings">
+            <v-icon>compare_arrows</v-icon>
+          </v-btn>
+        </template>
+        <span>re/connect</span>
+      </v-tooltip>
+    </v-flex>
+    <v-flex xs1>
+      <v-switch v-model="darkTheme" :label="themeIcon"></v-switch>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -54,18 +59,29 @@ export default Vue.extend({
       );
       try {
         await this.$store.state.selectedSocket.connect();
-        console.log('connect: success');
-      } catch(e) {
+        console.log("connect: success");
+      } catch (e) {
         // failed to connect
         console.error(e);
       }
     }
   },
   computed: {
+    themeIcon() {
+      return this.darkTheme ? "🌘" : "🌞";
+    },
     socketSettings() {
       return this.$store.state.selectedSocket
         ? this.$store.state.selectedSocket.getSettings()
         : null;
+    },
+    darkTheme: {
+      get() {
+        return this.$store.state.darkTheme;
+      },
+      set(val: boolean) {
+        this.$store.state.darkTheme = val;
+      }
     }
   }
 });

@@ -16,6 +16,7 @@ export default new Vuex.Store({
   state: {
     selectedSocket: null,
     forceRerender: null,
+    darkTheme: true,
   },
   mutations: {
     setActiveSocket(state: any, socket: BufferedSocket) {

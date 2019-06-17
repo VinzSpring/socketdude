@@ -9,7 +9,7 @@
 
       <v-layout row fill-height>
         <v-flex xs3>
-          <v-card flat height="90vh">
+          <v-card flat class="projectListContainer" height="90vh">
             <ProjectList/>
           </v-card>
         </v-flex>
@@ -38,21 +38,24 @@ import ResponseComponent from "@/components/ResponseComponent.vue";
 import { MESSAGES, ACTIVATORS } from "@/util/test-data";
 
 export default Vue.extend({
-  name: 'MainView',
+  name: "MainView",
   components: {
     ChatView,
     Settings,
     ProjectList,
-    ResponseComponent,
+    ResponseComponent
   },
   data() {
     return {
       messages: MESSAGES, // testing
-      activators: ACTIVATORS, // testing
+      activators: ACTIVATORS // testing
     };
-  },
+  }
 });
 </script>
 
 <style scoped>
+.projectListContainer {
+  border-right: 1px dotted; 
+}
 </style>

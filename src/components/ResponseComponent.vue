@@ -5,7 +5,16 @@
       :key="activator.getId()"
       ripple
       @contextmenu="(e) => openMenu(e, activator)"
-    >{{activator.title}}</v-tab>
+    >
+      <v-text-field
+        v-if="rename && selectedActivator && selectedActivator.getId() == activator.getId()"
+        v-model="activator.title"
+        flat
+        autofocus
+        @blur="() => {rename = false; selectedActivator = null}"
+      ></v-text-field>
+      <div v-else>{{activator.title}}</div>
+    </v-tab>
     <v-btn fab small ripple light @click="addActivator">
       <v-icon>add</v-icon>
     </v-btn>
@@ -45,9 +54,10 @@ export default Vue.extend({
       menu: {
         isShow: false,
         x: 0,
-        y: 0,
+        y: 0
       } as IMenu,
-      selectedActivator: null
+      selectedActivator: null,
+      rename: false
     };
   },
   mounted() {},
@@ -58,7 +68,7 @@ export default Vue.extend({
       this.socket.addActivator(
         new Activator(
           this.socket.getActivators().length,
-          new RegExp(".+"),
+          null,
           new ResponseHandler()
         )
       );
@@ -76,10 +86,13 @@ export default Vue.extend({
     deleteItem() {
       if (this.selectedActivator) {
         this.socket.removeActivator(this.selectedActivator);
+        this.menu.isShow = false;
       }
     },
     renameItem() {
-      //TODO rename
+      if (this.selectedActivator) {
+        this.rename = true;
+      }
     }
   },
   watch: {
