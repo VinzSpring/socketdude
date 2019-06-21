@@ -4,7 +4,12 @@
       <Searchbar :search.sync="search" @addClicked="addProject"/>
     </v-flex>
     <v-flex xs12 class="scroll-y">
-      <v-list>
+      <v-layout fill-height align-center v-if="loadingProjects">
+        <v-flex>
+          <p class="text-xs-center">loading...</p>
+        </v-flex>
+      </v-layout>
+      <v-list v-else>
         <template v-for="(project, projectIndex) in projects">
           <ProjectTile
             :key="`project-${projectIndex}`"
@@ -54,7 +59,7 @@ import Searchbar from "./Searchbar.vue";
 import ProjectTile from "./ProjectTile.vue";
 import SocketTile from "./SocketTile.vue";
 import BufferedSocket from "@/structs/buffered-socket";
-import Menu from '@/structs/menu';
+import Menu from "@/structs/menu";
 
 interface ISelectedItem {
   id: number;
@@ -67,7 +72,7 @@ export default Vue.extend({
   components: {
     Searchbar,
     ProjectTile,
-    SocketTile,
+    SocketTile
   },
   data() {
     return {
@@ -75,8 +80,19 @@ export default Vue.extend({
       activeSocketId: null,
       menu: new Menu(),
       search: "",
-      selectedItem: {} as ISelectedItem
+      selectedItem: {} as ISelectedItem,
+      loadingProjects: true
     };
+  },
+  created() {
+    this.$store
+      .dispatch("loadProjects")
+      .then(_ => {
+        this.loadingProjects = false;
+      })
+      .catch(err => {
+        this.loadingProjects = false;
+      });
   },
   methods: {
     openMenu(
@@ -130,6 +146,7 @@ export default Vue.extend({
   },
   computed: {
     projects() {
+      console.log(this.$store.state.projects);
       return this.$store.state.projects.filter(project => {
         return (
           project.name.toLowerCase().includes(this.search.toLowerCase()) ||
