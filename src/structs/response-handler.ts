@@ -27,7 +27,7 @@ class Activator implements Identifyable {
         if(!this.regex)
             return "";
         let match = msg.match(this.regex);
-        if (match && match.length > 0) {
+        if (match && match.length > 0 && match[0] === msg) {
             return this.handler.handle(msg);
         }
         return ""
