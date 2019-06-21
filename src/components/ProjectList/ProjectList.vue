@@ -23,6 +23,8 @@
               :activeId="activeId"
               :activeSocketId="activeSocketId"
               :name.sync="socket.name"
+              :messageLength="socket.messages.length"
+              :status="socket.websocket ? socket.websocket.readyState : -1"
               @rightClicked="openMenu($event, socket.getId(), projectIndex, socket)"
               @clicked="setSocket(socket)"
               @inputBlur="rename(socket, `socket-${socketIndex}`)"

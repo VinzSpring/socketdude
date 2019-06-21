@@ -12,9 +12,14 @@
       <v-select placeholder="Protocol" :items="[]" multiple :disabled="!socketSettings"></v-select>
     </v-flex>
     <v-flex xs1>
-      <v-btn icon flat @click="connect()" :disabled="!socketSettings">
-        <v-icon>cached</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn icon flat @click="connect()" v-on="on" :disabled="!socketSettings">
+            <v-icon>compare_arrows</v-icon>
+          </v-btn>
+        </template>
+        <span>re/connect</span>
+      </v-tooltip>
     </v-flex>
     <v-flex xs1>
       <v-switch v-model="darkTheme" :label="themeIcon"></v-switch>
@@ -48,12 +53,17 @@ export default Vue.extend({
     }
   },
   methods: {
-    connect() {
-      //TODO: validate url
+    async connect() {
       this.$store.state.selectedSocket.setSettings(
         new SocketSettings(this.url, this.protocls, this.clrMsgLimit)
       );
-      this.$store.state.selectedSocket.connect();
+      try {
+        await this.$store.state.selectedSocket.connect();
+        console.log("connect: success");
+      } catch (e) {
+        // failed to connect
+        console.error(e);
+      }
     }
   },
   computed: {
