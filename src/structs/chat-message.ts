@@ -7,10 +7,10 @@ enum MESSAGE_TYPE {
 }
 
 
-//currently pretty useless, but could later (with more features) be automatically added to found patterns, content types, etc. 
+// currently pretty useless, but could later (with more features) be automatically added to found patterns, content types, etc.
 class MessageTag {
-    text: string;
-    color: string;
+    public text: string;
+    public color: string;
     constructor(text: string, color: string) {
         this.text = text;
         this.color = color;
@@ -18,10 +18,10 @@ class MessageTag {
 }
 
 class ChatMessage {
+    public msgType: MESSAGE_TYPE;
     private text: string;
     private dateSent: Date;
     private tags: MessageTag[];
-    public msgType: MESSAGE_TYPE;
     constructor(msgType: MESSAGE_TYPE, text: string, dateSent: Date, tags: MessageTag[]) {
         this.msgType = msgType;
         this.text = text;
@@ -35,13 +35,13 @@ class ChatMessage {
 }
 
 const STANDARD_TAGS = {
-    INCOMING: new MessageTag("incoming", "red lighten-1"),
-    OUTGOING: new MessageTag("outgoing", "light-green"),
-    ERROR: new MessageTag("ERROR", "red"),
-    DISCONNECT: new MessageTag("CLOSE", "red"),
-    CONNECTED: new MessageTag("CONNECTED", "green"),
-    BINARY: new MessageTag("binary", "light-blue"),
-    JSON: new MessageTag("json", "orange lighten-2"),
-}
+    INCOMING: new MessageTag('incoming', 'red lighten-1'),
+    OUTGOING: new MessageTag('outgoing', 'light-green'),
+    ERROR: new MessageTag('ERROR', 'red'),
+    DISCONNECT: new MessageTag('CLOSE', 'red'),
+    CONNECTED: new MessageTag('CONNECTED', 'green'),
+    BINARY: new MessageTag('binary', 'light-blue'),
+    JSON: new MessageTag('json', 'orange lighten-2'),
+};
 
-export { MessageTag, ChatMessage, MESSAGE_TYPE, STANDARD_TAGS }
+export { MessageTag, ChatMessage, MESSAGE_TYPE, STANDARD_TAGS };

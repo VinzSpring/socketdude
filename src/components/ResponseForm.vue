@@ -37,33 +37,33 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import BufferedSocket from "@/structs/buffered-socket";
-import { Activator } from "@/structs/response-handler";
-import { isJson } from "@/util/pretty-json";
+import Vue from 'vue';
+import BufferedSocket from '@/structs/buffered-socket';
+import { Activator } from '@/structs/response-handler';
+import { isJson } from '@/util/pretty-json';
 
 export default Vue.extend({
-  name: "ResponseForm",
+  name: 'ResponseForm',
   components: {},
   props: {
-    activator: { type: Object as () => Activator, required: true }
+    activator: { type: Object as () => Activator, required: true },
   },
   data() {
     return {
       data: {},
       rules: {
-        required: (regex: string): any => !!regex || "Required.",
+        required: (regex: string): any => !!regex || 'Required.',
         isRegEx: (regex: string): any => {
           try {
             new RegExp(regex);
             return true;
           } catch (_) {}
-          return "Not a valid pattern.";
+          return 'Not a valid pattern.';
         },
         isJson: (s: string): any => {
-          return isJson(s) ? true : "Invalid Json!";
-        }
-      }
+          return isJson(s) ? true : 'Invalid Json!';
+        },
+      },
     };
   },
   computed: {
@@ -71,40 +71,40 @@ export default Vue.extend({
       return this.$store.state;
     },
     socket() {
-      let socket: BufferedSocket = this.state.selectedSocket;
+      const socket: BufferedSocket = this.state.selectedSocket;
       if (socket) {
         return socket;
-      } else return null;
+      } else { return null; }
     },
     json: {
-      //TODO validate
+      // TODO validate
       get(): string {
         return this.activator.handler.getJsonResponse();
       },
 
       set(v: string) {
         this.activator.handler.setJsonResponse(v);
-      }
+      },
     },
     txt: {
-      //TODO validate
+      // TODO validate
       get(): string {
         return this.activator.handler.getTextResponse();
       },
 
       set(v: string) {
         this.activator.handler.setTextResponse(v);
-      }
+      },
     },
     js: {
-      //TODO validate
+      // TODO validate
       get(): string {
         return this.activator.handler.getJs();
       },
 
       set(v: string) {
         this.activator.handler.setJs(v);
-      }
+      },
     },
     activeMode: {
       get(): number {
@@ -112,11 +112,11 @@ export default Vue.extend({
       },
       set(v: number) {
         this.activator.handler.setMode(v);
-      }
+      },
     },
     regex: {
       get(): RegExp {
-        return this.activator.regex ? this.activator.regex.source : "";
+        return this.activator.regex ? this.activator.regex.source : '';
       },
       set(v: string) {
         if (!v) {
@@ -126,9 +126,9 @@ export default Vue.extend({
         try {
           this.activator.regex = new RegExp(v); // not calling rules.isRegex for performance
         } catch (_) {}
-      }
-    }
-  }
+      },
+    },
+  },
 });
 </script>
 

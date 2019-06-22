@@ -1,24 +1,24 @@
-import BufferedSocket from "./buffered-socket";
+import BufferedSocket from './buffered-socket';
 import IdGenerator, { Identifyable } from './id-generator';
 
 export default class Project implements Identifyable {
+    // TODO: update in UML
+    public name: string;
     private sockets: BufferedSocket[];
     private id = IdGenerator.getNextId();
-    //TODO: update in UML
-    public name: string;
-    
+
     constructor() {
         this.sockets = [];
         this.name = '';
     }
 
-    getId(): number {
+    public getId(): number {
         return this.id;
     }
 
-    //TODO update in UML
+    // TODO update in UML
     public getSocket(socketId: number): BufferedSocket {
-        return this.sockets.filter( socket => socket.getId() == socketId )[0];
+        return this.sockets.filter( (socket) => socket.getId() == socketId )[0];
     }
 
     public addSocket(socket: BufferedSocket) {
@@ -30,12 +30,15 @@ export default class Project implements Identifyable {
         let i = 0;
         for (; i < this.sockets.length; i++) {
             found = this.sockets[i].getId() == socket.getId();
-            if (found)
+            if (found) {
                 break;
+            }
         }
-        if (found)
+        if (found) {
             this.sockets.splice(i, 1);
-        else
-            throw "socket not found!";
+        }
+        else {
+            throw new Error('socket not found!');
+        }
     }
 }

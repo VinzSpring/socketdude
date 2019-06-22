@@ -29,28 +29,28 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import ChatView from "@/components/ChatComponent.vue";
-import Settings from "@/components/Settings.vue";
-import ProjectList from "@/components/ProjectList";
-import ResponseComponent from "@/components/ResponseComponent.vue";
+import Vue from 'vue';
+import ChatView from '@/components/ChatComponent.vue';
+import Settings from '@/components/Settings.vue';
+import ProjectList from '@/components/ProjectList';
+import ResponseComponent from '@/components/ResponseComponent.vue';
 
-import { MESSAGES, ACTIVATORS } from "@/util/test-data";
+import { MESSAGES, ACTIVATORS } from '@/util/test-data';
 
 export default Vue.extend({
-  name: "MainView",
+  name: 'MainView',
   components: {
     ChatView,
     Settings,
     ProjectList,
-    ResponseComponent
+    ResponseComponent,
   },
   data() {
     return {
       messages: MESSAGES, // testing
-      activators: ACTIVATORS // testing
+      activators: ACTIVATORS, // testing
     };
-  }
+  },
 });
 </script>
 

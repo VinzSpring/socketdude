@@ -8,38 +8,38 @@ enum RESPONSE_MODE {
 
 
 class Activator implements Identifyable {
-    private id: number = IdGenerator.getNextId();
-    getId(): number {
-        return this.id;
-    }
 
     public regex: RegExp;
     public handler: ResponseHandler;
     public title: string;
+    private id: number = IdGenerator.getNextId();
 
     constructor(title: string, regex: RegExp, handler: ResponseHandler) {
         this.regex = regex;
         this.handler = handler;
         this.title = title;
     }
+    public getId(): number {
+        return this.id;
+    }
 
-    handle(msg: string): string {
-        if(!this.regex)
-            return "";
-        let match = msg.match(this.regex);
+    public handle(msg: string): string {
+        if (!this.regex) {
+            return '';
+        }
+        const match = msg.match(this.regex);
         if (match && match.length > 0 && match[0] === msg) {
             return this.handler.handle(msg);
         }
-        return ""
+        return '';
     }
 }
 
 /*strategy pattern or inheritance shoukd be prefered here, maybe refactor if additional functionality needed */
 class ResponseHandler {
-    private activeMethod: Function = () => { };
-    private textResponse: string = "";
-    private jsonResponse: string = "";
-    private javaScript: string = "";
+    private textResponse: string = '';
+    private jsonResponse: string = '';
+    private javaScript: string = '';
     private mode: RESPONSE_MODE = RESPONSE_MODE.TEXT_PLAIN;
 
     constructor() {
@@ -62,7 +62,7 @@ class ResponseHandler {
                 this.mode = mode;
                 break;
             default:
-                throw "Mode not supported!";
+                throw new Error('Mode not supported!');
                 break;
         }
     }
@@ -71,23 +71,10 @@ class ResponseHandler {
         return this.mode;
     }
 
-    private handleTextResponse = (msg: string): string => {
-        return this.textResponse;
-    };
-
-    private handleJsonResponse = (msg: string): string => {
-        return this.jsonResponse;
-    };
-
-    private handleJsResponse = (msg: string): string => {
-        let script: string = "(function(msg){" + this.javaScript + "})(msg)"
-        return eval(script);
-    };
-
     public handle = (msg: string): string => {
-        //handle message using internal state, return response
-        return this.activeMethod(msg) + ""; //cast to string since only string messages are excpected in return
-    };
+        // handle message using internal state, return response
+        return this.activeMethod(msg) + ''; // cast to string since only string messages are excpected in return
+    }
 
     public setTextResponse(response: string) {
         this.textResponse = response;
@@ -101,7 +88,7 @@ class ResponseHandler {
         this.javaScript = response;
     }
 
-    //TODO add getters to UML
+    // TODO add getters to UML
     public getTextResponse(): string {
         return this.textResponse;
     }
@@ -113,7 +100,21 @@ class ResponseHandler {
     public getJs(): string {
         return this.javaScript;
     }
+    private activeMethod: Function = () => { };
+
+    private handleTextResponse = (msg: string): string => {
+        return this.textResponse;
+    }
+
+    private handleJsonResponse = (msg: string): string => {
+        return this.jsonResponse;
+    }
+
+    private handleJsResponse = (msg: string): string => {
+        const script: string = '(function(msg){' + this.javaScript + '})(msg)';
+        return eval(script);
+    }
 }
 
 
-export { ResponseHandler, Activator, RESPONSE_MODE }
+export { ResponseHandler, Activator, RESPONSE_MODE };

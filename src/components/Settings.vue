@@ -28,21 +28,21 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import SocketSettings from "../structs/socket-settings";
+import Vue from 'vue';
+import SocketSettings from '../structs/socket-settings';
 export default Vue.extend({
-  name: "Settings",
+  name: 'Settings',
   data() {
     return {
-      url: "",
+      url: '',
       protocols: [],
-      clrMsgLimit: "",
+      clrMsgLimit: '',
       rules: {
-        url: value => {
+        url: (value) => {
           const pattern = /ws[s]?:\/\/[A-z0-9]+\.[A-z]+/;
-          return pattern.test(value) || "invalid url.";
-        }
-      }
+          return pattern.test(value) || 'invalid url.';
+        },
+      },
     };
   },
   watch: {
@@ -50,25 +50,25 @@ export default Vue.extend({
       this.url = settings.url;
       this.protocols = settings.protocols;
       this.clrMsgLimit = settings.clrMsgLimit;
-    }
+    },
   },
   methods: {
     async connect() {
       this.$store.state.selectedSocket.setSettings(
-        new SocketSettings(this.url, this.protocls, this.clrMsgLimit)
+        new SocketSettings(this.url, this.protocls, this.clrMsgLimit),
       );
       try {
         await this.$store.state.selectedSocket.connect();
-        console.log("connect: success");
+        console.log('connect: success');
       } catch (e) {
         // failed to connect
         console.error(e);
       }
-    }
+    },
   },
   computed: {
     themeIcon() {
-      return this.darkTheme ? "🌘" : "🌞";
+      return this.darkTheme ? '🌘' : '🌞';
     },
     socketSettings() {
       return this.$store.state.selectedSocket
@@ -81,9 +81,9 @@ export default Vue.extend({
       },
       set(val: boolean) {
         this.$store.state.darkTheme = val;
-      }
-    }
-  }
+      },
+    },
+  },
 });
 </script>
 

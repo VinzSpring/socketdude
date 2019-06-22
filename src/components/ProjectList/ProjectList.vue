@@ -49,11 +49,11 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Searchbar from "./Searchbar.vue";
-import ProjectTile from "./ProjectTile.vue";
-import SocketTile from "./SocketTile.vue";
-import BufferedSocket from "@/structs/buffered-socket";
+import Vue from 'vue';
+import Searchbar from './Searchbar.vue';
+import ProjectTile from './ProjectTile.vue';
+import SocketTile from './SocketTile.vue';
+import BufferedSocket from '@/structs/buffered-socket';
 import Menu from '@/structs/menu';
 
 interface ISelectedItem {
@@ -63,7 +63,7 @@ interface ISelectedItem {
 }
 
 export default Vue.extend({
-  name: "ProjectList",
+  name: 'ProjectList',
   components: {
     Searchbar,
     ProjectTile,
@@ -74,8 +74,8 @@ export default Vue.extend({
       activeId: null,
       activeSocketId: null,
       menu: new Menu(),
-      search: "",
-      selectedItem: {} as ISelectedItem
+      search: '',
+      selectedItem: {} as ISelectedItem,
     };
   },
   methods: {
@@ -83,7 +83,7 @@ export default Vue.extend({
       e: MouseEvent,
       id: number,
       projectIndex: number,
-      socket: BufferedSocket
+      socket: BufferedSocket,
     ) {
       e.preventDefault();
       this.menu.isShow = false;
@@ -92,7 +92,7 @@ export default Vue.extend({
       this.selectedItem = {
         id,
         projectIndex,
-        socket
+        socket,
       };
       this.$nextTick(() => {
         this.menu.isShow = true;
@@ -100,18 +100,18 @@ export default Vue.extend({
     },
     addProject() {
       this.$store.commit(
-        "addProject",
-        project => (this.activeId = project.getId())
+        'addProject',
+        (project) => (this.activeId = project.getId()),
       );
     },
     addSocket(projectIndex: number) {
-      this.$store.commit("addSocket", {
+      this.$store.commit('addSocket', {
         projectIndex,
-        callback: socket => (this.activeId = socket.getId())
+        callback: (socket) => (this.activeId = socket.getId()),
       });
     },
     setSocket(socket: BufferedSocket) {
-      this.$store.commit("setActiveSocket", socket);
+      this.$store.commit('setActiveSocket', socket);
       this.activeSocketId = socket.getId();
     },
     rename(item, name) {
@@ -122,23 +122,23 @@ export default Vue.extend({
       this.activeId = this.selectedItem.id;
     },
     deleteItem() {
-      this.$store.commit("deleteItem", {
+      this.$store.commit('deleteItem', {
         projectIndex: this.selectedItem.projectIndex,
-        socket: this.selectedItem.socket
+        socket: this.selectedItem.socket,
       });
-    }
+    },
   },
   computed: {
     projects() {
-      return this.$store.state.projects.filter(project => {
+      return this.$store.state.projects.filter((project) => {
         return (
           project.name.toLowerCase().includes(this.search.toLowerCase()) ||
-          project.sockets.find(socket =>
-            socket.name.toLowerCase().includes(this.search.toLowerCase())
+          project.sockets.find((socket) =>
+            socket.name.toLowerCase().includes(this.search.toLowerCase()),
           )
         );
       });
-    }
-  }
+    },
+  },
 });
 </script>

@@ -28,25 +28,25 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 export default Vue.extend({
     name: 'SocketTile',
     props: ['id', 'activeId', 'activeSocketId', 'name', 'messageLength', 'status'],
     data() {
       return {
-        messageCount: 0
+        messageCount: 0,
       };
     },
     watch: {
       messageLength(newValue, oldValue) {
-        if(this.id != this.activeSocketId) {
-          if(newValue != oldValue) {
+        if (this.id != this.activeSocketId) {
+          if (newValue != oldValue) {
             this.messageCount = newValue;
           }
         }
-      }
+      },
     },
-})
+});
 </script>
 
 <style lang="sass">

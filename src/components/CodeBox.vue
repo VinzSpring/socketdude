@@ -5,23 +5,23 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { syntaxHighlight } from "@/util/pretty-json"
+import Vue from 'vue';
+import { syntaxHighlight } from '@/util/pretty-json';
 
 export default Vue.extend({
-    name: "CodeBox",
+    name: 'CodeBox',
     props: {
         height: String,
     },
     data() {
         return {
-            text: "",
-        }
+            text: '',
+        };
     },
     watch: {
         text(val) {
-            //highlight, format
-        }
+            // highlight, format
+        },
     },
 });
 </script>

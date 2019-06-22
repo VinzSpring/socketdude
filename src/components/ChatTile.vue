@@ -26,43 +26,43 @@
 
 
 <script lang="ts">
-import Vue from "vue";
-import { ChatMessage, MESSAGE_TYPE } from "@/structs/chat-message.ts";
-import prettyJson from "@/util/pretty-json";
-import SEMANTIC_COLORS from "@/util/semantic-colors";
+import Vue from 'vue';
+import { ChatMessage, MESSAGE_TYPE } from '@/structs/chat-message.ts';
+import prettyJson from '@/util/pretty-json';
+import SEMANTIC_COLORS from '@/util/semantic-colors';
 
 export default Vue.extend({
-  name: "ChatTile",
+  name: 'ChatTile',
   props: {
-    message: ChatMessage
+    message: ChatMessage,
   },
   computed: {
     formattedMessage(): string {
-      let formatted = prettyJson(this.message.text);
+      const formatted = prettyJson(this.message.text);
       return formatted;
     },
     time(): String {
-      let date = this.message.dateSent;
+      const date = this.message.dateSent;
       return (
         date.getHours() +
-        ":" +
+        ':' +
         date.getMinutes() +
-        ":" +
+        ':' +
         date.getSeconds() +
-        ":" +
+        ':' +
         date.getMilliseconds()
       );
     },
     messageColor() {
-      switch(this.message.msgType) {
+      switch (this.message.msgType) {
         case MESSAGE_TYPE.INCOMING: return SEMANTIC_COLORS.INCOMING;
         case MESSAGE_TYPE.OUTGOING: return SEMANTIC_COLORS.OUTGOING;
         case MESSAGE_TYPE.ERROR: return SEMANTIC_COLORS.ERROR;
         case MESSAGE_TYPE.SUCCESS: return SEMANTIC_COLORS.SUCCESS;
         default: break;
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

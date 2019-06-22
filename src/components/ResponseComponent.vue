@@ -38,15 +38,15 @@
 
 
 <script lang="ts">
-import Vue from "vue";
-import { Activator, ResponseHandler } from "@/structs/response-handler.ts";
-import ResponseForm from "@/components/ResponseForm.vue";
-import BufferedSocket from "@/structs/buffered-socket";
+import Vue from 'vue';
+import { Activator, ResponseHandler } from '@/structs/response-handler.ts';
+import ResponseForm from '@/components/ResponseForm.vue';
+import BufferedSocket from '@/structs/buffered-socket';
 
 export default Vue.extend({
-  name: "ResponseComponent",
+  name: 'ResponseComponent',
   components: {
-    ResponseForm
+    ResponseForm,
   },
   props: {},
   data() {
@@ -54,23 +54,23 @@ export default Vue.extend({
       menu: {
         isShow: false,
         x: 0,
-        y: 0
+        y: 0,
       } as IMenu,
       selectedActivator: null,
-      rename: false
+      rename: false,
     };
   },
   mounted() {},
   methods: {
     addActivator() {
-      //add Activator to active socket
-      if (!this.socket) return;
+      // add Activator to active socket
+      if (!this.socket) { return; }
       this.socket.addActivator(
         new Activator(
           this.socket.getActivators().length,
           null,
-          new ResponseHandler()
-        )
+          new ResponseHandler(),
+        ),
       );
     },
     openMenu(e: MouseEvent, activator: Activator) {
@@ -93,31 +93,31 @@ export default Vue.extend({
       if (this.selectedActivator) {
         this.rename = true;
       }
-    }
+    },
   },
   watch: {
     active(index: number) {
       this.activeTabindex[this.socket.getId()] = index;
     },
     socket(s) {
-      if (this.socket.getId() == s.getId()) return;
-      else this.active = this.activeTabindex[s.getId()];
-    }
+      if (this.socket.getId() == s.getId()) { return; }
+      else { this.active = this.activeTabindex[s.getId()]; }
+    },
   },
   computed: {
     state() {
       return this.$store.state;
     },
     socket() {
-      let socket: BufferedSocket = this.state.selectedSocket;
+      const socket: BufferedSocket = this.state.selectedSocket;
       if (socket) {
         return socket;
-      } else return null;
+      } else { return null; }
     },
     tabsId() {
       return `${this.socket.getId()}${this.socket.getActivators().length}`;
-    }
-  }
+    },
+  },
 });
 </script>
 

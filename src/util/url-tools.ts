@@ -8,4 +8,4 @@ function isValidUrl(string: string): boolean {
 }
 
 
-export { isValidUrl }
+export { isValidUrl };

@@ -11,7 +11,7 @@ function createWindow() {
   })
 
   // and load the index.html of the app.
-  win.loadURL("http://localhost:8080");
+  win.loadURL("http://localhost:8089");
 
   const menu = Menu.buildFromTemplate([
     {

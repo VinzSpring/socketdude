@@ -1,4 +1,4 @@
-//throwaway object, doesn't need setters
+// throwaway object, doesn't need setters
 
 export default class SocketSettings {
     public url: string;
