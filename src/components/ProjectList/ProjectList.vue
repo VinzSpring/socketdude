@@ -4,7 +4,12 @@
       <Searchbar :search.sync="search" @addClicked="addProject"/>
     </v-flex>
     <v-flex xs12 class="scroll-y">
-      <v-list>
+      <v-layout fill-height align-center v-if="loadingProjects">
+        <v-flex>
+          <p class="text-xs-center">loading...</p>
+        </v-flex>
+      </v-layout>
+      <v-list v-else>
         <template v-for="(project, projectIndex) in projects">
           <ProjectTile
             :key="`project-${projectIndex}`"
@@ -49,12 +54,21 @@
 </template>
 
 <script lang="ts">
+<<<<<<< HEAD
 import Vue from 'vue';
 import Searchbar from './Searchbar.vue';
 import ProjectTile from './ProjectTile.vue';
 import SocketTile from './SocketTile.vue';
 import BufferedSocket from '@/structs/buffered-socket';
 import Menu from '@/structs/menu';
+=======
+import Vue from "vue";
+import Searchbar from "./Searchbar.vue";
+import ProjectTile from "./ProjectTile.vue";
+import SocketTile from "./SocketTile.vue";
+import BufferedSocket from "@/structs/buffered-socket";
+import Menu from "@/structs/menu";
+>>>>>>> 90d654359683030894d92458eb445540a7d2871a
 
 interface ISelectedItem {
   id: number;
@@ -67,16 +81,32 @@ export default Vue.extend({
   components: {
     Searchbar,
     ProjectTile,
-    SocketTile,
+    SocketTile
   },
   data() {
     return {
       activeId: null,
       activeSocketId: null,
       menu: new Menu(),
+<<<<<<< HEAD
       search: '',
       selectedItem: {} as ISelectedItem,
+=======
+      search: "",
+      selectedItem: {} as ISelectedItem,
+      loadingProjects: true
+>>>>>>> 90d654359683030894d92458eb445540a7d2871a
     };
+  },
+  created() {
+    this.$store
+      .dispatch("loadProjects")
+      .then(_ => {
+        this.loadingProjects = false;
+      })
+      .catch(err => {
+        this.loadingProjects = false;
+      });
   },
   methods: {
     openMenu(
@@ -130,7 +160,12 @@ export default Vue.extend({
   },
   computed: {
     projects() {
+<<<<<<< HEAD
       return this.$store.state.projects.filter((project) => {
+=======
+      console.log(this.$store.state.projects);
+      return this.$store.state.projects.filter(project => {
+>>>>>>> 90d654359683030894d92458eb445540a7d2871a
         return (
           project.name.toLowerCase().includes(this.search.toLowerCase()) ||
           project.sockets.find((socket) =>

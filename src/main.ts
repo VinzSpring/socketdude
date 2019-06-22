@@ -2,18 +2,14 @@ import Vue from 'vue';
 import './plugins/vuetify';
 import App from './App.vue';
 import store from './store/index';
+import {ipcRenderer} from 'electron';
+import ElectronStore from './util/electronStore';
 
-import { app, remote, ipcRenderer } from 'electron';
-import path from 'path';
-import fs from 'fs';
+const electronStore = new ElectronStore();
 
 // listen for save event trigged through electron menu
 ipcRenderer.on('save', (event, filename) => {
-  const userDataPath = (app || remote.app).getPath('userData');
-  const filePath = path.join(userDataPath,  'projects.dude');
-
-  fs.writeFileSync(filePath, JSON.stringify(store.state.projects));
-
+  electronStore.write(store.state.projects);
   console.log('file saved');
 });
 

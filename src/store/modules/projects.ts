@@ -1,14 +1,13 @@
 import Project from '@/structs/project';
 import BufferedSocket from '@/structs/buffered-socket';
+import ElectronStore from '@/util/electronStore';
+import { Activator, ResponseHandler } from '@/structs/response-handler';
+import { ChatMessage } from '@/structs/chat-message';
 
-import { app, remote, ipcRenderer } from 'electron';
-import path from 'path';
-import fs from 'fs';
-
-const userDataPath = (app || remote.app).getPath('userData');
-const filePath = path.join(userDataPath, 'projects.dude');
+const electronStore = new ElectronStore();
 
 // initial state
+<<<<<<< HEAD
 let state = [] as Project[];
 
 // TODO: create a store class
@@ -28,8 +27,15 @@ try {
     // if there was some kind of error, return the passed in defaults instead.
     console.error('couldn\'t load projects', error);
 }
+=======
+const state = [] as Project[];
+>>>>>>> 90d654359683030894d92458eb445540a7d2871a
 
 const mutations = {
+    loadProjects(state: Project[], projects: Project[]) {
+        // merge with state to prevent conflicts
+        Object.assign(state, [...state, ...projects])
+    },
     /**
      * Add a project
      * @param state Project[]
@@ -64,7 +70,40 @@ const mutations = {
     },
 };
 
+const actions = {
+    loadProjects(context) {
+        return new Promise(async (resolve, reject) => {
+            // load projects
+            try {
+                let projects = await electronStore.read();
+                let serializedProjects = projects.map(project => {
+                    return Object.assign(new Project(), {
+                        ...project, sockets: project.sockets.map(socket => {
+                            return Object.assign(new BufferedSocket, {
+                                ...socket,
+                                //@ts-ignore
+                                messages: socket.messages.map(message => Object.assign(new ChatMessage(), { ...message, date: Object.assign(new Date(), message.date), dateSent: Object.assign(new Date(), message.dateSent) })),
+                                //@ts-ignore
+                                activators: socket.activators.map(activator => Object.assign(new Activator(), { ...activator, handler: Object.assign(new ResponseHandler(), activator.handler) })),
+                            });
+                        }),
+                    })
+                });
+                context.commit('loadProjects', serializedProjects)
+                resolve()
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
+}
+
 export default {
     state,
     mutations,
+<<<<<<< HEAD
 };
+=======
+    actions,
+}
+>>>>>>> 90d654359683030894d92458eb445540a7d2871a
