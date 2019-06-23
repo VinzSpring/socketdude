@@ -42,6 +42,7 @@ const STANDARD_TAGS = {
     CONNECTED: new MessageTag('CONNECTED', 'green'),
     BINARY: new MessageTag('binary', 'light-blue'),
     JSON: new MessageTag('json', 'orange lighten-2'),
+    AUTOMATED: new MessageTag('auto', 'green lighten-2'),
 };
 
 export { MessageTag, ChatMessage, MESSAGE_TYPE, STANDARD_TAGS };

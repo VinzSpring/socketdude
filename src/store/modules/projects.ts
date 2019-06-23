@@ -7,29 +7,7 @@ import { ChatMessage } from '@/structs/chat-message';
 const electronStore = new ElectronStore();
 
 // initial state
-<<<<<<< HEAD
-let state = [] as Project[];
-
-// TODO: create a store class
-// load projects
-try {
-    // @ts-ignore
-    const projects = JSON.parse(fs.readFileSync(filePath));
-    const serializedProjects = projects.map((project) => {
-        return Object.assign(new Project(), {
-            ...project, sockets: project.sockets.map((socket) => {
-                return Object.assign(new BufferedSocket, socket);
-            }),
-        });
-    });
-    state = serializedProjects;
-} catch (error) {
-    // if there was some kind of error, return the passed in defaults instead.
-    console.error('couldn\'t load projects', error);
-}
-=======
 const state = [] as Project[];
->>>>>>> 90d654359683030894d92458eb445540a7d2871a
 
 const mutations = {
     loadProjects(state: Project[], projects: Project[]) {
@@ -101,9 +79,5 @@ const actions = {
 export default {
     state,
     mutations,
-<<<<<<< HEAD
-};
-=======
     actions,
-}
->>>>>>> 90d654359683030894d92458eb445540a7d2871a
+};

@@ -54,21 +54,12 @@
 </template>
 
 <script lang="ts">
-<<<<<<< HEAD
 import Vue from 'vue';
 import Searchbar from './Searchbar.vue';
 import ProjectTile from './ProjectTile.vue';
 import SocketTile from './SocketTile.vue';
 import BufferedSocket from '@/structs/buffered-socket';
 import Menu from '@/structs/menu';
-=======
-import Vue from "vue";
-import Searchbar from "./Searchbar.vue";
-import ProjectTile from "./ProjectTile.vue";
-import SocketTile from "./SocketTile.vue";
-import BufferedSocket from "@/structs/buffered-socket";
-import Menu from "@/structs/menu";
->>>>>>> 90d654359683030894d92458eb445540a7d2871a
 
 interface ISelectedItem {
   id: number;
@@ -88,14 +79,9 @@ export default Vue.extend({
       activeId: null,
       activeSocketId: null,
       menu: new Menu(),
-<<<<<<< HEAD
       search: '',
       selectedItem: {} as ISelectedItem,
-=======
-      search: "",
-      selectedItem: {} as ISelectedItem,
       loadingProjects: true
->>>>>>> 90d654359683030894d92458eb445540a7d2871a
     };
   },
   created() {
@@ -160,12 +146,7 @@ export default Vue.extend({
   },
   computed: {
     projects() {
-<<<<<<< HEAD
       return this.$store.state.projects.filter((project) => {
-=======
-      console.log(this.$store.state.projects);
-      return this.$store.state.projects.filter(project => {
->>>>>>> 90d654359683030894d92458eb445540a7d2871a
         return (
           project.name.toLowerCase().includes(this.search.toLowerCase()) ||
           project.sockets.find((socket) =>

@@ -20,9 +20,9 @@ export default class BufferedSocket implements Identifyable {
         return this._id;
     }
 
-    public sendMessage(msg: string) {
+    public sendMessage(msg: string, tags: MessageTag[] = []) {
 
-        const tags: MessageTag[] = [STANDARD_TAGS.OUTGOING];
+        tags.push(STANDARD_TAGS.OUTGOING);
         if (isJson(msg)) {
             tags.push(STANDARD_TAGS.JSON);
         }
@@ -136,7 +136,7 @@ export default class BufferedSocket implements Identifyable {
             if (res + '') {
                 console.log(res);
 
-                this.sendMessage(res);
+                this.sendMessage(res, [STANDARD_TAGS.AUTOMATED]);
             }
         }
     }

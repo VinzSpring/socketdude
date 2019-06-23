@@ -24,6 +24,8 @@ class Activator implements Identifyable {
     }
 
     public handle(msg: string): string {
+        console.log(msg);
+
         if (!this.regex) {
             return '';
         }
