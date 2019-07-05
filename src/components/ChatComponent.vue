@@ -1,8 +1,15 @@
 <template>
   <v-container v-if="socket" fill-height pa-0 grid-list-xs>
     <v-layout column>
-      <v-flex xs11 class="scrollable" ref="chatList">
-        <ChatTile v-for="(message, i) in messages" :key="i" :message="message"/>
+      <v-flex xs1>
+        <v-layout justify-end>
+          <v-btn fab flat @click="clearMessages()">
+            <v-icon>clear_all</v-icon>
+          </v-btn>
+        </v-layout>
+      </v-flex>
+      <v-flex xs10 class="scrollable" ref="chatList">
+        <ChatTile v-for="(message, i) in messages" :key="i" :message="message" />
       </v-flex>
       <v-flex xs1 pa-3>
         <v-text-field
@@ -18,29 +25,34 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import ChatTile from '@/components/ChatTile.vue';
-import { ChatMessage } from '@/structs/chat-message';
-import BufferedSocket from '@/structs/buffered-socket';
+import Vue from "vue";
+import ChatTile from "@/components/ChatTile.vue";
+import { ChatMessage } from "@/structs/chat-message";
+import BufferedSocket from "@/structs/buffered-socket";
 
 export default Vue.extend({
-  name: 'ChatView',
+  name: "ChatView",
   components: {
-    ChatTile,
+    ChatTile
   },
   props: {
     // messages: Array
   },
   data() {
     return {
-      msgTxt: '' as string,
+      msgTxt: "" as string
     };
   },
   methods: {
     sendMessage() {
-      if (!this.socket || !this.socket.isConnected() || !this.msgTxt) { return; }
+      if (!this.socket || !this.socket.isConnected() || !this.msgTxt) {
+        return;
+      }
       this.socket.sendMessage(this.msgTxt);
-      this.msgTxt = '';
+      this.msgTxt = "";
+    },
+    clearMessages() {
+      this.$store.commit('clearActiveChatMessages');
     },
   },
   computed: {
@@ -54,19 +66,23 @@ export default Vue.extend({
       const socket: BufferedSocket = this.state.selectedSocket;
       if (socket) {
         return socket;
-      } else { return null; }
-    },
+      } else {
+        return null;
+      }
+    }
   },
   watch: {
     messages(val: ChatMessage[]) {
       // scroll to bottom
       const container = this.$refs.chatList;
-      if (!container) { return; }
+      if (!container) {
+        return;
+      }
       this.$nextTick(() => {
         container.scrollTop = container.scrollHeight;
       });
-    },
-  },
+    }
+  }
 });
 </script>
 
