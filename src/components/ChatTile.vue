@@ -14,10 +14,15 @@
       </v-layout>
 
       <v-flex xs12>
-        <v-card elevation=5 :color="messageColor">
+        <v-card elevation="5" :color="messageColor">
           <v-card-text>
             <pre v-html="formattedMessage"></pre>
           </v-card-text>
+          <v-card-actions>
+            <v-btn flat icon @click="showRaw = !showRaw">
+              <v-icon>tonality</v-icon>
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
@@ -26,43 +31,59 @@
 
 
 <script lang="ts">
-import Vue from 'vue';
-import { ChatMessage, MESSAGE_TYPE } from '@/structs/chat-message.ts';
-import prettyJson from '@/util/pretty-json';
-import SEMANTIC_COLORS from '@/util/semantic-colors';
+import Vue from "vue";
+import { ChatMessage, MESSAGE_TYPE } from "@/structs/chat-message.ts";
+import prettyJson from "@/util/pretty-json";
+import SEMANTIC_COLORS from "@/util/semantic-colors";
+import { escape } from "querystring";
 
 export default Vue.extend({
-  name: 'ChatTile',
+  name: "ChatTile",
   props: {
-    message: ChatMessage,
+    message: ChatMessage
+  },
+  data() {
+    return {
+      showRaw: false
+    };
   },
   computed: {
     formattedMessage(): string {
-      const formatted = prettyJson(this.message.text);
+      let formatted: string = this.message.text;
+      if (this.showRaw) {
+        formatted = JSON.stringify(formatted);
+      } else {
+        formatted = prettyJson(formatted);
+      }
       return formatted;
     },
     time(): String {
       const date = this.message.dateSent;
       return (
         date.getHours() +
-        ':' +
+        ":" +
         date.getMinutes() +
-        ':' +
+        ":" +
         date.getSeconds() +
-        ':' +
+        ":" +
         date.getMilliseconds()
       );
     },
     messageColor() {
       switch (this.message.msgType) {
-        case MESSAGE_TYPE.INCOMING: return SEMANTIC_COLORS.INCOMING;
-        case MESSAGE_TYPE.OUTGOING: return SEMANTIC_COLORS.OUTGOING;
-        case MESSAGE_TYPE.ERROR: return SEMANTIC_COLORS.ERROR;
-        case MESSAGE_TYPE.SUCCESS: return SEMANTIC_COLORS.SUCCESS;
-        default: break;
+        case MESSAGE_TYPE.INCOMING:
+          return SEMANTIC_COLORS.INCOMING;
+        case MESSAGE_TYPE.OUTGOING:
+          return SEMANTIC_COLORS.OUTGOING;
+        case MESSAGE_TYPE.ERROR:
+          return SEMANTIC_COLORS.ERROR;
+        case MESSAGE_TYPE.SUCCESS:
+          return SEMANTIC_COLORS.SUCCESS;
+        default:
+          break;
       }
-    },
-  },
+    }
+  }
 });
 </script>
 
@@ -73,13 +94,13 @@ export default Vue.extend({
 }
 
 /*csstricks.com*/
-/* Browser specific (not valid) styles to make preformatted text wrap */		
+/* Browser specific (not valid) styles to make preformatted text wrap */
 
 pre {
- white-space: pre-wrap;       /* css-3 */
- white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
- white-space: -pre-wrap;      /* Opera 4-6 */
- white-space: -o-pre-wrap;    /* Opera 7 */
- word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 </style>

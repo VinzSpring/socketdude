@@ -42,6 +42,7 @@ import Vue from 'vue';
 import { Activator, ResponseHandler } from '@/structs/response-handler.ts';
 import ResponseForm from '@/components/ResponseForm.vue';
 import BufferedSocket from '@/structs/buffered-socket';
+import Menu from '@/structs/menu';
 
 export default Vue.extend({
   name: 'ResponseComponent',
@@ -51,11 +52,7 @@ export default Vue.extend({
   props: {},
   data() {
     return {
-      menu: {
-        isShow: false,
-        x: 0,
-        y: 0,
-      } as IMenu,
+      menu: new Menu(),
       selectedActivator: null,
       rename: false,
     };
