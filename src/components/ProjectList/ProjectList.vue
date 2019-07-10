@@ -28,7 +28,7 @@
               :activeId="activeId"
               :activeSocketId="activeSocketId"
               :name.sync="socket.name"
-              :messageLength="socket.messages.length"
+              :missedMessages="socket.missedMessages"
               :status="socket.websocket ? socket.websocket.readyState : -1"
               @rightClicked="openMenu($event, socket.getId(), projectIndex, socket)"
               @clicked="setSocket(socket)"
@@ -81,18 +81,8 @@ export default Vue.extend({
       menu: new Menu(),
       search: '',
       selectedItem: {} as ISelectedItem,
-      loadingProjects: true
+      loadingProjects: false,
     };
-  },
-  created() {
-    this.$store
-      .dispatch("loadProjects")
-      .then(_ => {
-        this.loadingProjects = false;
-      })
-      .catch(err => {
-        this.loadingProjects = false;
-      });
   },
   methods: {
     openMenu(

@@ -4,6 +4,7 @@ import SocketSettings from './socket-settings';
 import IdGenerator, { Identifyable } from './id-generator';
 import { isJson } from '@/util/pretty-json';
 import { isValidUrl } from '@/util/url-tools';
+import store from '@/store'
 
 export default class BufferedSocket implements Identifyable {
 
@@ -16,6 +17,7 @@ export default class BufferedSocket implements Identifyable {
     private messages: ChatMessage[] = [];
     private activators: Activator[] = [];
     private settings: SocketSettings = new SocketSettings('', []);
+    public missedMessages: number = 0;
     public getId(): number {
         return this._id;
     }
@@ -138,6 +140,11 @@ export default class BufferedSocket implements Identifyable {
 
                 this.sendMessage(res, [STANDARD_TAGS.AUTOMATED]);
             }
+        }
+
+        // count missed messages
+        if(this != store.state.selectedSocket) {
+            this.missedMessages++;
         }
     }
 

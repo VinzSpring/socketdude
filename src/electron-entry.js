@@ -18,11 +18,18 @@ function createWindow() {
       label: 'File',
       submenu: [
         {
-          label: 'Save', 
+          label: 'Open',
+          click() {
+            win.webContents.send('open');
+          },
+          accelerator: 'CmdOrCtrl+o',
+        },
+        {
+          label: 'Save',
           click() {
             win.webContents.send('save');
           },
-          accelerator: 'CmdOrCtrl+s'
+          accelerator: 'CmdOrCtrl+s',
         },
       ]
     }

@@ -19,9 +19,9 @@
       ></v-text-field>
       <v-list-tile-title v-else>{{name}}</v-list-tile-title>
     </v-list-tile-content>
-     <v-list-tile-action v-if="id != activeSocketId && this.messageCount > 0">
+     <v-list-tile-action v-if="missedMessages > 0">
        <v-chip color="red" text-color="white">
-         {{messageCount}}
+         {{missedMessages}}
        </v-chip>
       </v-list-tile-action>
   </v-list-tile>
@@ -31,21 +31,7 @@
 import Vue from 'vue';
 export default Vue.extend({
     name: 'SocketTile',
-    props: ['id', 'activeId', 'activeSocketId', 'name', 'messageLength', 'status'],
-    data() {
-      return {
-        messageCount: 0,
-      };
-    },
-    watch: {
-      messageLength(newValue, oldValue) {
-        if (this.id != this.activeSocketId) {
-          if (newValue != oldValue) {
-            this.messageCount = newValue;
-          }
-        }
-      },
-    },
+    props: ['id', 'missedMessages', 'activeId', 'activeSocketId', 'name', 'messageLength', 'status'],
 });
 </script>
 
