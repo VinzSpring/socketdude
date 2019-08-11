@@ -10,16 +10,16 @@ Vue.use(Vuex);
 
 // TODO add to UML
 export default new Vuex.Store({
-  plugins: [VuexElectron()],
+  plugins: [VuexElectron()] as any[],
   modules: {
     projects,
   },
   state: {
-    selectedSocket: null,
-    forceRerender: null,
-    darkTheme: true,
-    loadingProjects: true,
-    filePath: null,
+    selectedSocket: null as BufferedSocket,
+    forceRerender: null as boolean,
+    darkTheme: true as boolean,
+    loadingProjects: true as boolean,
+    filePath: null as string,
   },
   mutations: {
     setActiveSocket(state: any, socket: BufferedSocket) {

@@ -77,7 +77,6 @@ export default Vue.extend({
       } else { return null; }
     },
     json: {
-      // TODO validate
       get(): string {
         return this.activator.handler.getJsonResponse();
       },
@@ -87,7 +86,6 @@ export default Vue.extend({
       },
     },
     txt: {
-      // TODO validate
       get(): string {
         return this.activator.handler.getTextResponse();
       },
@@ -97,7 +95,6 @@ export default Vue.extend({
       },
     },
     js: {
-      // TODO validate
       get(): string {
         return this.activator.handler.getJs();
       },
@@ -106,7 +103,7 @@ export default Vue.extend({
         this.activator.handler.setJs(v);
       },
     },
-    activeMode: {
+    activeMode: { // get active automated response mode
       get(): number {
         return this.activator.handler.getMode();
       },
@@ -114,7 +111,7 @@ export default Vue.extend({
         this.activator.handler.setMode(v);
       },
     },
-    regex: {
+    regex: { // regex to use for activating this response handler
       get(): RegExp {
         return this.activator.regex ? this.activator.regex.source : '';
       },

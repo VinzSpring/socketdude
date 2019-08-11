@@ -27,17 +27,17 @@ class Activator implements Identifyable {
         console.log(msg);
 
         if (!this.regex) {
-            return '';
+            return ''; //equivalent of returning false
         }
         const match = msg.match(this.regex);
-        if (match && match.length > 0 && match[0] === msg) {
+        if (match && match.length > 0 && match[0] === msg) { // handle message matches the 0th matchgroup
             return this.handler.handle(msg);
         }
         return '';
     }
 }
 
-/*strategy pattern or inheritance shoukd be prefered here, maybe refactor if additional functionality needed */
+/*strategy pattern or inheritance should be prefered here, maybe refactor if additional functionality needed */
 class ResponseHandler {
     private textResponse: string = '';
     private jsonResponse: string = '';

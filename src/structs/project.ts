@@ -35,7 +35,7 @@ export default class Project implements Identifyable {
             }
         }
         if (found) {
-            this.sockets.splice(i, 1);
+            this.sockets.splice(i, 1); // remove socket from list if found
         }
         else {
             throw new Error('socket not found!');

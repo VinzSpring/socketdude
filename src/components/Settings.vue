@@ -34,10 +34,10 @@ export default Vue.extend({
   name: 'Settings',
   data() {
     return {
-      url: '',
-      protocols: [],
-      clrMsgLimit: '',
-      rules: {
+      url: '' as string,
+      protocols: [] as string[],
+      clrMsgLimit: Number.MAX_VALUE, // count of messages to keep/display in scrollview, currently not used 
+      rules: { // validation rules for url
         url: (value) => {
           const pattern = /ws[s]?:\/\/[A-z0-9]+\.[A-z]+/;
           return pattern.test(value) || 'invalid url.';

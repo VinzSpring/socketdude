@@ -36,20 +36,19 @@ export default Vue.extend({
     ChatTile
   },
   props: {
-    // messages: Array
   },
   data() {
     return {
-      msgTxt: "" as string
+      msgTxt: "" as string, // text of message being composed
     };
   },
   methods: {
     sendMessage() {
       if (!this.socket || !this.socket.isConnected() || !this.msgTxt) {
-        return;
+        return; // dont send message when empty content or not connected
       }
       this.socket.sendMessage(this.msgTxt);
-      this.msgTxt = "";
+      this.msgTxt = ""; // clear text field 
     },
     clearMessages() {
       this.$store.commit('clearActiveChatMessages');
@@ -57,7 +56,7 @@ export default Vue.extend({
   },
   computed: {
     messages(): ChatMessage {
-      return this.socket ? this.socket.getMessages() : [];
+      return this.socket ? this.socket.getMessages() : []; // only show messages when socket exists
     },
     state() {
       return this.$store.state;
@@ -74,6 +73,7 @@ export default Vue.extend({
   watch: {
     messages(val: ChatMessage[]) {
       // scroll to bottom
+      
       const container = this.$refs.chatList;
       if (!container) {
         return;

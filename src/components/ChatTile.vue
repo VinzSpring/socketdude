@@ -48,16 +48,16 @@ export default Vue.extend({
     };
   },
   computed: {
-    formattedMessage(): string {
+    formattedMessage(): string { // format message text depending on content type
       let formatted: string = this.message.text;
-      if (this.showRaw) {
+      if (this.showRaw) { // show raw, escaped string
         formatted = JSON.stringify(formatted);
       } else {
-        formatted = prettyJson(formatted);
+        formatted = prettyJson(formatted); // format if text contains json
       }
       return formatted;
     },
-    time(): String {
+    time(): String { // format time
       const date = this.message.dateSent;
       return (
         date.getHours() +
@@ -69,7 +69,7 @@ export default Vue.extend({
         date.getMilliseconds()
       );
     },
-    messageColor() {
+    messageColor() { // determine message background-color
       switch (this.message.msgType) {
         case MESSAGE_TYPE.INCOMING:
           return SEMANTIC_COLORS.INCOMING;

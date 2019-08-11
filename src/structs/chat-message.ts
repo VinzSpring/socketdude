@@ -34,6 +34,7 @@ class ChatMessage {
     }
 }
 
+//collection of tags that are most commonly used
 const STANDARD_TAGS = {
     INCOMING: new MessageTag('incoming', 'red lighten-1'),
     OUTGOING: new MessageTag('outgoing', 'light-green'),

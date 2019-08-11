@@ -7,7 +7,7 @@
       @contextmenu="(e) => openMenu(e, activator)"
     >
       <v-text-field
-        v-if="rename && selectedActivator && selectedActivator.getId() == activator.getId()"
+        v-if="rename && selectedActivator && selectedActivator.getId() === activator.getId()"
         v-model="activator.title"
         flat
         autofocus
@@ -52,9 +52,9 @@ export default Vue.extend({
   props: {},
   data() {
     return {
-      menu: new Menu(),
-      selectedActivator: null,
-      rename: false,
+      menu: new Menu() as Menu, // right click context-menu
+      selectedActivator: null as Activator, // selected activator
+      rename: false as boolean, // rename mode active?
     };
   },
   mounted() {},
@@ -64,7 +64,7 @@ export default Vue.extend({
       if (!this.socket) { return; }
       this.socket.addActivator(
         new Activator(
-          this.socket.getActivators().length,
+          this.socket.getActivators().length, // set some initial activator name
           null,
           new ResponseHandler(),
         ),
@@ -76,14 +76,14 @@ export default Vue.extend({
       this.menu.x = e.clientX;
       this.menu.y = e.clientY;
       this.selectedActivator = activator;
-      this.$nextTick(() => {
+      this.$nextTick(() => { // open menu next tick
         this.menu.isShow = true;
       });
     },
     deleteItem() {
       if (this.selectedActivator) {
         this.socket.removeActivator(this.selectedActivator);
-        this.menu.isShow = false;
+        this.menu.isShow = false; // close menu
       }
     },
     renameItem() {
@@ -94,10 +94,10 @@ export default Vue.extend({
   },
   watch: {
     active(index: number) {
-      this.activeTabindex[this.socket.getId()] = index;
+      this.activeTabindex[this.socket.getId()] = index; // save activce tab index for socket
     },
     socket(s) {
-      if (this.socket.getId() == s.getId()) { return; }
+      if (this.socket.getId() === s.getId()) { return; }
       else { this.active = this.activeTabindex[s.getId()]; }
     },
   },

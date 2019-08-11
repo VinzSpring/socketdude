@@ -1,6 +1,11 @@
 import './pretty-json.css';
 /**src https://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript */
 
+/**
+ * format text if it is valid json
+ * @param jsonText text to format
+ * @param indentation number of whitespaces per indentation-level
+ */
 export default function prettyJson(jsonText: string, indentation: number = 2): string {
     try {
         const obj = JSON.parse(jsonText);

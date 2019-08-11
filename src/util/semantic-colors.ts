@@ -1,4 +1,4 @@
-
+// colors being used for messages
 const SEMANTIC_COLORS = {
     INCOMING: '', // empty = default
     OUTGOING: '',

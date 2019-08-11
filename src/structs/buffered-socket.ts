@@ -6,25 +6,41 @@ import { isJson } from '@/util/pretty-json';
 import { isValidUrl } from '@/util/url-tools';
 import store from '@/store'
 
+
+//Wrapper class for websocket
 export default class BufferedSocket implements Identifyable {
 
     // TODO: update uml
 
+    //name displayed in sidebar
     public name: string = '';
+    //index of currently active response activator
     public activeActivatorIndex = null; // TODO refactor, this is ugly
+    //object GUID
     private _id: number = IdGenerator.getNextId();
     private websocket: WebSocket = null;
+    //array of received/sent messages
     private messages: ChatMessage[] = [];
+    //array of different automatic response activators
     private activators: Activator[] = [];
+    //settings for this socket
     private settings: SocketSettings = new SocketSettings('', []);
-    public missedMessages: number = 0;
+    //counter for messages sent/received while user didn't have view open
+    public missedMessages: number = 0; //TODO maybe refactor, so it is clear that this isn't an array od messages
+
+
     public getId(): number {
         return this._id;
     }
 
+    /***
+     * send a Chatmessage
+     */
     public sendMessage(msg: string, tags: MessageTag[] = []) {
 
+        //outgoing message-tag
         tags.push(STANDARD_TAGS.OUTGOING);
+        //append json-tag if message content contains json
         if (isJson(msg)) {
             tags.push(STANDARD_TAGS.JSON);
         }
@@ -57,6 +73,10 @@ export default class BufferedSocket implements Identifyable {
     public addActivator(activator: Activator) {
         this.activators.push(activator);
     }
+    /**
+     * removes a given activator from the list of activators
+     * @param activator acctivator to remove
+     */
     public removeActivator(activator: Activator) {
 
         let found = false;
@@ -71,16 +91,20 @@ export default class BufferedSocket implements Identifyable {
             this.activators.splice(i, 1);
         }
         else {
+            //tried to remove non-existant activator. if this happens you might have state problems 
             throw new Error('activator not found!');
         }
     }
 
-    public isConnected() {
+    public isConnected(): boolean {
         return this.websocket && this.websocket.readyState === WebSocket.OPEN;
     }
 
 
     // TODO update in UML
+    /**
+     * connect to websocket with current settings
+     */
     public connect(): Promise<Event> {
         if (!this.settings) {
             throw new Error('missing settings');
@@ -99,26 +123,36 @@ export default class BufferedSocket implements Identifyable {
 
             this.websocket = new WebSocket(this.settings.url, this.settings.protocols);
             this.websocket.onmessage = (msg: MessageEvent) => this.onMsgRecv(msg);
+            //reject, error occured
             this.websocket.onerror = (e: MessageEvent) => {
                 reject();
                 this.onError(e);
             };
+            //success
             this.websocket.onopen = (e: Event) => {
                 resolve();
                 this.onConnect(e);
             };
+            //reject, connection closed
             this.websocket.onclose = (e: CloseEvent) => {
                 reject();
+                //handle disconnect
                 this.onClose(e);
             };
         });
     }
 
+    /**
+     * handle received message
+     * @param msg
+     */
     private onMsgRecv(msg: MessageEvent) {
         // catch message without data, replace with empty string
         const s: string = msg.data ? msg.data : '';
 
+        //add incoming message-tag
         const tags: MessageTag[] = [STANDARD_TAGS.INCOMING];
+        //add json-tag if message contains json
         if (isJson(s)) {
             tags.push(STANDARD_TAGS.JSON);
         }
@@ -126,30 +160,36 @@ export default class BufferedSocket implements Identifyable {
         const message = new ChatMessage(
             MESSAGE_TYPE.INCOMING,
             s,
-            new Date(),
+            new Date(), //current time
             tags,
         );
 
         this.messages.push(message);
 
+        //check for matching activator (->automatic response)
         for (const activator of this.activators) {
             const res = activator.handle(s);
             // force sring cast to prevent 0 from evaluating false
             if (res + '') {
                 console.log(res);
-
+                //send automated response
                 this.sendMessage(res, [STANDARD_TAGS.AUTOMATED]);
             }
         }
 
         // count missed messages
-        if(this != store.state.selectedSocket) {
+        if (this != store.state.selectedSocket) {
             this.missedMessages++;
         }
     }
 
     // TODO update in UML
+    /**
+     * handle connection error
+     * @param e 
+     */
     private onError(e: MessageEvent) {
+        //show error message in chat
         const errorMessage = new ChatMessage(
             MESSAGE_TYPE.ERROR,
             e.data,
@@ -159,7 +199,12 @@ export default class BufferedSocket implements Identifyable {
         this.messages.push(errorMessage);
     }
 
+    /**
+     * handle connect
+     * @param e 
+     */
     private onConnect(e: Event) {
+        //show error message in chat
         const errorMessage = new ChatMessage(
             MESSAGE_TYPE.SUCCESS,
             'Connected to:\n' + this.settings.url,
@@ -169,7 +214,12 @@ export default class BufferedSocket implements Identifyable {
         this.messages.push(errorMessage);
     }
 
+    /**
+     * handle close-event
+     * @param e 
+     */
     private onClose(e: CloseEvent) {
+        //show connection -losed-message in chat
         const errorMessage = new ChatMessage(
             MESSAGE_TYPE.ERROR,
             'Connection closed!\nreason:' + e.reason,
