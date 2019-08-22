@@ -90,7 +90,6 @@ class ResponseHandler {
         this.javaScript = response;
     }
 
-    // TODO add getters to UML
     public getTextResponse(): string {
         return this.textResponse;
     }

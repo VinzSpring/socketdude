@@ -2,7 +2,6 @@ import BufferedSocket from './buffered-socket';
 import IdGenerator, { Identifyable } from './id-generator';
 
 export default class Project implements Identifyable {
-    // TODO: update in UML
     public name: string;
     private sockets: BufferedSocket[];
     private id = IdGenerator.getNextId();
@@ -16,7 +15,6 @@ export default class Project implements Identifyable {
         return this.id;
     }
 
-    // TODO update in UML
     public getSocket(socketId: number): BufferedSocket {
         return this.sockets.filter( (socket) => socket.getId() == socketId )[0];
     }

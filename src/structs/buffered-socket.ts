@@ -10,12 +10,8 @@ import store from '@/store'
 //Wrapper class for websocket
 export default class BufferedSocket implements Identifyable {
 
-    // TODO: update uml
-
     //name displayed in sidebar
     public name: string = '';
-    //index of currently active response activator
-    public activeActivatorIndex = null; // TODO refactor, this is ugly
     //object GUID
     private _id: number = IdGenerator.getNextId();
     private websocket: WebSocket = null;
@@ -26,7 +22,7 @@ export default class BufferedSocket implements Identifyable {
     //settings for this socket
     private settings: SocketSettings = new SocketSettings('', []);
     //counter for messages sent/received while user didn't have view open
-    public missedMessages: number = 0; //TODO maybe refactor, so it is clear that this isn't an array od messages
+    public missedMessages: number = 0; //TODO maybe rename, so it is clear that this isn't an array of messages
 
 
     public getId(): number {
@@ -63,7 +59,6 @@ export default class BufferedSocket implements Identifyable {
     public getSettings(): SocketSettings {
         return this.settings;
     }
-    // TODO add to UML
     public getMessages(): ChatMessage[] {
         return this.messages;
     }
@@ -100,8 +95,6 @@ export default class BufferedSocket implements Identifyable {
         return this.websocket && this.websocket.readyState === WebSocket.OPEN;
     }
 
-
-    // TODO update in UML
     /**
      * connect to websocket with current settings
      */
@@ -183,7 +176,6 @@ export default class BufferedSocket implements Identifyable {
         }
     }
 
-    // TODO update in UML
     /**
      * handle connection error
      * @param e 
