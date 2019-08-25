@@ -162,8 +162,8 @@ class VuexStore {
         this.write(projects, path);
         this.store.replaceState({...this.store.state, filePath: path})
     }
-
-    private deserialize(data: any) {
+    //TODO verify type!
+    private deserialize(data: any): Project {
         return data.map(project => ({
             ...project, sockets: project.sockets.map(socket => ({
                 ...socket, activators: socket.activators.map(activator => {
@@ -173,8 +173,8 @@ class VuexStore {
             }))
         }));
     }
-
-    private serialize(data: any) {
+    //TODO verify type!
+    private serialize(data: any): Project {
         return data.map(project => {
             return Object.assign(new Project(), {
                 ...project, sockets: project.sockets.map(socket => {

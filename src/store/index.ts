@@ -8,7 +8,7 @@ import projects from './modules/projects';
 
 Vue.use(Vuex);
 
-// TODO add to UML
+//TODO add this to UML?! (how?????
 export default new Vuex.Store({
   plugins: [VuexElectron()] as any[],
   modules: {

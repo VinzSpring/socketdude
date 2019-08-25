@@ -6,6 +6,7 @@ import { ChatMessage } from '@/structs/chat-message';
 // initial state
 const state = [] as Project[];
 
+//TODO add this to UML?! (how????
 const mutations = {
     /**
      * Add a project
