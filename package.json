@@ -60,6 +60,7 @@
         "build"
     ],
     "linux": {
+      "icon": "src/assets/socket_dude_logo.png",
       "category": "Development;Utility",
       "desktop": {
         "Name": "Socketdude",
@@ -70,6 +71,8 @@
         "pacman"
       ]
     },
-    "win": {}
+    "win": {
+        "icon": "src/assets/socket_dude_logo.png"
+    }
   }
 }
