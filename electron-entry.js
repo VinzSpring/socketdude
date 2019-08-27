@@ -11,7 +11,10 @@ function createWindow() {
   })
 
   // and load the index.html of the app.
-  win.loadURL("http://localhost:8080");
+  const winURL = process.env.NODE_ENV === 'dev'
+  ? 'http://localhost:8080'
+  : `file://${process.cwd()}/build/index.html`
+  win.loadURL(winURL);
 
   const menu = Menu.buildFromTemplate([
     {
@@ -35,9 +38,10 @@ function createWindow() {
     }
   ])
   Menu.setApplicationMenu(menu);
-
+    
   // open chrome devtools
-  win.webContents.openDevTools();
+  if(process.env.NODE_ENV === 'dev')
+    win.webContents.openDevTools();
 }
 
 app.on('ready', createWindow)

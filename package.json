@@ -1,16 +1,29 @@
 {
-  "name": "vueProj",
+  "name": "socketdude",
   "version": "0.1.0",
   "private": true,
+  "main": "electron-entry.js",
+  "author": {
+    "name": "Vinz Spring",
+    "email": "contact@vinzspring.de"
+  },
+  "contributors": [
+    {
+      "name": "Jonas Lieber",
+      "email": "jns@lieber@gmail.com"
+    }
+  ],
   "scripts": {
-    "serve": "vue-cli-service serve & sleep 5 && electron ./src/electron-entry.js",
+    "serve": "NODE_ENV=dev vue-cli-service serve & sleep 5 && NODE_ENV=dev electron electron-entry.js",
     "serve:vue": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dist": "electron-builder",
+    "dist:linux": "electron-builder --linux",
+    "dist:win": "electron-builder --windows"
   },
   "dependencies": {
     "core-js": "^2.6.5",
-    "electron": "^5.0.1",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
@@ -21,6 +34,7 @@
     "@vue/cli-plugin-babel": "^3.7.0",
     "@vue/cli-plugin-typescript": "^3.7.0",
     "@vue/cli-service": "^3.7.0",
+    "electron-builder": "^21.2.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
@@ -28,7 +42,8 @@
     "typescript": "^3.4.3",
     "vue-cli-plugin-vuetify": "^0.5.0",
     "vue-template-compiler": "^2.5.21",
-    "vuetify-loader": "^1.0.5"
+    "vuetify-loader": "^1.0.5",
+    "electron": "^5.0.1"
   },
   "postcss": {
     "plugins": {
@@ -38,5 +53,23 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "build": {
+    "appId": "socketdude",
+    "extraFiles": [
+        "build"
+    ],
+    "linux": {
+      "category": "Development;Utility",
+      "desktop": {
+        "Name": "Socketdude",
+        "StartupWMClass": "socketdude"
+      },
+      "target": [
+        "tar.xz",
+        "pacman"
+      ]
+    },
+    "win": {}
+  }
 }
