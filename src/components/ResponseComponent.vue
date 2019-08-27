@@ -38,16 +38,16 @@
 
 
 <script lang="ts">
-import Vue from 'vue';
-import { Activator, ResponseHandler } from '@/structs/response-handler.ts';
-import ResponseForm from '@/components/ResponseForm.vue';
-import BufferedSocket from '@/structs/buffered-socket';
-import Menu from '@/structs/menu';
+import Vue from "vue";
+import { Activator, ResponseHandler } from "@/structs/response-handler.ts";
+import ResponseForm from "@/components/ResponseForm.vue";
+import BufferedSocket from "@/structs/buffered-socket";
+import Menu from "@/structs/menu";
 
 export default Vue.extend({
-  name: 'ResponseComponent',
+  name: "ResponseComponent",
   components: {
-    ResponseForm,
+    ResponseForm
   },
   props: {},
   data() {
@@ -61,13 +61,15 @@ export default Vue.extend({
   methods: {
     addActivator() {
       // add Activator to active socket
-      if (!this.socket) { return; }
+      if (!this.socket) {
+        return;
+      }
       this.socket.addActivator(
         new Activator(
           this.socket.getActivators().length, // set some initial activator name
           null,
-          new ResponseHandler(),
-        ),
+          new ResponseHandler()
+        )
       );
     },
     openMenu(e: MouseEvent, activator: Activator) {
@@ -76,7 +78,8 @@ export default Vue.extend({
       this.menu.x = e.clientX;
       this.menu.y = e.clientY;
       this.selectedActivator = activator;
-      this.$nextTick(() => { // open menu next tick
+      this.$nextTick(() => {
+        // open menu next tick
         this.menu.isShow = true;
       });
     },
@@ -90,16 +93,19 @@ export default Vue.extend({
       if (this.selectedActivator) {
         this.rename = true;
       }
-    },
+    }
   },
   watch: {
     active(index: number) {
       this.activeTabindex[this.socket.getId()] = index; // save activce tab index for socket
     },
     socket(s) {
-      if (this.socket.getId() === s.getId()) { return; }
-      else { this.active = this.activeTabindex[s.getId()]; }
-    },
+      if (this.socket.getId() === s.getId()) {
+        return;
+      } else {
+        this.active = this.activeTabindex[s.getId()];
+      }
+    }
   },
   computed: {
     state() {
@@ -109,12 +115,14 @@ export default Vue.extend({
       const socket: BufferedSocket = this.state.selectedSocket;
       if (socket) {
         return socket;
-      } else { return null; }
+      } else {
+        return null;
+      }
     },
     tabsId() {
       return `${this.socket.getId()}${this.socket.getActivators().length}`;
-    },
-  },
+    }
+  }
 });
 </script>
 
