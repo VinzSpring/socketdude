@@ -4,7 +4,7 @@
 Hallo Herr Hara,
 wir hoffen die unten angeführte Tabelle gibt genügend (ergänzend) Aufschluss darüber, wer was gemacht hat.
 Zusammengefasst:
-Jonas:
+## Jonas:
 - ProjectList/
 - Settings.vue
 - project.ts
@@ -15,7 +15,7 @@ Jonas:
 - electron-entry.js
 - socket-settings.ts
 
-Vinz:
+## Vinz:
 - ChatComponent.vue
 - ChatTile.vue
 - ResponseComponent.vue
