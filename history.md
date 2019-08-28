@@ -1,5 +1,35 @@
 
-# SocketDude
+# SocketDude History
+
+Hallo Herr Hara,
+wir hoffen die unten angeführte Tabelle gibt genügend (ergänzend) Aufschluss darüber, wer was gemacht hat.
+Zusammengefasst:
+Jonas:
+- ProjectList/
+- Settings.vue
+- project.ts
+- vuex-electron.ts
+- index.ts
+- menu.ts
+- main.ts
+- electron-entry.js
+- socket-settings.ts
+
+Vinz:
+- ChatComponent.vue
+- ChatTile.vue
+- ResponseComponent.vue
+- ResponseForm.vue
+- SplashScreen.vue
+- buffered-socket.ts
+- chat-message.ts
+- id-generator.ts
+- project.ts
+- response-handler.ts
+- socket-settings.ts
+- util/
+- logo
+
 ## simplified history
 
 Datum | Autor | Commitnachricht | Aktionen
