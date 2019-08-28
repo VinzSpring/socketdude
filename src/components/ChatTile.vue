@@ -31,20 +31,20 @@
 
 
 <script lang="ts">
-import Vue from "vue";
-import { ChatMessage, MESSAGE_TYPE } from "@/structs/chat-message.ts";
-import prettyJson from "@/util/pretty-json";
-import SEMANTIC_COLORS from "@/util/semantic-colors";
-import { escape } from "querystring";
+import Vue from 'vue';
+import { ChatMessage, MESSAGE_TYPE } from '@/structs/chat-message.ts';
+import prettyJson from '@/util/pretty-json';
+import SEMANTIC_COLORS from '@/util/semantic-colors';
+import { escape } from 'querystring';
 
 export default Vue.extend({
-  name: "ChatTile",
+  name: 'ChatTile',
   props: {
-    message: ChatMessage
+    message: ChatMessage,
   },
   data() {
     return {
-      showRaw: false
+      showRaw: false,
     };
   },
   computed: {
@@ -57,15 +57,15 @@ export default Vue.extend({
       }
       return formatted;
     },
-    time(): String { // format time
+    time(): string { // format time
       const date = this.message.dateSent;
       return (
         date.getHours() +
-        ":" +
+        ':' +
         date.getMinutes() +
-        ":" +
+        ':' +
         date.getSeconds() +
-        ":" +
+        ':' +
         date.getMilliseconds()
       );
     },
@@ -82,8 +82,8 @@ export default Vue.extend({
         default:
           break;
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

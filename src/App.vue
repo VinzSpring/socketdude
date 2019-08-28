@@ -5,21 +5,21 @@
 </template>
 
 <script>
-import MainView from './views/MainView'
+import MainView from './views/MainView';
 export default {
   name: 'App',
   components: {
-    MainView
+    MainView,
   },
-  data () {
+  data() {
     return {
       //
-    }
+    };
   },
   computed: {
     darkTheme() {
       return this.$store.state.darkTheme;
-    }
-  }
-}
+    },
+  },
+};
 </script>

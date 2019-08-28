@@ -72,7 +72,7 @@ export default Vue.extend({
   components: {
     Searchbar,
     ProjectTile,
-    SocketTile
+    SocketTile,
   },
   data() {
     return {
@@ -121,7 +121,9 @@ export default Vue.extend({
       this.activeSocketId = socket.getId();
     },
     rename(item, name) {
-      item.name ? null : (item.name = name);
+      if (!item.name) {
+        item.name = name;
+      }
       this.activeId = null;
     },
     renameItem() {

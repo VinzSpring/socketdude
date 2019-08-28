@@ -6,13 +6,13 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue';
 export default Vue.extend({
-  name: "SplashScreen",
+  name: 'SplashScreen',
   data() {
     return {
-      logo_image: require("../assets/socket_dude_logo.png")
+      logo_image: require('../assets/socket_dude_logo.png'),
     };
-  }
+  },
 });
 </script>

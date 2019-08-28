@@ -32,22 +32,22 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import ChatComponent from "@/components/ChatComponent.vue";
-import Settings from "@/components/Settings.vue";
-import ProjectList from "@/components/ProjectList";
-import ResponseComponent from "@/components/ResponseComponent.vue";
-import SplashScreen from "@/components/SplashScreen.vue";
+import Vue from 'vue';
+import ChatComponent from '@/components/ChatComponent.vue';
+import Settings from '@/components/Settings.vue';
+import ProjectList from '@/components/ProjectList';
+import ResponseComponent from '@/components/ResponseComponent.vue';
+import SplashScreen from '@/components/SplashScreen.vue';
 
 export default Vue.extend({
-  name: "MainView",
+  name: 'MainView',
   components: {
     ChatComponent,
     Settings,
     ProjectList,
     ResponseComponent,
-    SplashScreen
-  }, 
+    SplashScreen,
+  },
   mounted() {
     this.showSplashScreen = true;
     window.setTimeout(() => {
@@ -56,9 +56,9 @@ export default Vue.extend({
   },
   data() {
     return {
-      showSplashScreen: false
+      showSplashScreen: false,
     };
-  }
+  },
 });
 </script>
 

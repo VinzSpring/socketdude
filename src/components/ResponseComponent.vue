@@ -38,16 +38,16 @@
 
 
 <script lang="ts">
-import Vue from "vue";
-import { Activator, ResponseHandler } from "@/structs/response-handler.ts";
-import ResponseForm from "@/components/ResponseForm.vue";
-import BufferedSocket from "@/structs/buffered-socket";
-import Menu from "@/structs/menu";
+import Vue from 'vue';
+import { Activator, ResponseHandler } from '@/structs/response-handler.ts';
+import ResponseForm from '@/components/ResponseForm.vue';
+import BufferedSocket from '@/structs/buffered-socket';
+import Menu from '@/structs/menu';
 
 export default Vue.extend({
-  name: "ResponseComponent",
+  name: 'ResponseComponent',
   components: {
-    ResponseForm
+    ResponseForm,
   },
   props: {},
   data() {
@@ -57,7 +57,6 @@ export default Vue.extend({
       rename: false as boolean, // rename mode active?
     };
   },
-  mounted() {},
   methods: {
     addActivator() {
       // add Activator to active socket
@@ -68,8 +67,8 @@ export default Vue.extend({
         new Activator(
           this.socket.getActivators().length, // set some initial activator name
           null,
-          new ResponseHandler()
-        )
+          new ResponseHandler(),
+        ),
       );
     },
     openMenu(e: MouseEvent, activator: Activator) {
@@ -93,7 +92,7 @@ export default Vue.extend({
       if (this.selectedActivator) {
         this.rename = true;
       }
-    }
+    },
   },
   watch: {
     active(index: number) {
@@ -105,7 +104,7 @@ export default Vue.extend({
       } else {
         this.active = this.activeTabindex[s.getId()];
       }
-    }
+    },
   },
   computed: {
     state() {
@@ -121,8 +120,8 @@ export default Vue.extend({
     },
     tabsId() {
       return `${this.socket.getId()}${this.socket.getActivators().length}`;
-    }
-  }
+    },
+  },
 });
 </script>
 

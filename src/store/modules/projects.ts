@@ -1,3 +1,4 @@
+/* tslint:disable:no-shadowed-variable ban-types */
 import Project from '@/structs/project';
 import BufferedSocket from '@/structs/buffered-socket';
 import { Activator, ResponseHandler } from '@/structs/response-handler';
@@ -6,7 +7,7 @@ import { ChatMessage } from '@/structs/chat-message';
 // initial state
 const state = [] as Project[];
 
-//TODO add this to UML?! (how????
+// TODO add this to UML?! (how????
 const mutations = {
     /**
      * Add a project

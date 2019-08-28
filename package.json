@@ -2,26 +2,24 @@
   "name": "socketdude",
   "version": "0.1.0",
   "private": true,
-  "main": "electron-entry.js",
   "author": {
     "name": "Vinz Spring",
     "email": "contact@vinzspring.de"
   },
-  "contributors": [
-    {
-      "name": "Jonas Lieber",
-      "email": "jns@lieber@gmail.com"
-    }
-  ],
   "scripts": {
     "serve": "NODE_ENV=dev vue-cli-service serve & sleep 5 && NODE_ENV=dev electron electron-entry.js",
-    "serve:vue": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "dist": "electron-builder",
     "dist:linux": "electron-builder --linux",
-    "dist:win": "electron-builder --windows"
+    "dist:win": "electron-builder --windows",
+    "electron:build": "vue-cli-service electron:build",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps",
+    "serve:vue": "vue-cli-service serve"
   },
+  "main": "background.js",
   "dependencies": {
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
@@ -34,16 +32,17 @@
     "@vue/cli-plugin-babel": "^3.7.0",
     "@vue/cli-plugin-typescript": "^3.7.0",
     "@vue/cli-service": "^3.7.0",
+    "electron": "^5.0.1",
     "electron-builder": "^21.2.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "typescript": "^3.4.3",
+    "vue-cli-plugin-electron-builder": "^1.4.0",
     "vue-cli-plugin-vuetify": "^0.5.0",
     "vue-template-compiler": "^2.5.21",
-    "vuetify-loader": "^1.0.5",
-    "electron": "^5.0.1"
+    "vuetify-loader": "^1.0.5"
   },
   "postcss": {
     "plugins": {
@@ -54,25 +53,10 @@
     "> 1%",
     "last 2 versions"
   ],
-  "build": {
-    "appId": "socketdude",
-    "extraFiles": [
-        "build"
-    ],
-    "linux": {
-      "icon": "src/assets/socket_dude_logo.png",
-      "category": "Development;Utility",
-      "desktop": {
-        "Name": "Socketdude",
-        "StartupWMClass": "socketdude"
-      },
-      "target": [
-        "tar.xz",
-        "pacman"
-      ]
-    },
-    "win": {
-        "icon": "src/assets/socket_dude_logo.png"
+  "contributors": [
+    {
+      "name": "Jonas Lieber",
+      "email": "jns@lieber@gmail.com"
     }
-  }
+  ]
 }

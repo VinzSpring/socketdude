@@ -36,7 +36,7 @@ export default Vue.extend({
     return {
       url: '' as string,
       protocols: [] as string[],
-      clrMsgLimit: Number.MAX_VALUE, // count of messages to keep/display in scrollview, currently not used 
+      clrMsgLimit: Number.MAX_VALUE, // count of messages to keep/display in scrollview, currently not used
       rules: { // validation rules for url
         url: (value) => {
           const pattern = /ws[s]?:\/\/[A-z0-9]+\.[A-z]+/;
@@ -59,10 +59,8 @@ export default Vue.extend({
       );
       try {
         await this.$store.state.selectedSocket.connect();
-        console.log('connect: success');
       } catch (e) {
         // failed to connect
-        console.error(e);
       }
     },
   },

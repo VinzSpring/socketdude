@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { ChatMessage, MessageTag, MESSAGE_TYPE } from '@/structs/chat-message';
 import { Activator, ResponseHandler } from '@/structs/response-handler';
 

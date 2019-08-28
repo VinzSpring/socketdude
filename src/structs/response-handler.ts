@@ -1,3 +1,4 @@
+/* tslint:disable:max-classes-per-file ban-types */
 import IdGenerator, { Identifyable } from './id-generator';
 
 enum RESPONSE_MODE {
@@ -24,10 +25,8 @@ class Activator implements Identifyable {
     }
 
     public handle(msg: string): string {
-        console.log(msg);
-
         if (!this.regex) {
-            return ''; //equivalent of returning false
+            return ''; // equivalent of returning false
         }
         const match = msg.match(this.regex);
         if (match && match.length > 0 && match[0] === msg) { // handle message matches the 0th matchgroup
@@ -101,7 +100,8 @@ class ResponseHandler {
     public getJs(): string {
         return this.javaScript;
     }
-    private activeMethod: Function = () => { };
+    // tslint:disable-next-line
+    private activeMethod: Function = () => {};
 
     private handleTextResponse = (msg: string): string => {
         return this.textResponse;
@@ -113,6 +113,7 @@ class ResponseHandler {
 
     private handleJsResponse = (msg: string): string => {
         const script: string = '(function(msg){' + this.javaScript + '})(msg)';
+        // tslint:disable-next-line
         return eval(script);
     }
 }

@@ -1,6 +1,8 @@
-function isValidUrl(string: string): boolean {
+/* tslint:disable:no-unused-expression */
+function isValidUrl(url: string): boolean {
     try {
-        new URL(string);
+        // @ts-ignore
+        new URL(url);
         return true;
     } catch (_) {
         return false;

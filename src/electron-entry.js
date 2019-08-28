@@ -40,7 +40,7 @@ function createWindow() {
   Menu.setApplicationMenu(menu);
     
   // open chrome devtools
-  if(process.env.NODE_ENV === 'dev')
+  // if(process.env.NODE_ENV === 'dev')
     win.webContents.openDevTools();
 }
 

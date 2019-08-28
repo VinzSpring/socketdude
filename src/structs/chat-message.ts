@@ -1,4 +1,4 @@
-
+/* tslint:disable:max-classes-per-file */
 enum MESSAGE_TYPE {
     INCOMING,
     OUTGOING,
@@ -7,7 +7,8 @@ enum MESSAGE_TYPE {
 }
 
 
-// currently pretty useless, but could later (with more features) be automatically added to found patterns, content types, etc.
+// currently pretty useless, but could later (with more features)
+// be automatically added to found patterns, content types, etc.
 class MessageTag {
     public text: string;
     public color: string;
@@ -34,7 +35,7 @@ class ChatMessage {
     }
 }
 
-//collection of tags that are most commonly used
+// collection of tags that are most commonly used
 const STANDARD_TAGS = {
     INCOMING: new MessageTag('incoming', 'red lighten-1'),
     OUTGOING: new MessageTag('outgoing', 'light-green'),

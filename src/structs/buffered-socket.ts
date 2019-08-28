@@ -4,25 +4,26 @@ import SocketSettings from './socket-settings';
 import IdGenerator, { Identifyable } from './id-generator';
 import { isJson } from '@/util/pretty-json';
 import { isValidUrl } from '@/util/url-tools';
-import store from '@/store'
+import store from '@/store';
 
 
-//Wrapper class for websocket
+// Wrapper class for websocket
 export default class BufferedSocket implements Identifyable {
 
-    //name displayed in sidebar
+    // name displayed in sidebar
     public name: string = '';
-    //object GUID
+    // counter for messages sent/received while user didn't have view open
+    public missedMessages: number = 0; // TODO maybe rename, so it is clear that this isn't an array of messages
+    // object GUID
+    // tslint:disable-next-line
     private _id: number = IdGenerator.getNextId();
     private websocket: WebSocket = null;
-    //array of received/sent messages
+    // array of received/sent messages
     private messages: ChatMessage[] = [];
-    //array of different automatic response activators
+    // array of different automatic response activators
     private activators: Activator[] = [];
-    //settings for this socket
+    // settings for this socket
     private settings: SocketSettings = new SocketSettings('', []);
-    //counter for messages sent/received while user didn't have view open
-    public missedMessages: number = 0; //TODO maybe rename, so it is clear that this isn't an array of messages
 
 
     public getId(): number {
@@ -34,9 +35,9 @@ export default class BufferedSocket implements Identifyable {
      */
     public sendMessage(msg: string, tags: MessageTag[] = []) {
 
-        //outgoing message-tag
+        // outgoing message-tag
         tags.push(STANDARD_TAGS.OUTGOING);
-        //append json-tag if message content contains json
+        // append json-tag if message content contains json
         if (isJson(msg)) {
             tags.push(STANDARD_TAGS.JSON);
         }
@@ -77,16 +78,15 @@ export default class BufferedSocket implements Identifyable {
         let found = false;
         let i = 0;
         for (; i < this.activators.length; i++) {
-            found = this.activators[i].getId() == activator.getId();
+            found = this.activators[i].getId() === activator.getId();
             if (found) {
                 break;
             }
         }
         if (found) {
             this.activators.splice(i, 1);
-        }
-        else {
-            //tried to remove non-existant activator. if this happens you might have state problems 
+        } else {
+            // tried to remove non-existant activator. if this happens you might have state problems
             throw new Error('activator not found!');
         }
     }
@@ -116,20 +116,20 @@ export default class BufferedSocket implements Identifyable {
 
             this.websocket = new WebSocket(this.settings.url, this.settings.protocols);
             this.websocket.onmessage = (msg: MessageEvent) => this.onMsgRecv(msg);
-            //reject, error occured
+            // reject, error occured
             this.websocket.onerror = (e: MessageEvent) => {
                 reject();
                 this.onError(e);
             };
-            //success
+            // success
             this.websocket.onopen = (e: Event) => {
                 resolve();
                 this.onConnect(e);
             };
-            //reject, connection closed
+            // reject, connection closed
             this.websocket.onclose = (e: CloseEvent) => {
                 reject();
-                //handle disconnect
+                // handle disconnect
                 this.onClose(e);
             };
         });
@@ -143,9 +143,9 @@ export default class BufferedSocket implements Identifyable {
         // catch message without data, replace with empty string
         const s: string = msg.data ? msg.data : '';
 
-        //add incoming message-tag
+        // add incoming message-tag
         const tags: MessageTag[] = [STANDARD_TAGS.INCOMING];
-        //add json-tag if message contains json
+        // add json-tag if message contains json
         if (isJson(s)) {
             tags.push(STANDARD_TAGS.JSON);
         }
@@ -153,35 +153,34 @@ export default class BufferedSocket implements Identifyable {
         const message = new ChatMessage(
             MESSAGE_TYPE.INCOMING,
             s,
-            new Date(), //current time
+            new Date(), // current time
             tags,
         );
 
         this.messages.push(message);
 
-        //check for matching activator (->automatic response)
+        // check for matching activator (->automatic response)
         for (const activator of this.activators) {
             const res = activator.handle(s);
             // force sring cast to prevent 0 from evaluating false
             if (res + '') {
-                console.log(res);
-                //send automated response
+                // send automated response
                 this.sendMessage(res, [STANDARD_TAGS.AUTOMATED]);
             }
         }
 
         // count missed messages
-        if (this != store.state.selectedSocket) {
+        if (this !== store.state.selectedSocket) {
             this.missedMessages++;
         }
     }
 
     /**
      * handle connection error
-     * @param e 
+     * @param e
      */
     private onError(e: MessageEvent) {
-        //show error message in chat
+        // show error message in chat
         const errorMessage = new ChatMessage(
             MESSAGE_TYPE.ERROR,
             e.data,
@@ -193,10 +192,10 @@ export default class BufferedSocket implements Identifyable {
 
     /**
      * handle connect
-     * @param e 
+     * @param e
      */
     private onConnect(e: Event) {
-        //show error message in chat
+        // show error message in chat
         const errorMessage = new ChatMessage(
             MESSAGE_TYPE.SUCCESS,
             'Connected to:\n' + this.settings.url,
@@ -208,10 +207,10 @@ export default class BufferedSocket implements Identifyable {
 
     /**
      * handle close-event
-     * @param e 
+     * @param e
      */
     private onClose(e: CloseEvent) {
-        //show connection -losed-message in chat
+        // show connection -losed-message in chat
         const errorMessage = new ChatMessage(
             MESSAGE_TYPE.ERROR,
             'Connection closed!\nreason:' + e.reason,

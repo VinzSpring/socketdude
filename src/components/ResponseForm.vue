@@ -37,6 +37,7 @@
 </template>
 
 <script lang="ts">
+/* tslint:disable:no-unused-expression */
 import Vue from 'vue';
 import BufferedSocket from '@/structs/buffered-socket';
 import { Activator } from '@/structs/response-handler';
@@ -57,7 +58,9 @@ export default Vue.extend({
           try {
             new RegExp(regex);
             return true;
-          } catch (_) {}
+            } catch (_) {
+            // failed
+            }
           return 'Not a valid pattern.';
         },
         isJson: (s: string): any => {
@@ -122,7 +125,9 @@ export default Vue.extend({
         }
         try {
           this.activator.regex = new RegExp(v); // not calling rules.isRegex for performance
-        } catch (_) {}
+        } catch (_) {
+        // failed
+        }
       },
     },
   },

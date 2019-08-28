@@ -1,7 +1,25 @@
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production' ? `${process.cwd()}/build/` : '/',
-    outputDir: 'build',
-    configureWebpack: config => {
-      config.target = 'electron-renderer'
+    pluginOptions: {
+        electronBuilder: {
+            mainProcessTypeChecking: false,
+            builderOptions: {
+                appId: 'socketdude',
+                linux: {
+                    icon: 'src/assets/socket_dude_logo.png',
+                    category: 'Development;Utility',
+                    desktop: {
+                        'Name': 'SocketDude',
+                        'StartupWMClass': 'socketdude'
+                    },
+                    target: [
+                        'tar.xz',
+                        'pacman',
+                    ]
+                },
+                win: {
+                    icon: 'src/assets/socket_dude_logo.png',
+                }
+            }
+        }
     }
 }

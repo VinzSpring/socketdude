@@ -8,7 +8,7 @@ import projects from './modules/projects';
 
 Vue.use(Vuex);
 
-//TODO add this to UML?! (how?????
+// TODO add this to UML?! (how?????
 export default new Vuex.Store({
   plugins: [VuexElectron()] as any[],
   modules: {
@@ -28,8 +28,8 @@ export default new Vuex.Store({
       state.selectedSocket = socket;
     },
     clearActiveChatMessages(state: any) {
-      let msgs:ChatMessage[] = state.selectedSocket.getMessages();
+      const msgs: ChatMessage[] = state.selectedSocket.getMessages();
       msgs.splice(0, msgs.length); // clearing this way is annoying, but necessary due to Vuex
-    } 
+    },
   },
 });

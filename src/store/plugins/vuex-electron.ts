@@ -30,8 +30,8 @@ class VuexStore {
                         message: 'Do you want to save the changes you made?',
                         buttons: ['Don\'t Save', 'Cancel', 'Save'],
                     });
-                    if(buttonIndex == 2) {
-                        await this.save()
+                    if (buttonIndex === 2) {
+                        await this.save();
                     }
                 }
             } else {
@@ -41,25 +41,25 @@ class VuexStore {
                         message: 'Do you want to save the changes you made?',
                         buttons: ['Don\'t Save', 'Cancel', 'Save'],
                     });
-                    if(buttonIndex == 2) {
-                        await this.save()
+                    if (buttonIndex === 2) {
+                        await this.save();
                     }
                 }
             }
 
 
-            let path = remote.dialog.showOpenDialog({ properties: ['openFile',] })
+            let path = remote.dialog.showOpenDialog({ properties: ['openFile'] });
             if (path) {
-                //@ts-ignore
+                // @ts-ignore
                 path = path[0];
                 // load projects
                 try {
-                    //@ts-ignore
-                    let projects = await this.read(path);
-                    let serializedProjects = this.serialize(projects);
+                    // @ts-ignore
+                    const projects = await this.read(path);
+                    const serializedProjects = this.serialize(projects);
                     this.store.replaceState({ ...this.store.state, projects: serializedProjects, filePath: path });
                 } catch (error) {
-                    console.log(error);
+                    // failed
                 }
             }
         });
@@ -69,8 +69,8 @@ class VuexStore {
             this.save();
         });
 
-        // 
-        window.onbeforeunload = async event => {
+        //
+        window.onbeforeunload = async (event) => {
             event.returnValue = false;
 
             // check if file is opened
@@ -89,14 +89,14 @@ class VuexStore {
                             break;
                         case 2:
                             // TODO: async save and then close
-                            await this.save()
+                            await this.save();
                             win.destroy();
                             break;
                         default:
                         // nothing
                     }
                 } else {
-                    win.destroy()
+                    win.destroy();
                 }
                 // this.save();
             } else {
@@ -122,21 +122,21 @@ class VuexStore {
                     win.destroy();
                 }
             }
-        }
+        };
 
     }
 
     private hasChanged(data: any, path: string): Promise<boolean> {
         return new Promise(async (resolve) => {
             const fileData = await this.read(path);
-            resolve(JSON.stringify(fileData) != JSON.stringify(this.deserialize(data)));
+            resolve(JSON.stringify(fileData) !== JSON.stringify(this.deserialize(data)));
         });
     }
 
     private read(path: string): Promise<any> {
         return new Promise((resolve, reject) => {
             fs.readFile(path, (err, data) => {
-                if (err) reject(err);
+                if (err) { reject(err); }
                 try {
                     resolve(JSON.parse(data.toString()));
                 } catch (err) {
@@ -148,8 +148,8 @@ class VuexStore {
 
     private write(data: any, path: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            fs.writeFile(path, JSON.stringify(data), err => {
-                if (err) reject(err);
+            fs.writeFile(path, JSON.stringify(data), (err) => {
+                if (err) { reject(err); }
                 resolve();
             });
         });
@@ -160,43 +160,53 @@ class VuexStore {
         const path = existingFilePath ? existingFilePath : remote.dialog.showSaveDialog({});
         const projects = this.deserialize(this.store.state.projects);
         this.write(projects, path);
-        this.store.replaceState({...this.store.state, filePath: path})
+        this.store.replaceState({...this.store.state, filePath: path});
     }
-    //TODO verify type!
+    // TODO verify type!
     private deserialize(data: any): Project {
-        return data.map(project => ({
-            ...project, sockets: project.sockets.map(socket => ({
-                ...socket, activators: socket.activators.map(activator => {
-                    if(activator.regex) return { ...activator, regex: activator.regex.toString() }
+        return data.map((project) => ({
+            ...project, sockets: project.sockets.map((socket) => ({
+                ...socket, activators: socket.activators.map((activator) => {
+                    if (activator.regex) { return { ...activator, regex: activator.regex.toString() }; }
                     return activator;
-                })
-            }))
+                }),
+            })),
         }));
     }
-    //TODO verify type!
+    // TODO verify type!
     private serialize(data: any): Project {
-        return data.map(project => {
+        return data.map((project) => {
             return Object.assign(new Project(), {
-                ...project, sockets: project.sockets.map(socket => {
+                ...project, sockets: project.sockets.map((socket) => {
+                    // tslint:disable-next-line
                     return Object.assign(new BufferedSocket, {
                         ...socket,
-                        //@ts-ignore
-                        messages: socket.messages.map(message => Object.assign(new ChatMessage(), { ...message, date: Object.assign(new Date(), message.date), dateSent: Object.assign(new Date(), message.dateSent) })),
-                        //@ts-ignore
-                        activators: socket.activators.map(activator => {
+                        // @ts-ignore
+                        messages: socket.messages.map((message) => Object.assign(new ChatMessage(), {
+                            ...message,
+                            date: Object.assign(new Date(), message.date),
+                            dateSent: Object.assign(new Date(),
+                            message.dateSent),
+                        })),
+                        // @ts-ignore
+                        activators: socket.activators.map((activator) => {
                             const regexStr = activator.regex;
-                            //@ts-ignore
-                            return Object.assign(new Activator(), { ...activator, regex: regexStr ? new RegExp(regexStr.slice(1, regexStr.length - 1)) : null, handler: Object.assign(new ResponseHandler(), activator.handler) })
+                            // @ts-ignore
+                            return Object.assign(new Activator(), {
+                                ...activator,
+                                regex: regexStr ? new RegExp(regexStr.slice(1, regexStr.length - 1)) : null,
+                                handler: Object.assign(new ResponseHandler(), activator.handler),
+                            });
                         }),
                     });
                 }),
-            })
+            });
         });
     }
 }
 
 export default () => {
-    return store => {
+    return (store) => {
         const vuexStore = new VuexStore(store);
-    }
-}
+    };
+};

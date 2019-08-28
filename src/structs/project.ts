@@ -16,7 +16,7 @@ export default class Project implements Identifyable {
     }
 
     public getSocket(socketId: number): BufferedSocket {
-        return this.sockets.filter( (socket) => socket.getId() == socketId )[0];
+        return this.sockets.filter( (socket) => socket.getId() === socketId )[0];
     }
 
     public addSocket(socket: BufferedSocket) {
@@ -27,15 +27,14 @@ export default class Project implements Identifyable {
         let found = false;
         let i = 0;
         for (; i < this.sockets.length; i++) {
-            found = this.sockets[i].getId() == socket.getId();
+            found = this.sockets[i].getId() === socket.getId();
             if (found) {
                 break;
             }
         }
         if (found) {
             this.sockets.splice(i, 1); // remove socket from list if found
-        }
-        else {
+        } else {
             throw new Error('socket not found!');
         }
     }

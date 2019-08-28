@@ -1,5 +1,5 @@
 import './pretty-json.css';
-/**src https://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript */
+/* src https://stackoverflow.com/questions/4810841/how-can-i-pretty-print-json-using-javascript */
 
 /**
  * format text if it is valid json
@@ -19,7 +19,9 @@ export default function prettyJson(jsonText: string, indentation: number = 2): s
 
 function syntaxHighlight(json: string): string {
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+    // tslint:disable-next-line
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+    (match) => {
         let cls = 'number';
         if (/^"/.test(match)) {
             if (/:$/.test(match)) {

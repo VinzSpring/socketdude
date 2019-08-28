@@ -25,21 +25,21 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import ChatTile from "@/components/ChatTile.vue";
-import { ChatMessage } from "@/structs/chat-message";
-import BufferedSocket from "@/structs/buffered-socket";
+import Vue from 'vue';
+import ChatTile from '@/components/ChatTile.vue';
+import { ChatMessage } from '@/structs/chat-message';
+import BufferedSocket from '@/structs/buffered-socket';
 
 export default Vue.extend({
-  name: "ChatView",
+  name: 'ChatView',
   components: {
-    ChatTile
+    ChatTile,
   },
   props: {
   },
   data() {
     return {
-      msgTxt: "" as string, // text of message being composed
+      msgTxt: '' as string, // text of message being composed
     };
   },
   methods: {
@@ -48,7 +48,7 @@ export default Vue.extend({
         return; // dont send message when empty content or not connected
       }
       this.socket.sendMessage(this.msgTxt);
-      this.msgTxt = ""; // clear text field 
+      this.msgTxt = ''; // clear text field
     },
     clearMessages() {
       this.$store.commit('clearActiveChatMessages');
@@ -68,12 +68,12 @@ export default Vue.extend({
       } else {
         return null;
       }
-    }
+    },
   },
   watch: {
     messages(val: ChatMessage[]) {
       // scroll to bottom
-      
+
       const container = this.$refs.chatList;
       if (!container) {
         return;
@@ -81,8 +81,8 @@ export default Vue.extend({
       this.$nextTick(() => {
         container.scrollTop = container.scrollHeight;
       });
-    }
-  }
+    },
+  },
 });
 </script>
 
