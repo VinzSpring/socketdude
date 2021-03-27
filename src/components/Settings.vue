@@ -14,15 +14,15 @@
     <v-flex xs1>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-          <v-btn icon flat @click="connect()" v-on="on" :disabled="!socketSettings">
-            <v-icon>compare_arrows</v-icon>
+          <v-btn icon text @click="connect()" v-on="on" :disabled="!socketSettings">
+            <v-icon>mdi-compare-horizontal</v-icon>
           </v-btn>
         </template>
         <span>re/connect</span>
       </v-tooltip>
     </v-flex>
     <v-flex xs1>
-      <v-switch v-model="darkTheme" :label="themeIcon"></v-switch>
+      <v-switch v-model="$vuetify.theme.dark" :label="themeIcon"></v-switch>
     </v-flex>
   </v-layout>
 </template>
@@ -30,6 +30,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import SocketSettings from '../structs/socket-settings';
+
 export default Vue.extend({
   name: 'Settings',
   data() {
@@ -38,7 +39,7 @@ export default Vue.extend({
       protocols: [] as string[],
       clrMsgLimit: Number.MAX_VALUE, // count of messages to keep/display in scrollview, currently not used
       rules: { // validation rules for url
-        url: (value) => {
+        url: (value: string) => {
           const pattern = /ws[s]?:\/\/[A-z0-9]+\.[A-z]+/;
           return pattern.test(value) || 'invalid url.';
         },
@@ -55,7 +56,7 @@ export default Vue.extend({
   methods: {
     async connect() {
       this.$store.state.selectedSocket.setSettings(
-        new SocketSettings(this.url, this.protocls, this.clrMsgLimit),
+        new SocketSettings(this.url, this.protocols, this.clrMsgLimit),
       );
       try {
         await this.$store.state.selectedSocket.connect();
@@ -66,26 +67,13 @@ export default Vue.extend({
   },
   computed: {
     themeIcon() {
-      return this.darkTheme ? '🌘' : '🌞';
+      return this.$vuetify.theme.dark ? '🌘' : '🌞';
     },
     socketSettings() {
       return this.$store.state.selectedSocket
         ? this.$store.state.selectedSocket.getSettings()
         : null;
     },
-    darkTheme: {
-      get() {
-        return this.$store.state.darkTheme;
-      },
-      set(val: boolean) {
-        this.$store.state.darkTheme = val;
-      },
-    },
   },
 });
 </script>
-
-<style scoped>
-</style>
-
-

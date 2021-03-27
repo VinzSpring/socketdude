@@ -3,7 +3,7 @@ import IdGenerator, { Identifyable } from './id-generator';
 
 export default class Project implements Identifyable {
     public name: string;
-    private sockets: BufferedSocket[];
+    public sockets: BufferedSocket[];
     private id = IdGenerator.getNextId();
 
     constructor() {
@@ -19,11 +19,11 @@ export default class Project implements Identifyable {
         return this.sockets.filter( (socket) => socket.getId() === socketId )[0];
     }
 
-    public addSocket(socket: BufferedSocket) {
+    public addSocket(socket: BufferedSocket): void {
         this.sockets.push(socket);
     }
 
-    public removeSocket(socket: BufferedSocket) {
+    public removeSocket(socket: BufferedSocket): void {
         let found = false;
         let i = 0;
         for (; i < this.sockets.length; i++) {

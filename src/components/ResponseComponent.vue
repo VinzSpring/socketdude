@@ -1,5 +1,5 @@
 <template>
-  <v-tabs v-if="socket" :key="tabsId">
+  <v-tabs v-if="socket" :key="tabsId" v-model="tab">
     <v-tab
       v-for="activator in socket.getActivators()"
       :key="activator.getId()"
@@ -16,9 +16,9 @@
       <div v-else>{{activator.title}}</div>
     </v-tab>
     <v-btn fab small ripple light @click="addActivator">
-      <v-icon>add</v-icon>
+      <v-icon>mdi-plus</v-icon>
     </v-btn>
-    <v-tabs-items>
+    <v-tabs-items v-model="tab">
       <v-tab-item grow v-for="activator in socket.getActivators()" :key="activator.getId()">
         <ResponseForm :activator="activator"/>
       </v-tab-item>
@@ -38,93 +38,95 @@
 
 
 <script lang="ts">
-import Vue from 'vue';
-import { Activator, ResponseHandler } from '@/structs/response-handler.ts';
+import { Activator, ResponseHandler } from '@/structs/response-handler';
 import ResponseForm from '@/components/ResponseForm.vue';
 import BufferedSocket from '@/structs/buffered-socket';
 import Menu from '@/structs/menu';
+import { Component, Watch, Vue} from 'vue-property-decorator';
 
-export default Vue.extend({
-  name: 'ResponseComponent',
+@Component({
   components: {
     ResponseForm,
   },
-  props: {},
-  data() {
-    return {
-      menu: new Menu() as Menu, // right click context-menu
-      selectedActivator: null as Activator, // selected activator
-      rename: false as boolean, // rename mode active?
-    };
-  },
-  methods: {
-    addActivator() {
-      // add Activator to active socket
-      if (!this.socket) {
-        return;
-      }
-      this.socket.addActivator(
-        new Activator(
-          this.socket.getActivators().length, // set some initial activator name
-          null,
-          new ResponseHandler(),
-        ),
-      );
-    },
-    openMenu(e: MouseEvent, activator: Activator) {
-      e.preventDefault();
-      this.menu.isShow = false;
-      this.menu.x = e.clientX;
-      this.menu.y = e.clientY;
-      this.selectedActivator = activator;
-      this.$nextTick(() => {
-        // open menu next tick
-        this.menu.isShow = true;
-      });
-    },
-    deleteItem() {
-      if (this.selectedActivator) {
-        this.socket.removeActivator(this.selectedActivator);
-        this.menu.isShow = false; // close menu
-      }
-    },
-    renameItem() {
-      if (this.selectedActivator) {
-        this.rename = true;
-      }
-    },
-  },
-  watch: {
-    active(index: number) {
-      this.activeTabindex[this.socket.getId()] = index; // save activce tab index for socket
-    },
-    socket(s) {
-      if (this.socket.getId() === s.getId()) {
-        return;
-      } else {
-        this.active = this.activeTabindex[s.getId()];
-      }
-    },
-  },
-  computed: {
-    state() {
-      return this.$store.state;
-    },
-    socket() {
-      const socket: BufferedSocket = this.state.selectedSocket;
-      if (socket) {
-        return socket;
-      } else {
-        return null;
-      }
-    },
-    tabsId() {
-      return `${this.socket.getId()}${this.socket.getActivators().length}`;
-    },
-  },
-});
+})
+export default class ResponseComponent extends Vue {
+  tab = null;
+  // right click context-menu
+  menu = new Menu(); 
+  // selected activator
+  selectedActivator: Activator | null = null;
+  // rename mode active?
+  rename = false; 
+
+  addActivator() {
+    // add Activator to active socket
+    if (!this.socket) {
+      return;
+    }
+    this.socket.addActivator(
+      new Activator(
+        this.socket.getActivators().length.toString(), // set some initial activator name
+        null,
+        new ResponseHandler(),
+      ),
+    );
+  }
+
+  openMenu(e: MouseEvent, activator: Activator) {
+    e.preventDefault();
+    this.menu.isShow = false;
+    this.menu.x = e.clientX;
+    this.menu.y = e.clientY;
+    this.selectedActivator = activator;
+    this.$nextTick(() => {
+      // open menu next tick
+      this.menu.isShow = true;
+    });
+  }
+
+  deleteItem() {
+    if (this.selectedActivator) {
+      this.socket?.removeActivator(this.selectedActivator);
+      this.menu.isShow = false; // close menu
+    }
+  }
+
+  renameItem() {
+    if (this.selectedActivator) {
+      this.rename = true;
+    }
+  }
+
+  //@Watch('active')
+  //onActiveChange(index: number) {
+  //    this.activeTabindex[this.socket.getId()] = index; // save activce tab index for socket
+  //}
+
+  //@Watch('socket')
+  //onSocketChange(s: BufferedSocket) {
+  //  if (this.socket?.getId() === s.getId()) {
+  //    return;
+  //  } else {
+  //    this.active = this.activeTabindex[s.getId()];
+  //  }
+  //}
+
+  get state() {
+    return this.$store.state;
+  }
+
+  get socket(): BufferedSocket | null {
+    const socket: BufferedSocket = this.state.selectedSocket;
+    if (socket) {
+      return socket;
+    } else {
+      return null;
+    }
+  }
+
+  get tabsId() {
+    return `${this.socket?.getId()}${this.socket?.getActivators().length}`;
+  }
+
+}
 </script>
-
-
-<style scoped>
-</style>

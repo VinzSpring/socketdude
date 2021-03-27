@@ -6,7 +6,7 @@ import './pretty-json.css';
  * @param jsonText text to format
  * @param indentation number of whitespaces per indentation-level
  */
-export default function prettyJson(jsonText: string, indentation: number = 2): string {
+export default function prettyJson(jsonText: string, indentation = 2): string {
     try {
         const obj = JSON.parse(jsonText);
         let json = JSON.stringify(obj, null, indentation);
@@ -20,7 +20,7 @@ export default function prettyJson(jsonText: string, indentation: number = 2): s
 function syntaxHighlight(json: string): string {
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     // tslint:disable-next-line
-    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
     (match) => {
         let cls = 'number';
         if (/^"/.test(match)) {

@@ -1,8 +1,15 @@
 <template>
   <v-toolbar pt-5>
-    <v-text-field placeholder="Search" append-icon="search" :value="search" @input="(value) => $emit('update:search', value)"></v-text-field>
+    <v-text-field
+      single-line
+      hide-details
+      placeholder="Search"
+      append-icon="mdi-magnify"
+      :value="search"
+      @input="(value) => $emit('update:search', value)"
+    />
     <v-btn icon @click="$emit('addClicked')">
-      <v-icon>add</v-icon>
+      <v-icon>mdi-plus</v-icon>
     </v-btn>
   </v-toolbar>
 </template>
@@ -13,5 +20,3 @@ export default Vue.extend({
   props: ['search'],
 });
 </script>
-
-

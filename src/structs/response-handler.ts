@@ -7,15 +7,14 @@ enum RESPONSE_MODE {
     JS,
 }
 
-
 class Activator implements Identifyable {
 
-    public regex: RegExp;
+    public regex: RegExp | null;
     public handler: ResponseHandler;
     public title: string;
     private id: number = IdGenerator.getNextId();
 
-    constructor(title: string, regex: RegExp, handler: ResponseHandler) {
+    constructor(title: string, regex: RegExp | null, handler: ResponseHandler) {
         this.regex = regex;
         this.handler = handler;
         this.title = title;
@@ -38,16 +37,16 @@ class Activator implements Identifyable {
 
 /*strategy pattern or inheritance should be prefered here, maybe refactor if additional functionality needed */
 class ResponseHandler {
-    private textResponse: string = '';
-    private jsonResponse: string = '';
-    private javaScript: string = '';
+    private textResponse  = '';
+    private jsonResponse = '';
+    private javaScript = '';
     private mode: RESPONSE_MODE = RESPONSE_MODE.TEXT_PLAIN;
 
     constructor() {
         this.setMode(this.mode);
     }
 
-    public setMode(mode: RESPONSE_MODE) {
+    public setMode(mode: RESPONSE_MODE): void {
 
         switch (mode) {
             case RESPONSE_MODE.TEXT_PLAIN:
@@ -68,7 +67,7 @@ class ResponseHandler {
         }
     }
 
-    public getMode() {
+    public getMode(): RESPONSE_MODE {
         return this.mode;
     }
 
@@ -77,15 +76,15 @@ class ResponseHandler {
         return this.activeMethod(msg) + ''; // cast to string since only string messages are excpected in return
     }
 
-    public setTextResponse(response: string) {
+    public setTextResponse(response: string): void {
         this.textResponse = response;
     }
 
-    public setJsonResponse(response: string) {
+    public setJsonResponse(response: string): void {
         this.jsonResponse = response;
     }
 
-    public setJs(response: string) {
+    public setJs(response: string): void {
         this.javaScript = response;
     }
 
@@ -100,17 +99,21 @@ class ResponseHandler {
     public getJs(): string {
         return this.javaScript;
     }
-    // tslint:disable-next-line
-    private activeMethod: Function = () => {};
 
-    private handleTextResponse = (msg: string): string => {
+    private activeMethod = (_msg: string) => {
+        //do nothing
+    };
+
+    private handleTextResponse = (): string => {
         return this.textResponse;
     }
 
-    private handleJsonResponse = (msg: string): string => {
+    private handleJsonResponse = (): string => {
         return this.jsonResponse;
     }
 
+    // Disable eslint for next line msg var used in eval
+    // eslint-disable-next-line
     private handleJsResponse = (msg: string): string => {
         const script: string = '(function(msg){' + this.javaScript + '})(msg)';
         // tslint:disable-next-line

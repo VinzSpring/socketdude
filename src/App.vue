@@ -4,22 +4,22 @@
   </v-app>
 </template>
 
-<script>
-import MainView from './views/MainView';
-export default {
+<script lang="ts">
+import Vue from 'vue';
+import MainView from './views/MainView.vue';
+
+export default Vue.extend({
   name: 'App',
   components: {
     MainView,
   },
-  data() {
-    return {
-      //
-    };
-  },
+  data: () => ({
+    //
+  }),
   computed: {
     darkTheme() {
       return this.$store.state.darkTheme;
-    },
+    }
   },
-};
+});
 </script>

@@ -19,8 +19,8 @@
             <pre v-html="formattedMessage"></pre>
           </v-card-text>
           <v-card-actions>
-            <v-btn flat icon @click="showRaw = !showRaw">
-              <v-icon>tonality</v-icon>
+            <v-btn text icon @click="showRaw = !showRaw">
+              <v-icon>mdi-code-tags</v-icon>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -35,7 +35,6 @@ import Vue from 'vue';
 import { ChatMessage, MESSAGE_TYPE } from '@/structs/chat-message.ts';
 import prettyJson from '@/util/pretty-json';
 import SEMANTIC_COLORS from '@/util/semantic-colors';
-import { escape } from 'querystring';
 
 export default Vue.extend({
   name: 'ChatTile',
@@ -80,7 +79,7 @@ export default Vue.extend({
         case MESSAGE_TYPE.SUCCESS:
           return SEMANTIC_COLORS.SUCCESS;
         default:
-          break;
+          return ""
       }
     },
   },

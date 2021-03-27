@@ -42,24 +42,25 @@
     </v-flex>
     <v-menu v-model="menu.isShow" :position-x="menu.x" :position-y="menu.y" absolute offset-y>
       <v-list>
-        <v-list-tile @click="deleteItem">
-          <v-list-tile-title>Delete</v-list-tile-title>
-        </v-list-tile>
-        <v-list-tile @click="renameItem">
-          <v-list-tile-title>Rename</v-list-tile-title>
-        </v-list-tile>
+        <v-list-item @click="deleteItem">
+          <v-list-item-title>Delete</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="renameItem">
+          <v-list-item-title>Rename</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-menu>
   </v-layout>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Component, Vue } from 'vue-property-decorator';
 import Searchbar from './Searchbar.vue';
 import ProjectTile from './ProjectTile.vue';
 import SocketTile from './SocketTile.vue';
 import BufferedSocket from '@/structs/buffered-socket';
 import Menu from '@/structs/menu';
+import Project from '@/structs/project';
 
 interface ISelectedItem {
   id: number;
@@ -67,86 +68,88 @@ interface ISelectedItem {
   socket: BufferedSocket;
 }
 
-export default Vue.extend({
-  name: 'ProjectList',
+@Component({
   components: {
     Searchbar,
     ProjectTile,
     SocketTile,
   },
-  data() {
-    return {
-      activeId: null,
-      activeSocketId: null,
-      menu: new Menu(),
-      search: '',
-      selectedItem: {} as ISelectedItem,
-      loadingProjects: false,
+})
+export default class ProjectList extends Vue {
+  activeId: number | null = null;
+  activeSocketId: number | null = null;
+  menu = new Menu();
+  search = '';
+  selectedItem = {} as ISelectedItem;
+  loadingProjects = false;
+
+  openMenu(
+    e: MouseEvent,
+    id: number,
+    projectIndex: number,
+    socket: BufferedSocket,
+  ) {
+    e.preventDefault();
+    this.menu.isShow = false;
+    this.menu.x = e.clientX;
+    this.menu.y = e.clientY;
+    this.selectedItem = {
+      id,
+      projectIndex,
+      socket,
     };
-  },
-  methods: {
-    openMenu(
-      e: MouseEvent,
-      id: number,
-      projectIndex: number,
-      socket: BufferedSocket,
-    ) {
-      e.preventDefault();
-      this.menu.isShow = false;
-      this.menu.x = e.clientX;
-      this.menu.y = e.clientY;
-      this.selectedItem = {
-        id,
-        projectIndex,
-        socket,
-      };
-      this.$nextTick(() => {
-        this.menu.isShow = true;
-      });
-    },
-    addProject() {
-      this.$store.commit(
-        'addProject',
-        (project) => (this.activeId = project.getId()),
+    this.$nextTick(() => {
+      this.menu.isShow = true;
+    });
+  }
+
+  addProject() {
+    this.$store.commit(
+      'addProject',
+      (project: Project) => (this.activeId = project.getId()),
+    );
+  }
+
+  addSocket(projectIndex: number) {
+    this.$store.commit('addSocket', {
+      projectIndex,
+      callback: (socket: BufferedSocket) => (this.activeId = socket.getId()),
+    });
+  }
+
+  setSocket(socket: BufferedSocket) {
+    this.$store.commit('setActiveSocket', socket);
+    this.activeSocketId = socket.getId();
+  }
+
+  rename(item: Project, name: string) {
+    if (!item.name) {
+      item.name = name;
+    }
+    this.activeId = null;
+  }
+
+  renameItem() {
+    this.activeId = this.selectedItem.id;
+  }
+
+  deleteItem() {
+    this.$store.commit('deleteItem', {
+      projectIndex: this.selectedItem.projectIndex,
+      socket: this.selectedItem.socket,
+    });
+  }
+
+  get projects(): Project[] {
+    return this.$store.state.projects.filter((project: Project) => {
+      return (
+        project.name.toLowerCase().includes(this.search.toLowerCase()) ||
+        project.sockets.find((socket: BufferedSocket) =>
+          socket.name.toLowerCase().includes(this.search.toLowerCase()),
+        )
       );
-    },
-    addSocket(projectIndex: number) {
-      this.$store.commit('addSocket', {
-        projectIndex,
-        callback: (socket) => (this.activeId = socket.getId()),
-      });
-    },
-    setSocket(socket: BufferedSocket) {
-      this.$store.commit('setActiveSocket', socket);
-      this.activeSocketId = socket.getId();
-    },
-    rename(item, name) {
-      if (!item.name) {
-        item.name = name;
-      }
-      this.activeId = null;
-    },
-    renameItem() {
-      this.activeId = this.selectedItem.id;
-    },
-    deleteItem() {
-      this.$store.commit('deleteItem', {
-        projectIndex: this.selectedItem.projectIndex,
-        socket: this.selectedItem.socket,
-      });
-    },
-  },
-  computed: {
-    projects() {
-      return this.$store.state.projects.filter((project) => {
-        return (
-          project.name.toLowerCase().includes(this.search.toLowerCase()) ||
-          project.sockets.find((socket) =>
-            socket.name.toLowerCase().includes(this.search.toLowerCase()),
-          )
-        );
-      });
-    },
-  },
-});
+    });
+  }
+
+}
 </script>
