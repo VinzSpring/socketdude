@@ -30,6 +30,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import SocketSettings from '../structs/socket-settings';
+import {isValidWebsocketUrl} from '@/util/url-tools'
 
 export default Vue.extend({
   name: 'Settings',
@@ -39,10 +40,7 @@ export default Vue.extend({
       protocols: [] as string[],
       clrMsgLimit: Number.MAX_VALUE, // count of messages to keep/display in scrollview, currently not used
       rules: { // validation rules for url
-        url: (value: string) => {
-          const pattern = /ws[s]?:\/\/[A-z0-9]+\.[A-z]+/;
-          return pattern.test(value) || 'invalid url.';
-        },
+        url: isValidWebsocketUrl,
       },
     };
   },

@@ -1,4 +1,4 @@
-function isValidUrl(url: string): boolean {
+export function isValidUrl(url: string): boolean {
     try {
         new URL(url);
         return true;
@@ -7,5 +7,7 @@ function isValidUrl(url: string): boolean {
     }
 }
 
-
-export { isValidUrl };
+export function isValidWebsocketUrl(url: string): boolean | string {
+    const pattern = /^(wss?:\/\/)(([a-z]+\.?)+|([0-9]+\.?)+)([a-zA-Z]+|:[0-9]+)$/;
+    return pattern.test(url) || 'invalid url.';
+}

@@ -15,7 +15,10 @@ class VuexStore {
 
     constructor(store: Store<any>) {
         this.store = store;
-        this.registerListener();
+        // register listener only when ipcRenderer is defined
+        if(ipcRenderer) {
+            this.registerListener();
+        }
     }
 
     private registerListener() {
