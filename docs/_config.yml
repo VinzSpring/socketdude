@@ -1,1 +1,5 @@
 theme: jekyll-theme-minimal
+title: SocketDude
+description: SocketDude is a minimalist tool for automted debugging and testing of websockets, much like Postman is for HTTP-Requests. 
+logo: ./socket_dude_logo.png
+show_downloads: true
