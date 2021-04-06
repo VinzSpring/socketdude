@@ -1,37 +1,80 @@
-## Welcome to GitHub Pages
+## Welcome dev!
 
-You can use the [editor on GitHub](https://github.com/VinzSpring/socketdude/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+We recently were using Postman for a project and noticed that it was lacking a websockets integration.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+How can that be in the year 2021‽ Websockets are much needed in todays world, where data has to flow in real time.
+### Our vision
 
-### Markdown
+That is why we took it on ourselves to develop a tool that can be used to test and automate websocket APIs, much like Postman is used for HTTP.
+Our goal was to create an app that is lightweight, crossplatform and rather good looking. But most importantly it had to extensible.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### The tool
+
+As you take a look at SocketDude's GUI you might just figure out everything there is to know about it on your own.
+If that's not the case or you are interested in details continue reading down below.
+
+![SocketDude GUI](socket_dude_gui.png)
 
 ```markdown
-Syntax highlighted code block
+GUI Components
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+1. URL to connect to
+2. protocol to use
+3. re/connect
+4. switch dark/light-theme
+5. search projects or sockets
+6. create project
+7. project-list
+8. missed/new messages
+9. add response-handler
+10. regular expression
+11. returned response
+12. formatted json message
+13. message tags
+14. toggle raw/formatted
+15. send message box
+16. load/save state
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+The Gui can be split into five sections:
+- open/Save project
+- connection settings
+- project manager
+- response handlers
+- chat
 
-### Jekyll Themes
+## How to
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/VinzSpring/socketdude/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+*Loading/saving/creating/deleting projects*
+You can create a new Project by clicking on <b>6</b>.
+Each project has a default name, which can be changed by right clicking on the project tile. 
+Deleting a project can be achieved by using the right-click-menu.
+If you have already created projects in the past or want to save your current projects
+you can use <b>16</b> to do load or save them.
 
-### Support or Contact
+*adding/removing sockets*
+Each projet can have multiple websockets, which their also can have a name.
+Once you added a websocket to your project (+) you can then select it and change its
+connection properties (<b>1,2</b>).
+Once you are satisfied you may hit <b>3</b> to connect to the server.
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+*the chat*
+Upon connecting to a server you will see a message appear in that chat, that you were connected successfully (or not).
+
+All sent messages and events will appear here.
+Each chat-message can carry multiple tags (incoming, outgoing, json, text, etc.).
+You can manually send a message by typing into <b>15</b> and hitting enter.
+
+*adding/removing handlers*
+This is where automation comes to play!
+SocketDude has multiple ways for you to send automated messages back to the server upon receiving a message that matches the handlers RegEx.
+
+To add a handler you click on <b>9</b>.
+Each handler has an activation RegExPattern (<b>10</b>) and three response tabs (<b>11</b>).
+Once the RegEx matches the incoming message it returns the content of its currently
+selected tab. 
+The only exception is if you select "Javascript". The Javascript-tab consumes the incoming message. The message's content can be accessed by using the predefined 
+variable "msg". The code that you type in the Javascript-tab gets run and the return value is then sent back as a response to the server.
+You can use multiple handlers with the same regex, which will evaluated in order of their creation.
+
+You can rename and delete message handlers using the right-click menu.
