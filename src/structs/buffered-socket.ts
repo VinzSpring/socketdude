@@ -6,10 +6,8 @@ import { isJson } from '@/util/pretty-json';
 import { isValidUrl } from '@/util/url-tools';
 import store from '@/store';
 
-
 // Wrapper class for websocket
 export default class BufferedSocket implements Identifyable {
-
     // name displayed in sidebar
     public name = '';
     // counter for messages sent/received while user didn't have view open
@@ -194,7 +192,7 @@ export default class BufferedSocket implements Identifyable {
      * handle connect
      * @param e
      */
-    private onConnect(_e: Event) {
+    private onConnect() {
         // show error message in chat
         const errorMessage = new ChatMessage(
             MESSAGE_TYPE.SUCCESS,

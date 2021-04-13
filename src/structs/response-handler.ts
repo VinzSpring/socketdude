@@ -40,7 +40,7 @@ class ResponseHandler {
     private textResponse  = '';
     private jsonResponse = '';
     private javaScript = '';
-    private mode: RESPONSE_MODE = RESPONSE_MODE.TEXT_PLAIN;
+    public mode: RESPONSE_MODE = RESPONSE_MODE.TEXT_PLAIN;
 
     constructor() {
         this.setMode(this.mode);
@@ -100,7 +100,8 @@ class ResponseHandler {
         return this.javaScript;
     }
 
-    private activeMethod = (_msg: string) => {
+    // eslint-disable-next-line
+    private activeMethod = (msg: string) => {
         //do nothing
     };
 

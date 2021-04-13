@@ -3,7 +3,6 @@ import Project from '@/structs/project';
 import BufferedSocket from '@/structs/buffered-socket';
 import { Activator, ResponseHandler } from '@/structs/response-handler';
 import { ChatMessage } from '@/structs/chat-message';
-import fs from 'fs';
 import { Store } from 'vuex'
 
 // @ts-ignore
@@ -118,31 +117,9 @@ class VuexStore {
                 path,
                 callback: (fileData: any) => {
                     console.log(fileData)
-                    resolve(JSON.stringify(fileData) !== JSON.stringify(this.deserialize(data)));
+                    resolve(JSON.stringify(JSON.parse(JSON.stringify(fileData))) !== JSON.stringify(JSON.parse(JSON.stringify(this.deserialize(data)))));
                 }
             }});
-        });
-    }
-
-    private read(path: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            fs.readFile(path, (err, data) => {
-                if (err) { reject(err); }
-                try {
-                    resolve(JSON.parse(data.toString()));
-                } catch (err) {
-                    reject(err);
-                }
-            });
-        });
-    }
-
-    private write(data: any, path: string): Promise<void> {
-        return new Promise((resolve, reject) => {
-            fs.writeFile(path, JSON.stringify(data), (err) => {
-                if (err) { reject(err); }
-                resolve();
-            });
         });
     }
 
@@ -159,17 +136,21 @@ class VuexStore {
 
     // TODO verify type!
     private deserialize(data: any): Project {
-        return data.map((project: Project) => ({
-            ...project, sockets: project.sockets.map((socket) => ({
-                ...socket, activators: socket.activators.map((activator) => {
-                    if (activator.regex) { return { ...activator, regex: activator.regex.toString() }; }
-                    return activator;
-                }),
+        // deep clone store
+        return JSON.parse(JSON.stringify(data.map((project: Project) => ({
+            ...project,
+            sockets: project.sockets.map((socket: BufferedSocket) => ({
+                ...socket,
+                activators: socket.activators.map((activator: Activator) => ({
+                    ...activator,
+                    regex: activator.regex?.toString(),
+                })),
             })),
-        }));
+        }))))
     }
+
     // TODO verify type!
-    private serialize(data: any): Project {
+    private serialize(data: Project[]): Project[] {
         return data.map((project: Project) => {
             return Object.assign(new Project(), {
                 ...project, sockets: project.sockets?.map((socket) => {
@@ -185,11 +166,14 @@ class VuexStore {
                         })),
                         activators: socket.activators.map((activator) => {
                             const regexStr = activator.regex?.toString();
+                            const regex = regexStr ? new RegExp(regexStr.slice(1, regexStr.length - 1)) : null;
+                            const handler = Object.assign(new ResponseHandler(), activator.handler);
+                            handler.setMode(handler.mode)
                             // @ts-ignore
                             return Object.assign(new Activator(), {
                                 ...activator,
-                                regex: regexStr ? new RegExp(regexStr.slice(1, regexStr.length - 1)) : null,
-                                handler: Object.assign(new ResponseHandler(), activator.handler),
+                                regex,
+                                handler,
                             });
                         }),
                     });

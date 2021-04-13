@@ -42,7 +42,7 @@ import { Activator, ResponseHandler } from '@/structs/response-handler';
 import ResponseForm from '@/components/ResponseForm.vue';
 import BufferedSocket from '@/structs/buffered-socket';
 import Menu from '@/structs/menu';
-import { Component, Watch, Vue} from 'vue-property-decorator';
+import { Component, Vue} from 'vue-property-decorator';
 
 @Component({
   components: {
@@ -58,7 +58,7 @@ export default class ResponseComponent extends Vue {
   // rename mode active?
   rename = false; 
 
-  addActivator() {
+  addActivator(): void {
     // add Activator to active socket
     if (!this.socket) {
       return;
@@ -72,7 +72,7 @@ export default class ResponseComponent extends Vue {
     );
   }
 
-  openMenu(e: MouseEvent, activator: Activator) {
+  openMenu(e: MouseEvent, activator: Activator): void {
     e.preventDefault();
     this.menu.isShow = false;
     this.menu.x = e.clientX;
@@ -84,14 +84,14 @@ export default class ResponseComponent extends Vue {
     });
   }
 
-  deleteItem() {
+  deleteItem(): void {
     if (this.selectedActivator) {
       this.socket?.removeActivator(this.selectedActivator);
       this.menu.isShow = false; // close menu
     }
   }
 
-  renameItem() {
+  renameItem(): void {
     if (this.selectedActivator) {
       this.rename = true;
     }
@@ -111,6 +111,7 @@ export default class ResponseComponent extends Vue {
   //  }
   //}
 
+  // eslint-disable-next-line
   get state() {
     return this.$store.state;
   }
@@ -124,7 +125,7 @@ export default class ResponseComponent extends Vue {
     }
   }
 
-  get tabsId() {
+  get tabsId(): string {
     return `${this.socket?.getId()}${this.socket?.getActivators().length}`;
   }
 

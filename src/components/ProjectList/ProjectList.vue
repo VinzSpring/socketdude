@@ -88,7 +88,7 @@ export default class ProjectList extends Vue {
     id: number,
     projectIndex: number,
     socket: BufferedSocket,
-  ) {
+  ): void {
     e.preventDefault();
     this.menu.isShow = false;
     this.menu.x = e.clientX;
@@ -103,37 +103,37 @@ export default class ProjectList extends Vue {
     });
   }
 
-  addProject() {
+  addProject(): void {
     this.$store.commit(
       'addProject',
       (project: Project) => (this.activeId = project.getId()),
     );
   }
 
-  addSocket(projectIndex: number) {
+  addSocket(projectIndex: number): void {
     this.$store.commit('addSocket', {
       projectIndex,
       callback: (socket: BufferedSocket) => (this.activeId = socket.getId()),
     });
   }
 
-  setSocket(socket: BufferedSocket) {
+  setSocket(socket: BufferedSocket): void {
     this.$store.commit('setActiveSocket', socket);
     this.activeSocketId = socket.getId();
   }
 
-  rename(item: Project, name: string) {
+  rename(item: Project, name: string): void {
     if (!item.name) {
       item.name = name;
     }
     this.activeId = null;
   }
 
-  renameItem() {
+  renameItem(): void {
     this.activeId = this.selectedItem.id;
   }
 
-  deleteItem() {
+  deleteItem(): void {
     this.$store.commit('deleteItem', {
       projectIndex: this.selectedItem.projectIndex,
       socket: this.selectedItem.socket,

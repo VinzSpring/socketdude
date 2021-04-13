@@ -64,11 +64,12 @@ export default class ResponseForm extends Vue {
     },
   }
 
+  // eslint-disable-next-line
   get state() {
     return this.$store.state;
   }
 
-  get socket() {
+  get socket(): BufferedSocket | null {
     const socket: BufferedSocket = this.state.selectedSocket;
     if (socket) {
       return socket;

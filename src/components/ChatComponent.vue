@@ -47,7 +47,7 @@ export default class ChatView extends Vue {
     this.msgTxt = ''; // clear text field
   }
 
-  clearMessages() {
+  clearMessages(): void {
     this.$store.commit('clearActiveChatMessages');
   }
 
@@ -55,6 +55,7 @@ export default class ChatView extends Vue {
     return this.socket ? this.socket.getMessages() : []; // only show messages when socket exists
   }
 
+  // eslint-disable-next-line
   get state() {
     return this.$store.state;
   }
@@ -72,7 +73,7 @@ export default class ChatView extends Vue {
   @Ref('chatList') readonly container!: HTMLDivElement
 
   @Watch('messages')
-  onMessagesChange() {
+  onMessagesChange(): void {
     // scroll to bottom
     if (!this.container) {
       return;
