@@ -1,12 +1,12 @@
 <template>
   <v-container fluid pa-0 ma-0 grid-list>
     <v-dialog v-model="showSplashScreen" width="50%" height="50%">
-      <SplashScreen></SplashScreen>
+      <SplashScreen/>
     </v-dialog>
     <v-layout column align>
       <v-flex align-center>
         <v-card height="10vh" flat>
-          <Settings />
+          <Settings/>
         </v-card>
       </v-flex>
 

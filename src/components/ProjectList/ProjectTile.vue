@@ -1,9 +1,9 @@
 <template>
-  <v-list-tile>
-    <v-list-tile-avatar @contextmenu="$emit('rightClicked', $event)">
-      <v-icon>folder</v-icon>
-    </v-list-tile-avatar>
-    <v-list-tile-content @contextmenu="$emit('rightClicked', $event)">
+  <v-list-item>
+    <v-list-item-avatar @contextmenu="$emit('rightClicked', $event)">
+      <v-icon>mdi-folder</v-icon>
+    </v-list-item-avatar>
+    <v-list-item-content @contextmenu="$emit('rightClicked', $event)">
       <v-text-field
         v-if="id == activeId"
         placeholder="Project Name"
@@ -14,14 +14,14 @@
         @keyup.enter="$emit('inputUpEnter')"
 
       ></v-text-field>
-      <v-list-tile-title v-else>{{name}}</v-list-tile-title>
-    </v-list-tile-content>
-    <v-list-tile-action>
+      <v-list-item-title v-else>{{name}}</v-list-item-title>
+    </v-list-item-content>
+    <v-list-item-action>
       <v-btn icon @click="$emit('addClicked')">
-        <v-icon>add</v-icon>
+        <v-icon>mdi-plus</v-icon>
       </v-btn>
-    </v-list-tile-action>
-  </v-list-tile>
+    </v-list-item-action>
+  </v-list-item>
 </template>
 
 <script lang="ts">
@@ -30,4 +30,3 @@ export default Vue.extend({
     props: ['id', 'activeId', 'name'],
 });
 </script>
-

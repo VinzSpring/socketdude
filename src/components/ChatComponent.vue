@@ -3,8 +3,8 @@
     <v-layout column>
       <v-flex xs1>
         <v-layout justify-end>
-          <v-btn fab flat @click="clearMessages()">
-            <v-icon>clear_all</v-icon>
+          <v-btn fab text @click="clearMessages()">
+            <v-icon>mdi-notification-clear-all</v-icon>
           </v-btn>
         </v-layout>
       </v-flex>
@@ -25,65 +25,65 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Component, Ref, Vue, Watch } from 'vue-property-decorator';
 import ChatTile from '@/components/ChatTile.vue';
 import { ChatMessage } from '@/structs/chat-message';
 import BufferedSocket from '@/structs/buffered-socket';
 
-export default Vue.extend({
-  name: 'ChatView',
+@Component({
   components: {
     ChatTile,
   },
-  props: {
-  },
-  data() {
-    return {
-      msgTxt: '' as string, // text of message being composed
-    };
-  },
-  methods: {
-    sendMessage() {
-      if (!this.socket || !this.socket.isConnected() || !this.msgTxt) {
-        return; // dont send message when empty content or not connected
-      }
-      this.socket.sendMessage(this.msgTxt);
-      this.msgTxt = ''; // clear text field
-    },
-    clearMessages() {
-      this.$store.commit('clearActiveChatMessages');
-    },
-  },
-  computed: {
-    messages(): ChatMessage {
-      return this.socket ? this.socket.getMessages() : []; // only show messages when socket exists
-    },
-    state() {
-      return this.$store.state;
-    },
-    socket(): BufferedSocket {
-      const socket: BufferedSocket = this.state.selectedSocket;
-      if (socket) {
-        return socket;
-      } else {
-        return null;
-      }
-    },
-  },
-  watch: {
-    messages(val: ChatMessage[]) {
-      // scroll to bottom
+})
+export default class ChatView extends Vue {
+  // text of message being composed
+  msgTxt = ''
 
-      const container = this.$refs.chatList;
-      if (!container) {
-        return;
-      }
-      this.$nextTick(() => {
-        container.scrollTop = container.scrollHeight;
-      });
-    },
-  },
-});
+  sendMessage(): void {
+    if (!this.socket || !this.socket.isConnected() || !this.msgTxt) {
+      return; // dont send message when empty content or not connected
+    }
+    this.socket.sendMessage(this.msgTxt);
+    this.msgTxt = ''; // clear text field
+  }
+
+  clearMessages(): void {
+    this.$store.commit('clearActiveChatMessages');
+  }
+
+  get messages(): ChatMessage[] {
+    return this.socket ? this.socket.getMessages() : []; // only show messages when socket exists
+  }
+
+  // eslint-disable-next-line
+  get state() {
+    return this.$store.state;
+  }
+
+
+  get socket(): BufferedSocket | null {
+    const socket: BufferedSocket = this.state.selectedSocket;
+    if (socket) {
+      return socket;
+    } else {
+      return null;
+    }
+  }
+
+  @Ref('chatList') readonly container!: HTMLDivElement
+
+  @Watch('messages')
+  onMessagesChange(): void {
+    // scroll to bottom
+    if (!this.container) {
+      return;
+    }
+    this.$nextTick(() => {
+      this.container.scrollTop = this.container.scrollHeight;
+    });
+  }
+
+}
 </script>
 
 

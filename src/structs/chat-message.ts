@@ -20,9 +20,9 @@ class MessageTag {
 
 class ChatMessage {
     public msgType: MESSAGE_TYPE;
-    private text: string;
-    private dateSent: Date;
-    private tags: MessageTag[];
+    public text: string;
+    public dateSent: Date;
+    public tags: MessageTag[];
     constructor(msgType: MESSAGE_TYPE, text: string, dateSent: Date, tags: MessageTag[]) {
         this.msgType = msgType;
         this.text = text;
@@ -30,7 +30,7 @@ class ChatMessage {
         this.tags = tags;
     }
 
-    public setMessageType(msgType: MESSAGE_TYPE) {
+    public setMessageType(msgType: MESSAGE_TYPE): void {
         this.msgType = msgType;
     }
 }

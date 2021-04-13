@@ -1,10 +1,10 @@
 <template>
-  <v-list-tile
+  <v-list-item
     class="secondary"
     :class="{active: id == activeSocketId, connected: status == 1}"
     @click="$emit('clicked')"
   >
-    <v-list-tile-content
+    <v-list-item-content
       class="socket-item"
       @contextmenu="$emit('rightClicked', $event)"
     >
@@ -17,14 +17,14 @@
         @blur="$emit('inputBlur')"
         @keyup.enter="$emit('inputUpEnter')"
       ></v-text-field>
-      <v-list-tile-title v-else>{{name}}</v-list-tile-title>
-    </v-list-tile-content>
-     <v-list-tile-action v-if="missedMessages > 0">
+      <v-list-item-title v-else>{{name}}</v-list-item-title>
+    </v-list-item-content>
+     <v-list-item-action v-if="missedMessages > 0">
        <v-chip color="red" text-color="white">
          {{missedMessages}}
        </v-chip>
-      </v-list-tile-action>
-  </v-list-tile>
+      </v-list-item-action>
+  </v-list-item>
 </template>
 
 <script lang="ts">
@@ -39,7 +39,7 @@ export default Vue.extend({
     .socket-item
         padding-left: 80px
     .active > a
-        background: rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.2)
     .connected > a
-        border-right: 5px solid #4caf50;
+        border-right: 5px solid #4caf50
 </style>

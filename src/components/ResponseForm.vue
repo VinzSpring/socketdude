@@ -16,18 +16,18 @@
           <v-tab>Text/Plain</v-tab>
           <v-tab>JSON</v-tab>
           <v-tab>Javascipt</v-tab>
-          <v-tabs-items>
+          <v-tabs-items v-model="activeMode">
             <!--ORDER OF TABS IS CRITICAL SINCE THE ACTIVE TAB'S INDEX GETS CAST TO AN ENUM VALUE-->
             <v-tab-item>
-              <v-textarea height="50vh" box v-model="txt"></v-textarea>
+              <v-textarea height="50vh" filled v-model="txt"></v-textarea>
             </v-tab-item>
 
             <v-tab-item>
-              <v-textarea :rules="[rules.isJson]" height="50vh" box v-model="json"></v-textarea>
+              <v-textarea :rules="[rules.isJson]" height="50vh" filled v-model="json"></v-textarea>
             </v-tab-item>
 
             <v-tab-item>
-              <v-textarea height="50vh" box v-model="js"></v-textarea>Access the received message thru variable "msg", do stuff and return your response!
+              <v-textarea height="50vh" filled v-model="js"></v-textarea>Access the received message throw variable "msg", do stuff and return your response!
             </v-tab-item>
           </v-tabs-items>
         </v-tabs>
@@ -38,101 +38,92 @@
 
 <script lang="ts">
 /* tslint:disable:no-unused-expression */
-import Vue from 'vue';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import BufferedSocket from '@/structs/buffered-socket';
 import { Activator } from '@/structs/response-handler';
 import { isJson } from '@/util/pretty-json';
 
-export default Vue.extend({
-  name: 'ResponseForm',
-  components: {},
-  props: {
-    activator: { type: Object as () => Activator, required: true },
-  },
-  data() {
-    return {
-      data: {},
-      rules: {
-        required: (regex: string): any => !!regex || 'Required.',
-        isRegEx: (regex: string): any => {
-          try {
-            new RegExp(regex);
-            return true;
-            } catch (_) {
-            // failed
-            }
-          return 'Not a valid pattern.';
-        },
-        isJson: (s: string): any => {
-          return isJson(s) ? true : 'Invalid Json!';
-        },
-      },
-    };
-  },
-  computed: {
-    state() {
-      return this.$store.state;
-    },
-    socket() {
-      const socket: BufferedSocket = this.state.selectedSocket;
-      if (socket) {
-        return socket;
-      } else { return null; }
-    },
-    json: {
-      get(): string {
-        return this.activator.handler.getJsonResponse();
-      },
-
-      set(v: string) {
-        this.activator.handler.setJsonResponse(v);
-      },
-    },
-    txt: {
-      get(): string {
-        return this.activator.handler.getTextResponse();
-      },
-
-      set(v: string) {
-        this.activator.handler.setTextResponse(v);
-      },
-    },
-    js: {
-      get(): string {
-        return this.activator.handler.getJs();
-      },
-
-      set(v: string) {
-        this.activator.handler.setJs(v);
-      },
-    },
-    activeMode: { // get active automated response mode
-      get(): number {
-        return this.activator.handler.getMode();
-      },
-      set(v: number) {
-        this.activator.handler.setMode(v);
-      },
-    },
-    regex: { // regex to use for activating this response handler
-      get(): RegExp {
-        return this.activator.regex ? this.activator.regex.source : '';
-      },
-      set(v: string) {
-        if (!v) {
-          this.activator.regex = null;
-          return;
-        }
-        try {
-          this.activator.regex = new RegExp(v); // not calling rules.isRegex for performance
-        } catch (_) {
+@Component({})
+export default class ResponseForm extends Vue {
+  @Prop({type: Activator, required: true}) readonly activator!: Activator
+  tab = null
+  data = {};
+  rules = {
+    required: (regex: string): boolean | string => !!regex || 'Required.',
+    isRegEx: (regex: string): boolean | string | void => {
+      try {
+        new RegExp(regex);
+        return true;
+      } catch (_) {
         // failed
-        }
-      },
+      }
+      return 'Not a valid pattern.';
     },
-  },
-});
-</script>
+    isJson: (s: string): boolean | string => {
+      return isJson(s) ? true : 'Invalid Json!';
+    },
+  }
 
-<style scoped>
-</style>
+  // eslint-disable-next-line
+  get state() {
+    return this.$store.state;
+  }
+
+  get socket(): BufferedSocket | null {
+    const socket: BufferedSocket = this.state.selectedSocket;
+    if (socket) {
+      return socket;
+    } else { return null; }
+  }
+
+  get json(): string {
+    return this.activator.handler.getJsonResponse();
+  }
+
+  set json(v: string) {
+    this.activator.handler.setJsonResponse(v);
+  }
+
+  get txt(): string {
+    return this.activator.handler.getTextResponse();
+  }
+
+  set txt(v: string) {
+    this.activator.handler.setTextResponse(v);
+  }
+
+  get js(): string {
+    return this.activator.handler.getJs();
+  }
+
+  set js(v: string) {
+    this.activator.handler.setJs(v);
+  }
+
+  // get active automated response mode
+  get activeMode(): number {
+    return this.activator.handler.getMode();
+  }
+
+  set activeMode(v: number) {
+    this.activator.handler.setMode(v);
+  }
+
+  // egex to use for activating this response handler
+  get regex(): RegExp | string {
+    return this.activator.regex ? this.activator.regex.source : '';
+  }
+
+  set regex(v: RegExp | string) {
+    if (!v) {
+      this.activator.regex = null;
+      return;
+    }
+    try {
+      this.activator.regex = new RegExp(v); // not calling rules.isRegex for performance
+    } catch (_) {
+      // failed
+    }
+  }
+}
+</script>

@@ -6,22 +6,20 @@ import { isJson } from '@/util/pretty-json';
 import { isValidUrl } from '@/util/url-tools';
 import store from '@/store';
 
-
 // Wrapper class for websocket
 export default class BufferedSocket implements Identifyable {
-
     // name displayed in sidebar
-    public name: string = '';
+    public name = '';
     // counter for messages sent/received while user didn't have view open
-    public missedMessages: number = 0; // TODO maybe rename, so it is clear that this isn't an array of messages
+    public missedMessages = 0; // TODO maybe rename, so it is clear that this isn't an array of messages
     // object GUID
     // tslint:disable-next-line
     private _id: number = IdGenerator.getNextId();
-    private websocket: WebSocket = null;
+    private websocket: WebSocket | null = null;
     // array of received/sent messages
-    private messages: ChatMessage[] = [];
+    public messages: ChatMessage[] = [];
     // array of different automatic response activators
-    private activators: Activator[] = [];
+    public activators: Activator[] = [];
     // settings for this socket
     private settings: SocketSettings = new SocketSettings('', []);
 
@@ -33,7 +31,7 @@ export default class BufferedSocket implements Identifyable {
     /***
      * send a Chatmessage
      */
-    public sendMessage(msg: string, tags: MessageTag[] = []) {
+    public sendMessage(msg: string, tags: MessageTag[] = []): void {
 
         // outgoing message-tag
         tags.push(STANDARD_TAGS.OUTGOING);
@@ -50,10 +48,10 @@ export default class BufferedSocket implements Identifyable {
                 tags,
             ),
         );
-        this.websocket.send(msg);
+        this.websocket?.send(msg);
     }
 
-    public setSettings(settings: SocketSettings) {
+    public setSettings(settings: SocketSettings): void {
         this.settings = settings;
     }
 
@@ -66,14 +64,14 @@ export default class BufferedSocket implements Identifyable {
     public getActivators(): Activator[] {
         return this.activators;
     }
-    public addActivator(activator: Activator) {
+    public addActivator(activator: Activator): void {
         this.activators.push(activator);
     }
     /**
      * removes a given activator from the list of activators
      * @param activator acctivator to remove
      */
-    public removeActivator(activator: Activator) {
+    public removeActivator(activator: Activator): void {
 
         let found = false;
         let i = 0;
@@ -92,13 +90,13 @@ export default class BufferedSocket implements Identifyable {
     }
 
     public isConnected(): boolean {
-        return this.websocket && this.websocket.readyState === WebSocket.OPEN;
+        return !!(this.websocket && this.websocket.readyState === WebSocket.OPEN);
     }
 
     /**
      * connect to websocket with current settings
      */
-    public connect(): Promise<Event> {
+    public connect(): Promise<void> {
         if (!this.settings) {
             throw new Error('missing settings');
         }
@@ -117,9 +115,9 @@ export default class BufferedSocket implements Identifyable {
             this.websocket = new WebSocket(this.settings.url, this.settings.protocols);
             this.websocket.onmessage = (msg: MessageEvent) => this.onMsgRecv(msg);
             // reject, error occured
-            this.websocket.onerror = (e: MessageEvent) => {
+            this.websocket.onerror = (e: Event) => {
                 reject();
-                this.onError(e);
+                this.onError(e as MessageEvent);
             };
             // success
             this.websocket.onopen = (e: Event) => {
@@ -194,7 +192,8 @@ export default class BufferedSocket implements Identifyable {
      * handle connect
      * @param e
      */
-    private onConnect(e: Event) {
+    // eslint-disable-next-line
+    private onConnect(_e: Event) {
         // show error message in chat
         const errorMessage = new ChatMessage(
             MESSAGE_TYPE.SUCCESS,
