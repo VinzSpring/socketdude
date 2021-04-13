@@ -192,7 +192,8 @@ export default class BufferedSocket implements Identifyable {
      * handle connect
      * @param e
      */
-    private onConnect() {
+    // eslint-disable-next-line
+    private onConnect(_e: Event) {
         // show error message in chat
         const errorMessage = new ChatMessage(
             MESSAGE_TYPE.SUCCESS,
